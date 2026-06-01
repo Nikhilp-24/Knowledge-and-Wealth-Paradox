@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Global Knowledge & Wealth Paradox | CS661 Group 10</title>
+  <meta name="description" content="Interactive visual analytics exploring how national wealth converts into scientific excellence across the globe.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260712-arrows-fix">
+  <link rel="stylesheet" href="graphs/g1/g1.css?v=20260712-g1-flags">
+  <link rel="stylesheet" href="graphs/g2/g2.css?v=20260712-modular">
+  <link rel="stylesheet" href="graphs/g3/g3.css?v=20260712-l3-sl">
+  <link rel="stylesheet" href="graphs/g4/g4.css?v=20260712-modular">
+  <link rel="stylesheet" href="graphs/g5/g5.css?v=20260712-modular">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  
+  <!-- PapaParse for CSV Parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <!-- Chart.js for Trend Analysis -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- LANDING: two-column shell (hero left -> gallery right) -->
+  <div class="landing-shell">
+
+    <!-- LEFT: branding / project intro -->
+    <header class="hero-header">
+      <div class="hero-bg-particles" id="hero-particles"></div>
+      <div class="hero-content">
+        <div class="hero-top">
+          <div class="project-badge">
+            <span class="badge-dot"></span>
+            CS661 &middot; Group 10 &middot; Visual Analytics
+          </div>
+        </div>
+        <h1 class="hero-title">
+          The Global Knowledge<br>
+          <span class="gradient-text">&amp; Wealth Paradox</span>
+        </h1>
+        <p class="hero-subtitle">
+          An interactive deep-dive into how national wealth, R&amp;D investment,
+          and institutional density translate into scientific excellence worldwide.
+        </p>
+        <div class="data-source-badges">
+          <span class="ds-badge">World Bank API</span>
+          <span class="ds-badge">UNESCO UIS</span>
+          <span class="ds-badge">SCImago SJR</span>
+          <span class="ds-badge">THE Rankings</span>
+          <span class="ds-badge">NIRF India</span>
+        </div>
+        <p class="team-pipeline-link">
+          <a href="tools/river-pipeline/">Pipeline map (team)</a>
+        </p>
+      </div>
+    </header>
+
+    <!-- RIGHT: visualization picker -->
+    <main class="gallery-section">
+      <div class="gallery-header">
+        <h2>Choose a Visualization</h2>
+        <p>Click any panel to open the full interactive experience.</p>
+      </div>
+
+      <div class="viz-grid">
+
+        <!-- VIZ 1 -->
+        <div class="viz-card" id="card-1" onclick="openViz(1)">
+          <div class="card-preview">
+            <canvas id="preview-1" class="preview-canvas"></canvas>
+            <div class="card-overlay">
+              <div class="overlay-icon">&rarr;</div>
+              <span>Click to Explore</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="viz-number">01</div>
+            <h3>High-Dimensional Peer Clustering</h3>
+            <p>Revealing scientific peer groups based on macroeconomic and academic indicators</p>
+            <div class="card-tags">
+              <span class="tag">t-SNE / UMAP</span>
+              <span class="tag">2D Scatter Plot</span>
+              <span class="tag">Clustering</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIZ 2 -->
+        <div class="viz-card" id="card-2" onclick="openViz(2)">
+          <div class="card-preview">
+            <canvas id="preview-2" class="preview-canvas"></canvas>
+            <div class="card-overlay">
+              <div class="overlay-icon">&rarr;</div>
+              <span>Click to Explore</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="viz-number">02</div>
+            <h3>Global Quality Shift</h3>
+            <p>Tracking how the global mix of elite (Q1) vs low-tier (Q4) publication quality evolves over time, based on the publisher's country of origin</p>
+            <div class="card-tags">
+              <span class="tag">Bar Graph</span>
+              <span class="tag">Grouped/Stacked</span>
+              <span class="tag">Quality Mix</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIZ 3 -->
+        <div class="viz-card" id="card-3" onclick="openViz(3)">
+          <div class="card-preview">
+            <canvas id="preview-3" class="preview-canvas"></canvas>
+            <div class="card-overlay">
+              <div class="overlay-icon">&rarr;</div>
+              <span>Click to Explore</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="viz-number">03</div>
+            <h3>Top Research topics</h3>
+            <p>OpenAlex concept-tagged works over time ? not the year a buzzword was coined (retrospective taxonomy)</p>
+            <div class="card-tags">
+              <span class="tag">Bar Chart Race</span>
+              <span class="tag">Dynamic Sorting</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIZ 4 -->
+        <div class="viz-card" id="card-4" onclick="openViz(4)">
+          <div class="card-preview">
+            <canvas id="preview-4" class="preview-canvas"></canvas>
+            <div class="card-overlay">
+              <div class="overlay-icon">&rarr;</div>
+              <span>Click to Explore</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="viz-number">04</div>
+            <h3>The Collaboration Premium</h3>
+            <p>Quantifying the citation gap between purely domestic papers and internationally co-authored research (<span id="g4-country-count">73</span> countries &middot; 2010&ndash;2024)</p>
+            <div class="card-tags">
+              <span class="tag">Dumbbell Plot</span>
+              <span class="tag">Citation Gain</span>
+              <span class="tag">Sorting</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIZ 5 -->
+        <div class="viz-card" id="card-5" onclick="openViz(5)">
+          <div class="card-preview">
+            <canvas id="preview-5" class="preview-canvas"></canvas>
+            <div class="card-overlay">
+              <div class="overlay-icon">&rarr;</div>
+              <span>Click to Explore</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="viz-number">05</div>
+            <h3>India Domestic Higher Education Network</h3>
+            <p>Mapping India's domestic collaboration landscape and differences between elite and state-affiliated institutions</p>
+            <div class="card-tags">
+              <span class="tag">Geospatial Node-Link</span>
+              <span class="tag">Network</span>
+              <span class="tag">Tier Comparison</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- LOADING SCREEN -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <p class="loading-text" id="loading-text">Fetching live data...</p>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN VIZ PANEL -->
+  <div class="viz-panel" id="viz-panel">
+    <div class="panel-header">
+      <button class="back-btn" onclick="closeViz()">
+        &larr; Back to Dashboard
+      </button>
+      <div class="panel-title-area">
+        <span class="panel-viz-num" id="panel-num">01</span>
+        <h2 class="panel-title" id="panel-title">Visualization Title</h2>
+      </div>
+      <div class="panel-controls" id="panel-controls">
+        <!-- Populated dynamically per viz -->
+      </div>
+    </div>
+    <div class="panel-body" id="panel-body">
+      <!-- Visualization rendered here -->
+    </div>
+    <div class="panel-footer">
+      <span class="data-credit" id="data-credit">Data: World Bank WDI &middot; OpenAlex &middot; SCImago SJR &middot; NIRF</span>
+      <div class="panel-nav">
+        <button class="nav-btn" id="prev-btn" onclick="navigateViz(-1)">&larr; Prev</button>
+        <button class="nav-btn" id="next-btn" onclick="navigateViz(1)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- D3.js via CDN -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson@3/dist/topojson.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+  <script src="viz1_data.js?v=20260712-gerd-locf"></script>
+  <script src="ridgeline_data.js?v=20260712g24b"></script>
+  <script src="ridgeline_density.js"></script>
+  <!-- panel_data.js quarantined 2026-07-12: unused ISO Q1/Q4 panel; G2 drinks ridgeline_data.js only -->
+  <script src="data.js?v=20260712-stub-neutral"></script>
+  <script src="viz3_data.js?v=20260712-l3-sl"></script>
+  <script src="india_network_data.js"></script>
+  <script src="india_network.js?v=20260712-g5-count-picker"></script>
+  <script src="viz4_data.js?v=20260712-g4-73"></script>
+  <script src="app.js?v=20260712-g4-expand42"></script>
+  <script src="graphs/g1/g1.js?v=20260712-g1-flags"></script>
+  <script src="graphs/g2/g2.js?v=20260712-gerd-locf"></script>
+  <script src="graphs/g3/g3.js?v=20260712-l3-sl"></script>
+  <script src="graphs/g4/g4.js?v=20260712-modular"></script>
+  <script src="graphs/g5/g5.js?v=20260712-modular"></script>
+</body>
+</html>
