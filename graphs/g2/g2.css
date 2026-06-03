@@ -1,0 +1,153 @@
+/* graphs/g2/g2.css — Graph 2 only */
+#panel-body:has(.viz2-dashboard-container) {
+      overflow-y: auto !important;
+    }
+    
+    .viz2-dashboard-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+      height: 800px;
+      box-sizing: border-box;
+      padding: 0.5rem 2rem 1.5rem 1.5rem;
+    }
+
+    .viz2-top-row {
+      display: grid;
+      grid-template-columns: 1fr 290px;
+      gap: 1.5rem;
+      height: 580px;
+      flex-shrink: 0;
+    }
+    
+    .viz2-sidebar-card {
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      box-sizing: border-box;
+      height: 100%;
+      overflow-y: auto;
+    }
+    
+    .viz2-sidebar-card::-webkit-scrollbar {
+      width: 4px;
+    }
+    .viz2-sidebar-card::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .viz2-sidebar-card::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+    }
+    
+    .viz2-graph-card {
+      background: rgba(15, 23, 42, 0.3);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 1rem;
+      box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .viz2-bottom-card {
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 120px;
+      flex-shrink: 0;
+    }
+
+    .viz2-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .viz2-metric-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      padding-right: 1rem;
+      box-sizing: border-box;
+    }
+
+    .viz2-metric-box:last-child {
+      border-right: none;
+    }
+
+    .viz2-metric-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+
+    .viz2-metric-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.15;
+    }
+
+    .viz2-metric-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    
+    .viz2-section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.25rem;
+    }
+
+    .viz2-select-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .viz2-select-wrapper label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .viz2-reset-btn {
+      background: transparent;
+      border: none;
+      color: var(--accent3);
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+      float: right;
+    }
+    .viz2-reset-btn:hover {
+      color: #fff;
+    }
