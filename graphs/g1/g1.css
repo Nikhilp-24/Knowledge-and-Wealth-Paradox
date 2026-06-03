@@ -1,0 +1,490 @@
+/* graphs/g1/g1.css — Graph 1 only */
+/* Special: viz 1 split layout */
+.split-layout {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  width: 100%;
+  height: 100%;
+}
+
+.split-pane {
+  position: relative;
+  overflow: hidden;
+}
+
+.split-pane + .split-pane {
+  border-left: 1px solid var(--border);
+}
+
+
+/* --- VIZ 1 LAYOUT CSS --- */
+.viz1-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: #0f172a; /* Fallback for dark theme */
+  color: #f8fafc;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow: hidden;
+}
+
+.viz1-sidebar {
+  width: 300px;
+  min-width: 300px;
+  height: 100%;
+  background: #0b1121;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden; /* fill height; no dead zone / no scrollbar at typical desktop size */
+  box-sizing: border-box;
+}
+
+/* Fixed controls stack — does not absorb spare height */
+.viz1-sidebar-top {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+
+.viz1-title {
+  margin: 0;
+  font-size: 18px;
+  background: linear-gradient(90deg, #56B4E9, #0072B2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.viz1-desc {
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.35;
+}
+
+.viz1-hint {
+  font-size: 11px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.viz1-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.viz1-control-group > label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #cbd5e1;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.viz1-search-container {
+  position: relative;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+}
+
+.viz1-search-input {
+  background: transparent;
+  border: none;
+  color: white;
+  width: 100%;
+  outline: none;
+  font-size: 12px;
+}
+
+.viz1-search-large-icon {
+  display: none;
+}
+
+.viz1-play-btn {
+  background: rgba(86,180,233,0.1);
+  color: #56B4E9;
+  border: 1px solid rgba(86,180,233,0.2);
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.viz1-play-btn:hover {
+  background: rgba(86,180,233,0.2);
+}
+
+.viz1-stats-card {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: clamp(10px, 1.6vh, 20px) 14px;
+  margin-top: 0;
+  box-sizing: border-box;
+}
+
+.viz1-stats-card--compact {
+  /* legacy class — growth handled by .viz1-stats-card */
+  padding: clamp(10px, 1.6vh, 20px) 14px;
+}
+
+.viz1-stats-metrics {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: clamp(6px, 1vw, 12px);
+  width: 100%;
+}
+
+.viz1-stat {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(2px, 0.5vh, 6px);
+}
+
+.viz1-stat b {
+  color: #f8fafc;
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2.8vh, 1.75rem);
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.viz1-stat span {
+  color: #94a3b8;
+  font-size: clamp(10px, 1.35vh, 12px);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.viz1-stats-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: clamp(6px, 1vh, 12px) 16px;
+  font-size: clamp(12px, 1.55vh, 14px);
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.viz1-stats-inline b {
+  color: #f8fafc;
+  font-weight: 700;
+  font-size: clamp(1.15em, 2.1vh, 1.45em);
+}
+
+.viz1-stats-header {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+}
+
+.viz1-stats-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #e2e8f0;
+}
+
+.viz1-stats-row span:last-child {
+  font-weight: bold;
+  color: #fff;
+}
+
+.viz1-plot {
+  flex: 1;
+  position: relative;
+  background: transparent;
+}
+
+/* Circular-cropped flag badges — Show Specific countries only (HTML overlay). */
+.viz1-flag-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.viz1-flag-badge {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  background: #1e293b;
+  will-change: left, top, width, height;
+}
+
+.viz1-flag-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Pinned compare detail — top-right, below continent legend; pointer-events none so plot stays clickable */
+.viz1-pinned-detail {
+  position: absolute;
+  top: 3.25rem;
+  right: 0.75rem;
+  z-index: 5;
+  max-width: min(280px, 42%);
+  padding: 0.75rem 0.9rem;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(86, 180, 233, 0.45);
+  border-radius: 8px;
+  color: #f8fafc;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+}
+
+.viz1-pinned-detail[hidden] {
+  display: none !important;
+}
+
+.viz1-pinned-detail i {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.viz1-pinned-detail b {
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+/* Plot overlays removed — continent legend must stay fully readable */
+
+.viz1-sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.viz1-reset-zoom-btn {
+  background: rgba(230, 159, 0, 0.18);
+  color: #E69F00;
+  border: 1px solid rgba(230, 159, 0, 0.45);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 12px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.viz1-reset-zoom-btn:hover {
+  background: rgba(230, 159, 0, 0.28);
+}
+
+.viz1-specific-btn {
+  position: static;
+  z-index: auto;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+  width: 100%;
+  text-align: center;
+}
+
+.viz1-specific-btn.active {
+  background: #56B4E9;
+  color: #0f172a;
+  box-shadow: 0 0 12px rgba(86, 180, 233, 0.4);
+}
+
+.viz1-visual-guide {
+  position: relative;
+  z-index: 1;
+  flex: 1.2 1 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto; /* last resort: internal scroll — never clip Color */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: clamp(4px, 1.2vh, 12px);
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: clamp(10px, 1.6vh, 20px) 14px;
+  color: #94a3b8;
+  font-size: clamp(12px, 1.65vh, 15px);
+  width: 100%;
+  line-height: 1.4;
+  margin-top: 0;
+  box-sizing: border-box;
+}
+
+.viz1-visual-guide--sidebar {
+  pointer-events: auto;
+}
+
+.viz1-encode-row {
+  flex: 0 0 auto; /* never crush Axes / Size / Color text */
+  margin-bottom: 0;
+  padding: 0;
+  line-height: 1.35;
+}
+
+.viz1-encode-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Reset Zoom visible: compress encodings + snapshot so Color stays fully on-screen */
+.viz1-sidebar--zoomed {
+  gap: 5px;
+}
+
+.viz1-sidebar--zoomed .viz1-sidebar-top {
+  gap: 6px;
+}
+
+.viz1-sidebar--zoomed .viz1-sidebar-actions {
+  gap: 5px;
+}
+
+.viz1-sidebar--zoomed .viz1-specific-btn,
+.viz1-sidebar--zoomed .viz1-reset-zoom-btn {
+  padding: 6px 10px;
+}
+
+.viz1-sidebar--zoomed .viz1-stats-card {
+  flex: 0.75 1 0;
+  padding: clamp(6px, 1vh, 12px) 12px;
+}
+
+.viz1-sidebar--zoomed .viz1-visual-guide {
+  flex: 1 1 0;
+  gap: 2px;
+  padding: clamp(6px, 1vh, 10px) 12px;
+  line-height: 1.28;
+  font-size: clamp(11px, 1.5vh, 14px);
+  /* last resort: internal scroll only — never clip Color via sidebar overflow */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.viz1-sidebar--zoomed .viz1-visual-guide h4 {
+  margin-bottom: 0;
+  font-size: clamp(11px, 1.4vh, 13px);
+}
+
+.viz1-sidebar--zoomed .viz1-encode-row {
+  padding: 0;
+  line-height: 1.25;
+}
+
+.viz1-encode-row strong {
+  color: #56B4E9;
+  margin-right: 6px;
+  font-size: 1.08em;
+}
+
+.viz1-visual-guide h4 {
+  color: #f8fafc;
+  margin: 0;
+  font-size: clamp(12px, 1.55vh, 14px);
+  flex: 0 0 auto;
+}
+
+/* Short panel: allow cards to compress instead of forcing a sidebar scrollbar */
+@media (max-height: 700px) {
+  .viz1-sidebar {
+    gap: 5px;
+    padding: 8px 12px;
+  }
+
+  .viz1-sidebar-top {
+    gap: 5px;
+  }
+
+  .viz1-desc {
+    font-size: 11px;
+  }
+
+  .viz1-hint {
+    font-size: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .viz1-stats-card,
+  .viz1-visual-guide {
+    padding: 8px 10px;
+  }
+
+  .viz1-encode-row {
+    padding: 0;
+  }
+}
+
+/* Kill Plotly's top "Double-click to zoom back out" notifier */
+.plotly-notifier,
+.notifier-note {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+@media (max-width: 900px) {
+  .split-layout { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+  .split-pane + .split-pane { border-left: none; border-top: 1px solid var(--border); }
+}
+
