@@ -1,0 +1,478 @@
+/* graphs/g3/g3.css — Graph 3 only */
+.viz3-container{
+            --bg-color: #0b0f19;
+            --card-bg: rgba(17, 22, 39, 0.7);
+            --card-border: rgba(255, 255, 255, 0.07);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-glow: rgba(86, 180, 233, 0.15);
+            --primary: #56B4E9;
+            --primary-glow: rgba(86, 180, 233, 0.4);
+            
+            /* Topic Gradients — Okabe-Ito */
+            --g-ai: linear-gradient(90deg, #D55E00 0%, #E69F00 100%);
+            --g-crispr: linear-gradient(90deg, #56B4E9 0%, #0072B2 100%);
+            --g-diseases: linear-gradient(90deg, #CC79A7 0%, #D55E00 100%);
+            --g-data: linear-gradient(90deg, #0072B2 0%, #56B4E9 100%);
+            --g-energy: linear-gradient(90deg, #009E73 0%, #56B4E9 100%);
+            --g-pv: linear-gradient(90deg, #D55E00 0%, #F0E442 100%);
+            --g-sl: linear-gradient(90deg, #0072B2 0%, #56B4E9 100%);
+            --g-robotics: linear-gradient(90deg, #E69F00 0%, #F0E442 100%);
+            --g-purple: linear-gradient(90deg, #E69F00 0%, #F0E442 100%);
+            --g-quantum: linear-gradient(90deg, #F0E442 0%, #56B4E9 100%);
+        }
+
+        
+
+        
+
+        /* Glassmorphism Styles */
+        .viz3-container .glass-card{
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .viz3-container .viz3-controls-card{
+            padding: 0.75rem 1rem !important;
+            border-radius: 12px !important;
+        }
+
+        /* Header chrome removed (Job B) */
+
+        /* Dashboard Grid Layout */
+        .viz3-container .dashboard-grid{
+            display: grid;
+            grid-template-columns: 1.25fr 1.75fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .viz3-container .dashboard-grid{
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left Panel - Control & Bar Race */
+        .viz3-container .control-panel{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .viz3-container .filter-group{
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .viz3-container .filter-group label{
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .viz3-container .styled-select{
+            background: rgba(25, 30, 50, 0.8);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 0.45rem 0.85rem;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.85rem;
+            font-family: inherit;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .viz3-container .styled-select:focus{
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* Playback Controls */
+        .viz3-container .playback-controls{
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        .viz3-container .btn-control{
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+        }
+
+        .viz3-container .btn-control:hover{
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .viz3-container .btn-play{
+            background: var(--primary);
+            color: #0b0f19;
+            border: none;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .viz3-container .btn-play:hover{
+            background: #fff;
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .viz3-container .timeline-container{
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .viz3-container .timeline-slider{
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .viz3-container .timeline-slider::-webkit-slider-thumb{
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        .viz3-container .timeline-slider::-webkit-slider-thumb:hover{
+            transform: scale(1.2);
+        }
+
+        .viz3-container .timeline-labels{
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .viz3-container .speed-selector{
+            display: flex;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .viz3-container .speed-btn{
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .viz3-container .speed-btn.active{
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+        }
+
+        /* Bar Chart Race Container */
+        .viz3-container .race-card{
+            position: relative;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viz3-container .race-
+.race-header h3{
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .viz3-container .year-display{
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .viz3-container .race-
+
+        /* Watermark */
+        .watermark-year{
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 8rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.035);
+            pointer-events: none;
+            line-height: 1;
+            user-select: none;
+            z-index: 0;
+            font-family: inherit;
+            letter-spacing: -2px;
+        }
+
+        /* Background Grid Lines */
+        .viz3-container .grid-lines-container{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 200px;
+            right: 90px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .viz3-container .grid-line{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            border-left: 1px dashed rgba(255, 255, 255, 0.05);
+        }
+
+        .viz3-container .grid-line-label{
+            position: absolute;
+            bottom: -20px;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Race Rows */
+        .viz3-container .race-row{
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            transition: top 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1;
+        }
+
+        .viz3-container .topic-info{
+            width: 200px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding-right: 1rem;
+        }
+
+        .viz3-container .topic-dot{
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .viz3-container .topic-name{
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-main);
+        }
+
+        .viz3-container .bar-container{
+            flex-grow: 1;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .viz3-container .bar-fill{
+            height: 100%;
+            border-radius: 12px;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+        }
+
+        .viz3-container .value-display{
+            width: 90px;
+            text-align: right;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            padding-left: 0.5rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Right Panel - Line Chart */
+        .viz3-container .trend-card{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: 100%;
+        }
+
+        .viz3-container .trend-
+.trend-header h3{
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .viz3-container .chart-container{
+            position: relative;
+            flex-grow: 1;
+            min-height: 380px;
+            width: 100%;
+        }
+
+        /* Insights Stats Grid */
+        .viz3-container .insights-section{
+            margin-top: 1.5rem;
+        }
+
+        .viz3-container .insights-title{
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .viz3-container .insights-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1rem;
+        }
+
+        .viz3-container .insight-card{
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1.25rem;
+            background: rgba(15, 20, 35, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .viz3-container .insight-card:hover{
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .viz3-container .card-top{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .viz3-container .card-title{
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            max-width: 75%;
+        }
+
+        .viz3-container .subfield-pill{
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border: 1px solid var(--card-border);
+        }
+
+        .viz3-container .card-metric{
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .viz3-container .metric-value{
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .viz3-container .metric-label{
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .viz3-container .card-footer{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.8rem;
+        }
+
+        .viz3-container .footer-item{
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .viz3-container .footer-label{
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .viz3-container .footer-value{
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .viz3-container .footer-value.highlight-green{
+            color: #009E73;
+        }
+
+        /* SVG Icon styling */
+        .viz3-container .icon{
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
