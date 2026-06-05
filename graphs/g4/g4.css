@@ -1,0 +1,5 @@
+/* graphs/g4/g4.css — Graph 4 only (dumbbell uses shared panel chrome + inline SVG styles) */
+.viz4-empty {
+  color: var(--text-muted, #94a3b8);
+  padding: 2rem;
+}
