@@ -29,18 +29,35 @@ const VIZ1_TRAIL_LIFE_MS = 1600;
 const VIZ1_MOVE_EPS = 0.035; // post-EMA year hops are small; giants still glide+trail
 const VIZ1_TRAIL_MIN_SIZE = 9; // marker diameter; tiny bubbles get no/near-zero tails
 
-// OKABE_ITO / OKABE provided by app.js (shared)
-// Series order alternates cool/warm with large luminance gaps (max categorical separation).
+// fig2 region palette — re-sampled from fig2.png legend swatches
+const VIZ1_REGION_COLORS = {
+  Africa: '#3c4e60',
+  Americas: '#c79d5c',
+  Asia: '#609c9c',
+  Europe: '#c07e7e',
+  Oceania: '#6e7a82'
+};
 const viz1ColorPalette = [
-  OKABE_ITO.blue,
-  OKABE_ITO.orange,
-  OKABE_ITO.sky,
-  OKABE_ITO.vermillion,
-  OKABE_ITO.purple,
-  OKABE_ITO.green,
-  OKABE_ITO.yellow,
-  '#000000'
+  VIZ1_REGION_COLORS.Africa,
+  VIZ1_REGION_COLORS.Americas,
+  VIZ1_REGION_COLORS.Asia,
+  VIZ1_REGION_COLORS.Europe,
+  VIZ1_REGION_COLORS.Oceania
 ];
+
+function viz1ColorForRegion(region) {
+  return VIZ1_REGION_COLORS[region] || viz1ColorPalette[0] || '#6c7581';
+}
+
+function viz1DarkenHex(hex, amount) {
+  const h = String(hex || '#6c7581').replace('#', '');
+  if (h.length !== 6) return 'rgba(26,29,36,0.55)';
+  const n = parseInt(h, 16);
+  const r = Math.max(0, ((n >> 16) & 255) - amount);
+  const g = Math.max(0, ((n >> 8) & 255) - amount);
+  const b = Math.max(0, (n & 255) - amount);
+  return `rgb(${r},${g},${b})`;
+}
 
 if (typeof VIZ1_DATA !== 'undefined') {
   // Temporal path smoother — UMAP year embeds can still reverse; MA+EMA glides paths.
@@ -150,13 +167,13 @@ function renderViz1(body) {
             <label>Search Countries</label>
             <div class="viz1-search-container">
               <input type="text" id="viz1-search" class="viz1-search-input" list="viz1-country-list" placeholder="India, Japan, USA…" style="flex: 1; min-width: 0; width: auto;">
-              <button type="button" id="viz1-search-btn" style="background: rgba(86,180,233,0.15); border: 1px solid rgba(86,180,233,0.4); color: #56B4E9; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; margin-left: 8px; white-space: nowrap; flex-shrink: 0;">Add</button>
+              <button type="button" id="viz1-search-btn" class="viz1-search-btn">Add</button>
             </div>
             <datalist id="viz1-country-list"></datalist>
           </div>
 
           <div class="viz1-control-group">
-            <label>Timeline <span id="viz1-year-label" style="margin-left: auto; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">${viz1Year}</span></label>
+            <label>Timeline <span id="viz1-year-label" style="margin-left: auto; background: rgba(95,153,155,0.14); padding: 2px 6px; border-radius: 4px; color:#456672;">${viz1Year}</span></label>
             <div style="display: flex; gap: 10px; align-items: center;">
               <button id="viz1-play-btn" class="viz1-play-btn">▶ Play</button>
               <input type="range" id="viz1-year-slider" min="${viz1YearsRange[0]}" max="${viz1YearsRange[1]}" value="${viz1Year}" style="flex: 1;">
@@ -191,9 +208,10 @@ function renderViz1(body) {
 
         <div class="viz1-visual-guide viz1-visual-guide--sidebar">
           <h4>Visual encodings</h4>
-          <div class="viz1-encode-row"><strong>Axes</strong> UMAP (wealth · R&amp;D · volume · quality)</div>
+          <div class="viz1-encode-row"><strong>Axes</strong> UMAP (wealth · R&amp;D · volume · OpenAlex cohort H)</div>
           <div class="viz1-encode-row"><strong>Size</strong> Country journal articles (WB → SCImago Docs)</div>
           <div class="viz1-encode-row"><strong>Color</strong> Region</div>
+          <div class="viz1-encode-row"><strong>H</strong> OpenAlex cohort H (pubs in year Y) — not SCImago stock</div>
         </div>
       </div>
 
@@ -496,14 +514,15 @@ function formatViz1CountryDetailHtml(d) {
     return Number(v).toLocaleString(undefined, { maximumFractionDigits: decimals });
   };
   const pubsLine = d._positionCarried
-    ? `📚 Country journal articles: <b>N/A</b> <i>(no docs this year; position held from ${d._carriedFromYear})</i><br>`
-    : `📚 Country journal articles (WB/SCImago): <b>${fmt(d.Total_Docs)}</b><br>`;
+    ? `Country journal articles: <b>N/A</b> <i>(no docs this year; position held from ${d._carriedFromYear})</i><br>`
+    : `Country journal articles (WB/SCImago): <b>${fmt(d.Total_Docs)}</b><br>`;
   return (
     `<b><span style="font-size:16px">${d.Country_Name || 'Unknown'}</span></b><br>` +
     `<i>${d.Region || ''}</i><br><br>` +
     pubsLine +
-    `🎯 H-Index (Quality Stock): <b>${fmt(d.H_Index)}</b><br>` +
-    `🔬 R&D Spend (GERD): <b>${d.GERD_Percent_GDP == null || d.GERD_Percent_GDP === "" ? "—" : fmt(d.GERD_Percent_GDP, 2) + "%"}${d.GERD_Source ? " <span style=\"opacity:0.7\">(" + d.GERD_Source + ")</span>" : ""}</b><br>💰 GDP/Capita: <b>$${fmt(d.GDP_Per_Capita_PPP)}</b>`
+    `OpenAlex cohort H (pubs in year Y): <b>${fmt(d.H_Index)}</b>` +
+    `${d.H_Index_SCImago != null && d.H_Index_SCImago !== "" ? ` <span style="opacity:0.65">(SCImago stock ${fmt(d.H_Index_SCImago)})</span>` : ""}<br>` +
+    `R&D Spend (GERD): <b>${d.GERD_Percent_GDP == null || d.GERD_Percent_GDP === "" ? "—" : fmt(d.GERD_Percent_GDP, 2) + "%"}${d.GERD_Source ? " <span style=\"opacity:0.7\">(" + d.GERD_Source + ")</span>" : ""}</b><br>GDP/Capita: <b>$${fmt(d.GDP_Per_Capita_PPP)}</b>`
   );
 }
 
@@ -545,8 +564,8 @@ function updateViz1CompareUI() {
   viz1ComparedCountries.forEach(code => {
     const d = VIZ1_DATA.find(x => x.Country_Code === code);
     const name = d ? d.Country_Name : code;
-    html += `<span style="background: rgba(86,180,233,0.2); color: #56B4E9; padding: 4px 8px; border-radius: 4px; font-size: 12px; display: flex; align-items: center; gap: 4px;">
-      ${name} <span class="viz1-remove-compare" data-code="${code}" style="cursor: pointer;">✕</span>
+    html += `<span style="background: rgba(95,153,155,0.14); color: #456672; padding: 4px 8px; border-radius: 4px; font-size: 12px; display: flex; align-items: center; gap: 4px;">
+      ${name} <span class="viz1-remove-compare" data-code="${code}" style="cursor: pointer;">x</span>
     </span>`;
   });
   
@@ -636,6 +655,9 @@ function resolveViz1NodeForYear(code, year) {
     Region: src.Region,
     Total_Docs: 0,
     H_Index: src.H_Index,
+    H_Index_Yearly: src.H_Index_Yearly,
+    H_Index_SCImago: src.H_Index_SCImago,
+    H_Index_Display_Source: src.H_Index_Display_Source,
     // Do not carry GERD across missing years (hierarchical river may be null)
     GERD_Percent_GDP: null,
     GERD_Source: null,
@@ -723,7 +745,7 @@ function spawnViz1Trails(fromPos, toPos) {
     }
     viz1Trails.push({
       code: c.code,
-      color: c.a.color || c.b.color || '#56B4E9',
+      color: c.a.color || c.b.color || '#5f9192',
       xs,
       ys,
       width: 1.2 + c.strength * 7,
@@ -879,7 +901,8 @@ function buildViz1MarkerBundle(targetYear, positionOverride) {
   const positions = {};
 
   const traces = allRegions.map((region, globalIndex) => {
-    const regionColor = viz1ColorPalette[globalIndex % viz1ColorPalette.length];
+    const regionColor = viz1ColorForRegion(region) || viz1ColorPalette[globalIndex % viz1ColorPalette.length];
+    const regionLine = viz1DarkenHex(regionColor, 36);
     const roster = rosters[region] || [];
     const nodes = roster.map((code) => {
       const d = resolveViz1NodeForYear(code, targetYear);
@@ -905,7 +928,8 @@ function buildViz1MarkerBundle(targetYear, positionOverride) {
     const opacities = nodes.map((d) => {
       if (!d) return 0;
       if (viz1ShowSpecific && !VIZ1_SPECIFIC_COUNTRIES.includes(d.Country_Code)) return 0;
-      const base = d._positionCarried ? 0.35 : 0.85;
+      // fig2: semi-transparent fills (~0.75) so overlaps blend
+      const base = d._positionCarried ? 0.35 : 0.75;
       if (isCompareActive) return viz1ComparedCountries.includes(d.Country_Code) ? 1.0 : 0.05;
       if (!isSearchActive) return base;
       return matchesSearch(d.Country_Name) ? 1.0 : 0.15;
@@ -915,16 +939,16 @@ function buildViz1MarkerBundle(targetYear, positionOverride) {
       if (!d) return 0;
       if (viz1ShowSpecific && !VIZ1_SPECIFIC_COUNTRIES.includes(d.Country_Code)) return 0;
       if (isCompareActive) return viz1ComparedCountries.includes(d.Country_Code) ? 4 : 0.5;
-      if (!isSearchActive) return d._positionCarried ? 0.5 : 1;
+      if (!isSearchActive) return d._positionCarried ? 0.5 : 0.9;
       return matchesSearch(d.Country_Name) ? 3 : 0.5;
     });
 
     const lineColors = nodes.map((d) => {
       if (!d) return 'transparent';
       if (viz1ShowSpecific && !VIZ1_SPECIFIC_COUNTRIES.includes(d.Country_Code)) return 'transparent';
-      if (isCompareActive) return viz1ComparedCountries.includes(d.Country_Code) ? '#56B4E9' : 'rgba(255,255,255,0.05)';
-      if (!isSearchActive) return d._positionCarried ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.7)';
-      return matchesSearch(d.Country_Name) ? '#ffffff' : 'rgba(255,255,255,0.05)';
+      if (isCompareActive) return viz1ComparedCountries.includes(d.Country_Code) ? '#456672' : 'rgba(26,29,36,0.08)';
+      if (!isSearchActive) return d._positionCarried ? 'rgba(26,29,36,0.30)' : regionLine;
+      return matchesSearch(d.Country_Name) ? '#1a1d24' : 'rgba(26,29,36,0.08)';
     });
 
     const hoverinfos = nodes.map((d) => {
@@ -992,16 +1016,19 @@ function getViz1Layout() {
     // to the wrong coords. We animate by fixed roster + ids via rAF lerp instead; trails
     // are extra scatter traces under markers that fade over ~1.2–2s (size-scaled comets).
     transition: { duration: 0, easing: 'linear' },
-    paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
-    font: { family: 'Plus Jakarta Sans, sans-serif', color: '#f8fafc' },
+    paper_bgcolor: '#f4f3ee', plot_bgcolor: '#f4f3ee',
+    font: { family: 'Plus Jakarta Sans, sans-serif', color: '#1a1d24' },
     xaxis: {
-      title: 'Dimensionality Reduction (Wealth, R&D, Volume, Quality)',
+      title: {
+        text: 'Dimensionality Reduction (Wealth, R&D, Volume, Quality)',
+        font: { color: 'rgba(90,101,112,0.45)', size: 11 }
+      },
       type: 'linear',
       showgrid: true,
-      gridcolor: 'rgba(255,255,255,0.05)',
+      gridcolor: 'rgba(26,29,36,0.07)',
       zeroline: false,
-      showline: true,
-      linecolor: 'rgba(255,255,255,0.2)',
+      showline: false,
+      linecolor: 'rgba(26,29,36,0.12)',
       showticklabels: false,
       // Ranges applied only on first draw via getViz1ReactLayout.
       // Year/lerp updates reuse container.layout so uirevision keeps drag-zoom without thrash.
@@ -1009,20 +1036,23 @@ function getViz1Layout() {
       fixedrange: false
     },
     yaxis: {
-      title: 'UMAP Projection Space',
+      title: {
+        text: 'UMAP Projection Space',
+        font: { color: 'rgba(90,101,112,0.40)', size: 11 }
+      },
       type: 'linear',
       showgrid: true,
-      gridcolor: 'rgba(255,255,255,0.05)',
+      gridcolor: 'rgba(26,29,36,0.07)',
       zeroline: false,
-      showline: true,
-      linecolor: 'rgba(255,255,255,0.2)',
+      showline: false,
+      linecolor: 'rgba(26,29,36,0.12)',
       showticklabels: false,
       autorange: false,
       fixedrange: false
     },
     hovermode: 'closest',
-    hoverlabel: { bgcolor: 'rgba(15, 23, 42, 0.95)', font: { family: 'Plus Jakarta Sans, sans-serif', size: 13, color: '#f8fafc' }, bordercolor: '#56B4E9' },
-    legend: { font: { color: '#e2e8f0', size: 12 }, orientation: 'h', yanchor: 'bottom', y: 1.05, xanchor: 'center', x: 0.5, itemclick: false, itemdoubleclick: false },
+    hoverlabel: { bgcolor: 'rgba(255, 255, 255, 0.98)', font: { family: 'Plus Jakarta Sans, sans-serif', size: 13, color: '#1a1d24' }, bordercolor: '#5f9192' },
+    legend: { font: { color: '#3d4650', size: 12 }, orientation: 'h', yanchor: 'bottom', y: 1.05, xanchor: 'center', x: 0.5, bgcolor: 'rgba(0,0,0,0)', itemclick: false, itemdoubleclick: false },
     margin: { l: 20, r: 20, t: 48, b: 28 }
   };
 }

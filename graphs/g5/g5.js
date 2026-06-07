@@ -74,8 +74,8 @@ function renderViz5Legacy(body) {
   svg.append("path")
     .datum({type: "Polygon", coordinates: [boundary]})
     .attr("d", d3.geoPath().projection(proj))
-    .attr("fill", "rgba(255,255,255,0.03)")
-    .attr("stroke", "rgba(255,255,255,0.15)")
+    .attr("fill", "rgba(15,23,42,0.03)")
+    .attr("stroke", "rgba(15,23,42,0.14)")
     .attr("stroke-width", 1.5)
     .attr("stroke-dasharray", "4,4");
   svg.selectAll(".link").data(links).join("line").attr("class","link")
@@ -111,22 +111,22 @@ function selectIndiaNode(node, net) {
     <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:1rem; margin-bottom:1rem;">
       <div>
         <div style="font-size:0.8rem; color:var(--text-muted);">Publications (${APP.year})</div>
-        <div style="font-size:1.4rem; color:#fff; font-weight:bold;">${node.publications.toLocaleString()}</div>
+        <div style="font-size:1.4rem; color:#0f172a; font-weight:bold;">${node.publications.toLocaleString()}</div>
       </div>
       <div style="text-align:right;">
         <div style="font-size:0.8rem; color:var(--text-muted);">Gov Funding</div>
-        <div style="font-size:1.4rem; color:#fff; font-weight:bold;">₹${node.funding} <span style="font-size:0.9rem;">Cr</span></div>
+        <div style="font-size:1.4rem; color:#0f172a; font-weight:bold;">₹${node.funding} <span style="font-size:0.9rem;">Cr</span></div>
       </div>
     </div>
     
-    <div style="font-size:0.95rem; margin-bottom:0.5rem; color:#cbd5e1;">Domestic Co-publications: <strong>${totalCollabs}</strong></div>
+    <div style="font-size:0.95rem; margin-bottom:0.5rem; color:#334155;">Domestic Co-publications: <strong>${totalCollabs}</strong></div>
     
     <ul style="list-style:none; padding:0; font-size:0.85rem; color:#94a3b8;">
       ${connectedLinks.sort((a,b)=>b.weight-a.weight).slice(0,5).map(l => {
         const partnerId = l.source === node.id ? l.target : l.source;
         const partner = net.nodes.find(n=>n.id === partnerId);
         if (!partner) return "";
-        return `<li style="padding:4px 0; border-bottom:1px dashed rgba(255,255,255,0.05); display:flex; justify-content:space-between;">
+        return `<li style="padding:4px 0; border-bottom:1px dashed rgba(15,23,42,0.06); display:flex; justify-content:space-between;">
           <span>${partner.name}</span> <span style="color:#56B4E9; font-weight:bold;">${l.weight}</span>
         </li>`;
       }).join("")}

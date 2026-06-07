@@ -1,5 +1,36 @@
-/* graphs/g4/g4.css — Graph 4 only (dumbbell uses shared panel chrome + inline SVG styles) */
+/* graphs/g4/g4.css — Graph 4 light-mode chrome */
 .viz4-empty {
-  color: var(--text-muted, #94a3b8);
+  color: var(--text-muted, #475569);
   padding: 2rem;
+}
+
+.g4-root {
+  background: #ffffff;
+  color: var(--text, #0f172a);
+}
+
+.g4-stats {
+  background: rgba(255, 255, 255, 0.98) !important;
+}
+
+.g4-plot {
+  background: #ffffff !important;
+}
+
+.g4-side {
+  background: #f8fafc !important;
+  color: var(--text-muted, #475569);
+}
+
+.g4-side h3 {
+  color: var(--text, #0f172a) !important;
+}
+
+/* Keep G4 SVG text readable if global tick styles ever conflict */
+.g4-plot svg text {
+  font-family: var(--font-b, "DM Sans", system-ui, sans-serif);
+}
+
+.g4-plot .viz4-gain {
+  fill: #0369a1;
 }

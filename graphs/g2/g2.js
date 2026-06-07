@@ -371,7 +371,7 @@ function renderViz2(body) {
   let sidebarHtml = `
     <div>
       <div class="project-badge" style="display: inline-block; margin-bottom: 0.35rem; font-size: 0.7rem;">Dashboard Module 02</div>
-      <h3 style="font-size: 1.15rem; font-weight: 800; background: linear-gradient(135deg, #fff 0%, #94a3b8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Global Quality Shift</h3>
+      <h3 style="font-size: 1.15rem; font-weight: 800; background: linear-gradient(135deg, #0e7490 0%, #0072B2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Global Quality Shift</h3>
     </div>
 
     <!-- Country Highlight Dropdown -->
@@ -400,69 +400,65 @@ function renderViz2(body) {
       
       sidebarHtml += `
         <!-- Country Profile Details Card (Screenshot Style + Bar Graph) -->
-        <div class="viz2-country-card" style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+        <div class="viz2-country-card">
           <div style="display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-weight: 800; font-size: 1.05rem; color: #fff;">${selectedCountryTrail}</span>
-            <span style="font-size: 0.68rem; font-weight: 700; background: rgba(56,189,248,0.15); color: #0072B2; border: 1px solid rgba(56,189,248,0.3); border-radius: 9999px; padding: 0.15rem 0.5rem;">${selectedMetrics.metrics.continent}</span>
+            <span style="font-weight: 800; font-size: 1.05rem; color: #0f172a;">${selectedCountryTrail}</span>
+            <span style="font-size: 0.68rem; font-weight: 700; background: rgba(14,116,144,0.10); color: #0e7490; border: 1px solid rgba(14,116,144,0.28); border-radius: 9999px; padding: 0.15rem 0.5rem;">${selectedMetrics.metrics.continent}</span>
           </div>
           
           <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.25rem;">
             <!-- Publisher-country journal docs (not G1 WB/SCImago country articles) -->
             <div style="display: flex; flex-direction: column; gap: 2px;">
               <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <span style="font-size: 1.1rem; width: 20px; text-align: center; filter: drop-shadow(0 0 2px rgba(56,189,248,0.4));">📚</span>
-                <span style="font-size: 0.8rem; color: #94a3b8; flex: 1;" title="Publisher-country journal documents (Q1+Q4 path total)">Publisher journal docs:</span>
-                <span style="font-size: 0.82rem; font-weight: 700; color: #fff;">${selectedMetrics.metrics.publications.toLocaleString()}</span>
+                <span style="font-size: 0.8rem; color: #475569; flex: 1;" title="Publisher-country journal documents (Q1+Q4 path total)">Publisher journal docs:</span>
+                <span style="font-size: 0.82rem; font-weight: 700; color: #0f172a;">${selectedMetrics.metrics.publications.toLocaleString()}</span>
               </div>
-              <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; border: 1px solid rgba(255,255,255,0.02);">
-                <div style="width: ${Math.min(100, (selectedMetrics.metrics.publications / 200000) * 100)}%; height: 100%; background: linear-gradient(90deg, #38bdf8, #60a5fa); border-radius: 3px; box-shadow: 0 0 4px #38bdf8;"></div>
+              <div style="width: 100%; height: 5px; background: rgba(15,23,42,0.08); border-radius: 3px; overflow: hidden; border: 1px solid rgba(15,23,42,0.04);">
+                <div style="width: ${Math.min(100, (selectedMetrics.metrics.publications / 200000) * 100)}%; height: 100%; background: linear-gradient(90deg, #0e7490, #0072B2); border-radius: 3px;"></div>
               </div>
             </div>
 
-            <!-- H-Index from G1 / SCImago Country Rank join -->
+            <!-- H-Index from G1 OpenAlex cohort H (yearly); SCImago stock is audit-only -->
             <div style="display: flex; flex-direction: column; gap: 2px;">
               <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <span style="font-size: 1.1rem; width: 20px; text-align: center; filter: drop-shadow(0 0 2px rgba(244,63,94,0.4));">🎯</span>
-                <span style="font-size: 0.8rem; color: #94a3b8; flex: 1;" title="SCImago Country Rank H (same river as G1)">H-Index (SCImago):</span>
-                <span style="font-size: 0.82rem; font-weight: 700; color: #fff;">${selectedMetrics.metrics.h != null ? Math.round(selectedMetrics.metrics.h).toLocaleString() : "—"}</span>
+                <span style="font-size: 0.8rem; color: #475569; flex: 1;" title="OpenAlex calendar-year cohort H (pubs in year Y). Not SCImago stock. See docs/G1_CUSTOM_YEARLY_H.md">OpenAlex cohort H (year Y):</span>
+                <span style="font-size: 0.82rem; font-weight: 700; color: #0f172a;">${selectedMetrics.metrics.h != null ? Math.round(selectedMetrics.metrics.h).toLocaleString() : "—"}</span>
               </div>
-              <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; border: 1px solid rgba(255,255,255,0.02);">
-                <div style="width: ${Math.min(100, ((selectedMetrics.metrics.h || 0) / 4000) * 100)}%; height: 100%; background: linear-gradient(90deg, #f43f5e, #ec4899); border-radius: 3px; box-shadow: 0 0 4px #f43f5e;"></div>
+              <div style="width: 100%; height: 5px; background: rgba(15,23,42,0.08); border-radius: 3px; overflow: hidden; border: 1px solid rgba(15,23,42,0.04);">
+                <div style="width: ${Math.min(100, ((selectedMetrics.metrics.h || 0) / 1600) * 100)}%; height: 100%; background: linear-gradient(90deg, #D55E00, #CC79A7); border-radius: 3px;"></div>
               </div>
             </div>
 
             <!-- R&D Spend from G1 / World Bank join -->
             <div style="display: flex; flex-direction: column; gap: 2px;">
               <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <span style="font-size: 1.1rem; width: 20px; text-align: center; filter: drop-shadow(0 0 2px rgba(34,211,238,0.4));">🔬</span>
-                <span style="font-size: 0.8rem; color: #94a3b8; flex: 1;" title="Same G1 hierarchical GERD river (WB base; OECD hole-fill if overlap-ok). Missing later years use LOCF ffill from last known GERD (tagged LOCF in pool).">R&D Spend (GERD):</span>
-                <span style="font-size: 0.82rem; font-weight: 700; color: #fff;">${selectedMetrics.metrics.rd != null ? selectedMetrics.metrics.rd.toFixed(2) + "%" : "—"}</span>
+                <span style="font-size: 0.8rem; color: #475569; flex: 1;" title="Same G1 hierarchical GERD river (WB base; OECD hole-fill if overlap-ok). Missing later years use LOCF ffill from last known GERD (tagged LOCF in pool).">R&D Spend (GERD):</span>
+                <span style="font-size: 0.82rem; font-weight: 700; color: #0f172a;">${selectedMetrics.metrics.rd != null ? selectedMetrics.metrics.rd.toFixed(2) + "%" : "—"}</span>
               </div>
-              <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; border: 1px solid rgba(255,255,255,0.02);">
-                <div style="width: ${Math.min(100, ((selectedMetrics.metrics.rd || 0) / 5.0) * 100)}%; height: 100%; background: linear-gradient(90deg, #2dd4bf, #34d399); border-radius: 3px; box-shadow: 0 0 4px #2dd4bf;"></div>
+              <div style="width: 100%; height: 5px; background: rgba(15,23,42,0.08); border-radius: 3px; overflow: hidden; border: 1px solid rgba(15,23,42,0.04);">
+                <div style="width: ${Math.min(100, ((selectedMetrics.metrics.rd || 0) / 5.0) * 100)}%; height: 100%; background: linear-gradient(90deg, #009E73, #0e7490); border-radius: 3px;"></div>
               </div>
             </div>
 
             <!-- GDP/Capita from G1 / World Bank join -->
             <div style="display: flex; flex-direction: column; gap: 2px;">
               <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <span style="font-size: 1.1rem; width: 20px; text-align: center; filter: drop-shadow(0 0 2px rgba(245,158,11,0.4));">💰</span>
-                <span style="font-size: 0.8rem; color: #94a3b8; flex: 1;" title="World Bank GDP per capita PPP (same river as G1)">GDP/Capita (PPP):</span>
-                <span style="font-size: 0.82rem; font-weight: 700; color: #fff;">${selectedMetrics.metrics.gdp != null ? "$" + Math.round(selectedMetrics.metrics.gdp).toLocaleString() : "—"}</span>
+                <span style="font-size: 0.8rem; color: #475569; flex: 1;" title="World Bank GDP per capita PPP (same river as G1)">GDP/Capita (PPP):</span>
+                <span style="font-size: 0.82rem; font-weight: 700; color: #0f172a;">${selectedMetrics.metrics.gdp != null ? "$" + Math.round(selectedMetrics.metrics.gdp).toLocaleString() : "—"}</span>
               </div>
-              <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; border: 1px solid rgba(255,255,255,0.02);">
-                <div style="width: ${Math.min(100, ((selectedMetrics.metrics.gdp || 0) / 80000) * 100)}%; height: 100%; background: linear-gradient(90deg, #fb923c, #fbbf24); border-radius: 3px; box-shadow: 0 0 4px #fb923c;"></div>
+              <div style="width: 100%; height: 5px; background: rgba(15,23,42,0.08); border-radius: 3px; overflow: hidden; border: 1px solid rgba(15,23,42,0.04);">
+                <div style="width: ${Math.min(100, ((selectedMetrics.metrics.gdp || 0) / 80000) * 100)}%; height: 100%; background: linear-gradient(90deg, #E69F00, #F0E442); border-radius: 3px;"></div>
               </div>
             </div>
           </div>
           
           <!-- Stacked Bar Graph: Quality Share (Q1 vs Q4) -->
-          <div style="margin-top: 0.45rem; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 0.55rem;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #94a3b8; margin-bottom: 5px;">
+          <div style="margin-top: 0.45rem; border-top: 1px dashed rgba(15,23,42,0.10); padding-top: 0.55rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #475569; margin-bottom: 5px;">
               <span>Quality Split (Q1 vs Q4)</span>
-              <span style="font-weight:700;"><span style="color:#38bdf8;">Q1: ${q1Pct.toFixed(0)}%</span> | <span style="color:#f43f5e;">Q4: ${q4Pct.toFixed(0)}%</span></span>
+              <span style="font-weight:700;"><span style="color:#0072B2;">Q1: ${q1Pct.toFixed(0)}%</span> | <span style="color:#E69F00;">Q4: ${q4Pct.toFixed(0)}%</span></span>
             </div>
-            <div style="width: 100%; height: 12px; background: rgba(255,255,255,0.06); border-radius: 4px; display: flex; overflow: hidden; border: 1px solid rgba(255,255,255,0.04);">
+            <div style="width: 100%; height: 12px; background: rgba(15,23,42,0.08); border-radius: 4px; display: flex; overflow: hidden; border: 1px solid rgba(15,23,42,0.06);">
               <div style="width: ${q1Pct}%; background: #0072B2; height: 100%; box-shadow: inset 0 0 4px rgba(0,0,0,0.3);" title="Q1 Journals: ${q1.toLocaleString()}"></div>
               <div style="width: ${q4Pct}%; background: #E69F00; height: 100%; box-shadow: inset 0 0 4px rgba(0,0,0,0.3);" title="Q4 Journals: ${q4.toLocaleString()}"></div>
             </div>
@@ -481,11 +477,11 @@ function renderViz2(body) {
         ${continents.map(c => `<option value="${c}" ${activeContinentFilter === c ? "selected" : ""}>${c === "All" ? "All Continents" : c}</option>`).join("")}
       </select>
       <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; font-size: 0.68rem; line-height: 1.2;">
-        <span style="display: flex; align-items: center; gap: 3px; color: #E69F00; font-weight: 700;"><span style="display:inline-block; width:6px; height:6px; background:#f43f5e; border-radius:50%; box-shadow: 0 0 3px #E69F00;"></span>Asia</span>
-        <span style="display: flex; align-items: center; gap: 3px; color: #0072B2; font-weight: 700;"><span style="display:inline-block; width:6px; height:6px; background:#38bdf8; border-radius:50%; box-shadow: 0 0 3px #0072B2;"></span>Europe</span>
-        <span style="display: flex; align-items: center; gap: 3px; color: #10b981; font-weight: 700;"><span style="display:inline-block; width:6px; height:6px; background:#10b981; border-radius:50%; box-shadow: 0 0 3px #10b981;"></span>Americas</span>
-        <span style="display: flex; align-items: center; gap: 3px; color: #f59e0b; font-weight: 700;"><span style="display:inline-block; width:6px; height:6px; background:#f59e0b; border-radius:50%; box-shadow: 0 0 3px #f59e0b;"></span>Africa</span>
-        <span style="display: flex; align-items: center; gap: 3px; color: #a855f7; font-weight: 700;"><span style="display:inline-block; width:6px; height:6px; background:#a855f7; border-radius:50%; box-shadow: 0 0 3px #a855f7;"></span>Oceania</span>
+        <span style="display: flex; align-items: center; gap: 3px; color: ${OKABE.vermillion}; font-weight: 700;"><span style="display:inline-block; width:6px; height:6px; background:${OKABE.vermillion}; border-radius:50%;"></span>Asia</span>
+        <span style="display: flex; align-items: center; gap: 3px; color: ${OKABE.blue}; font-weight: 700;"><span style="display:inline-block; width:6px; height:6px; background:${OKABE.blue}; border-radius:50%;"></span>Europe</span>
+        <span style="display: flex; align-items: center; gap: 3px; color: ${OKABE.green}; font-weight: 700;"><span style="display:inline-block; width:6px; height:6px; background:${OKABE.green}; border-radius:50%;"></span>Americas</span>
+        <span style="display: flex; align-items: center; gap: 3px; color: ${OKABE.orange}; font-weight: 700;"><span style="display:inline-block; width:6px; height:6px; background:${OKABE.orange}; border-radius:50%;"></span>Africa</span>
+        <span style="display: flex; align-items: center; gap: 3px; color: ${OKABE.purple}; font-weight: 700;"><span style="display:inline-block; width:6px; height:6px; background:${OKABE.purple}; border-radius:50%;"></span>Oceania</span>
       </div>
     </div>
 
@@ -495,7 +491,7 @@ function renderViz2(body) {
       <select id="sort-rank-select" class="ctrl-select" style="width: 100%;">
         <option value="Default" ${activeSortParameter === "Default" ? "selected" : ""}>Default (Whitelist / All)</option>
         <option value="publications" ${activeSortParameter === "publications" ? "selected" : ""}>Publisher journal docs</option>
-        <option value="h" ${activeSortParameter === "h" ? "selected" : ""}>H-Index (SCImago / G1)</option>
+        <option value="h" ${activeSortParameter === "h" ? "selected" : ""}>OpenAlex cohort H (year Y)</option>
         <option value="rd" ${activeSortParameter === "rd" ? "selected" : ""}>R&D Spend (% GDP, WB)</option>
         <option value="gdp" ${activeSortParameter === "gdp" ? "selected" : ""}>GDP per Capita (PPP, WB)</option>
         <option value="ratio" ${activeSortParameter === "ratio" ? "selected" : ""}>Q1 / Q4 Quality Ratio</option>
@@ -511,7 +507,7 @@ function renderViz2(body) {
       
       <!-- Min Pubs -->
       <div style="display: flex; flex-direction: column; gap: 2px;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: #94a3b8;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: #475569;">
           <span>Min Publications</span>
           <span id="lbl-min-pub" style="font-weight: 700; color: #0072B2;">${minPubFilter >= 1000 ? (minPubFilter / 1000).toFixed(0) + "k" : minPubFilter}</span>
         </div>
@@ -520,16 +516,16 @@ function renderViz2(body) {
 
       <!-- Min H Index -->
       <div style="display: flex; flex-direction: column; gap: 2px;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: #94a3b8;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: #475569;">
           <span>Min H-Index</span>
           <span id="lbl-min-h" style="font-weight: 700; color: #0072B2;">${minHIndexFilter}</span>
         </div>
-        <input type="range" id="slide-min-h" class="ctrl-range" style="width: 100%;" min="0" max="4000" step="50" value="${minHIndexFilter}">
+        <input type="range" id="slide-min-h" class="ctrl-range" style="width: 100%;" min="0" max="1600" step="25" value="${minHIndexFilter}">
       </div>
 
       <!-- Min R&D Spend -->
       <div style="display: flex; flex-direction: column; gap: 2px;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: #94a3b8;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: #475569;">
           <span>Min R&D Spend (% GDP)</span>
           <span id="lbl-min-rd" style="font-weight: 700; color: #0072B2;">${minRdFilter.toFixed(1)}%</span>
         </div>
@@ -538,7 +534,7 @@ function renderViz2(body) {
 
       <!-- Min GDP/Capita -->
       <div style="display: flex; flex-direction: column; gap: 2px;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: #94a3b8;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: #475569;">
           <span>Min GDP/Capita</span>
           <span id="lbl-min-gdp" style="font-weight: 700; color: #0072B2;">$${minGdpFilter.toLocaleString()}</span>
         </div>
@@ -564,23 +560,23 @@ function renderViz2(body) {
   graphCard.style.position = "relative";
   graphCard.innerHTML = `
     <!-- Quality Guide anchored in top margin void (margin.top=110) — must not overlap bars -->
-    <div id="viz2-quality-guide" style="position: absolute; top: 1.5rem; right: 2.5rem; background: rgba(15, 23, 42, 0.92); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0.5rem 0.75rem; max-width: 300px; backdrop-filter: blur(8px); z-index: 10; pointer-events: none; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.65rem; line-height: 1.3; box-shadow: 0 4px 15px rgba(0,0,0,0.35);">
-      <div style="font-weight: 800; color: #fff; font-size: 0.72rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 3px;">
+    <div id="viz2-quality-guide" class="viz2-quality-guide">
+      <div class="viz2-quality-guide__title">
         Quality Guide · Publisher Country
       </div>
       <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
         <div style="display: flex; flex-direction: column; gap: 0.35rem; min-width: 130px;">
           <div style="display: flex; gap: 5px; align-items: center;">
-            <span style="display: inline-block; width: 8px; height: 8px; background: ${OKABE.blue}; border-radius: 1px; flex-shrink: 0;"></span>
-            <div><b style="color: ${OKABE.sky};">Q1:</b> Top 25% SJR journals</div>
+            <span style="display: inline-block; width: 8px; height: 8px; background: ${chartColors.q1}; border-radius: 1px; flex-shrink: 0;"></span>
+            <div><b style="color: ${chartColors.q1};">Q1:</b> Top 25% SJR journals</div>
           </div>
           <div style="display: flex; gap: 5px; align-items: center;">
-            <span style="display: inline-block; width: 8px; height: 8px; background: ${OKABE.orange}; border-radius: 1px; flex-shrink: 0;"></span>
-            <div><b style="color: ${OKABE.orange};">Q4:</b> Bottom 25% SJR journals</div>
+            <span style="display: inline-block; width: 8px; height: 8px; background: ${chartColors.q4}; border-radius: 1px; flex-shrink: 0;"></span>
+            <div><b style="color: ${chartColors.q4};">Q4:</b> Bottom 25% SJR journals</div>
           </div>
         </div>
-        <div style="border-left: 1px dashed rgba(255,255,255,0.12); padding-left: 0.75rem; color: #94a3b8; font-size: 0.62rem; flex: 1;">
-          Docs in journals <b style="color:#fff;">published in</b> that country (not author affiliation). Ratio = Q1/Q4 (uncapped).
+        <div style="border-left: 1px dashed rgba(15,23,42,0.14); padding-left: 0.75rem; color: #475569; font-size: 0.62rem; flex: 1;">
+          Docs in journals <b style="color:#0f172a;">published in</b> that country (not author affiliation). Ratio = Q1/Q4 (uncapped).
         </div>
       </div>
     </div>
@@ -613,7 +609,7 @@ function renderViz2(body) {
     const countryData = yearData.find(c => c.country === selectedCountryTrail);
     if (countryData) {
       metricsHtml += `
-        <div class="viz2-metric-box" style="border-left: 1px dashed rgba(255, 255, 255, 0.15); padding-left: 1.5rem;">
+        <div class="viz2-metric-box" style="border-left: 1px dashed rgba(15, 23, 42, 0.14); padding-left: 1.5rem;">
           <span class="viz2-metric-title">${selectedCountryTrail} Profile</span>
           <span class="viz2-metric-value" style="color: #0072B2;">${getTier(countryData.ratio).toUpperCase()}</span>
           <span class="viz2-metric-desc">Research Quality Category</span>
@@ -643,14 +639,14 @@ function renderViz2(body) {
     }
     
     metricsHtml += `
-      <div class="viz2-metric-box" style="border-left: 1px dashed rgba(255, 255, 255, 0.15); padding-left: 1.5rem;">
+      <div class="viz2-metric-box" style="border-left: 1px dashed rgba(15, 23, 42, 0.14); padding-left: 1.5rem;">
         <span class="viz2-metric-title">${ratioTitle} Q1/Q4 Avg</span>
-        <span class="viz2-metric-value" style="font-size: 1.4rem; color: #f59e0b;">${continentRatio.toFixed(2)}</span>
+        <span class="viz2-metric-value" style="font-size: 1.4rem; color: ${OKABE.orange};">${continentRatio.toFixed(2)}</span>
         <span class="viz2-metric-desc">Average ratio for selected region</span>
       </div>
       <div class="viz2-metric-box">
         <span class="viz2-metric-title">Active Filter</span>
-        <span class="viz2-metric-value" style="color: #10b981; font-size: 1.4rem;">${activeContinentFilter.toUpperCase()}</span>
+        <span class="viz2-metric-value" style="color: #0e7490; font-size: 1.4rem;">${activeContinentFilter.toUpperCase()}</span>
         <span class="viz2-metric-desc">Continent being visualized</span>
       </div>
     `;
@@ -779,7 +775,15 @@ function renderViz2(body) {
   const svg = d3.select(graphCard).append("svg")
     .attr("width", W)
     .attr("height", H)
-    .style("overflow", "visible");
+    .style("overflow", "visible")
+    .style("background", "#ffffff");
+
+  // Chart paper plane (clean white — avoids muddy slate bleed-through)
+  svg.append("rect")
+    .attr("width", W)
+    .attr("height", H)
+    .attr("fill", "#ffffff")
+    .attr("pointer-events", "none");
 
   const margin = { top: 110, right: 30, bottom: 90, left: 65 };
   const innerWidth = W - margin.left - margin.right;
@@ -811,11 +815,12 @@ function renderViz2(body) {
 
   yAxisG.select(".domain").remove();
   yAxisG.selectAll(".tick line")
-    .attr("stroke", "rgba(255, 255, 255, 0.06)")
+    .attr("stroke", "#cbd5e1")
     .attr("stroke-dasharray", "3,3");
   yAxisG.selectAll(".tick text")
-    .attr("fill", "#94a3b8")
+    .attr("fill", "#334155")
     .attr("font-size", "10px")
+    .attr("font-weight", "600")
     .attr("dx", "-4px");
 
   // X Axis
@@ -831,14 +836,14 @@ function renderViz2(body) {
     .attr("transform", `translate(0, ${innerHeight})`)
     .call(xAxis);
 
-  xAxisG.select(".domain").attr("stroke", "rgba(255, 255, 255, 0.1)");
-  xAxisG.selectAll(".tick line").attr("stroke", "rgba(255, 255, 255, 0.1)");
+  xAxisG.select(".domain").attr("stroke", "#cbd5e1");
+  xAxisG.selectAll(".tick line").attr("stroke", "#cbd5e1");
 
-  // Rotate country names to fit
+  // Rotate country names to fit — continent colors stay categorical, readable on white
   xAxisG.selectAll(".tick text")
     .style("fill", d => {
       const item = displayData.find(x => x.country === d);
-      return item ? getContinentColor(item.metrics.continent) : "#94a3b8";
+      return item ? getContinentColor(item.metrics.continent) : "#334155";
     })
     .attr("font-size", "9px")
     .attr("font-weight", "700")
@@ -899,14 +904,14 @@ function renderViz2(body) {
         .attr("width", xScale.bandwidth() + 6)
         .attr("height", d => innerHeight - Math.min(yScale(yVal(d.q1)), yScale(yVal(d.q4))) + 6)
         .attr("fill", "none")
-        .attr("stroke", "#ffffff")
+        .attr("stroke", "#0e7490")
         .attr("stroke-width", 2)
         .attr("rx", 5)
-        .style("filter", "drop-shadow(0 0 4px #0072B2)");
+        .style("filter", "drop-shadow(0 1px 3px rgba(14,116,144,0.35))");
 
   } else {
     // Stacked mode
-    // Bottom: Q4 (rose-red)
+    // Bottom: Q4 (Okabe orange)
     countryGroups.append("rect")
       .attr("class", "bar-q4")
       .attr("x", 0)
@@ -941,10 +946,10 @@ function renderViz2(body) {
         .attr("width", xScale.bandwidth() + 6)
         .attr("height", d => innerHeight - yScale(yVal(d.q1 + d.q4)) + 6)
         .attr("fill", "none")
-        .attr("stroke", "#ffffff")
+        .attr("stroke", "#0e7490")
         .attr("stroke-width", 2)
         .attr("rx", 5)
-        .style("filter", "drop-shadow(0 0 4px #0072B2)");
+        .style("filter", "drop-shadow(0 1px 3px rgba(14,116,144,0.35))");
   }
 
   // Hover Interactions
@@ -955,18 +960,18 @@ function renderViz2(body) {
 
       // Tooltip HTML content with macroeconomic factors
       showTip(e, `
-        <div style="font-weight:700; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.12); padding-bottom:4px; margin-bottom:4px; color:#fff;">${d.country}</div>
-        <div style="font-size:11px; color:#94a3b8; margin-bottom: 3px;">Region: <span style="color:${getRegionColor(d.region)}; font-weight:600;">${d.region}</span></div>
-        <div style="font-size:11px; margin-bottom: 3px;">Continent: <span style="color:#2dd4bf; font-weight:600;">${d.metrics.continent}</span></div>
-        <div style="font-size:11px; margin-top:2px;">Q1 Journals (Elite): <span style="color:${OKABE.sky}; font-weight:700;">${d.q1.toLocaleString()}</span></div>
-        <div style="font-size:11px;">Q4 Journals (Low-tier): <span style="color:${OKABE.orange}; font-weight:700;">${d.q4.toLocaleString()}</span></div>
-        <div style="font-size:11px; margin-bottom: 2px;">Q1/Q4 Ratio (uncapped): <span style="color:${OKABE.yellow}; font-weight:bold;">${d.ratio.toFixed(3)}</span></div>
-        <div style="font-size:10px; color:#94a3b8; margin-bottom:4px;">Publisher country · not author affiliation</div>
-        <div style="font-size:11px; margin-top:4px; border-top:1px dashed rgba(255,255,255,0.12); padding-top:4px; color: #cbd5e1;">
-          <div>📚 Publisher journal docs: <b>${d.metrics.publications.toLocaleString()}</b></div>
-          <div>🎯 H-Index (SCImago/G1): <b>${d.metrics.h != null ? Math.round(d.metrics.h).toLocaleString() : "—"}</b></div>
-          <div title="G1 hierarchical GERD with LOCF ffill when later years missing.">🔬 R&D (GERD): <b>${d.metrics.rd != null ? d.metrics.rd.toFixed(2) + "%" : "—"}</b></div>
-          <div>💰 GDP PPP (WB): <b>${d.metrics.gdp != null ? "$" + Math.round(d.metrics.gdp).toLocaleString() : "—"}</b></div>
+        <div style="font-weight:700; font-size:13px; border-bottom:1px solid rgba(15,23,42,0.12); padding-bottom:4px; margin-bottom:4px; color:#0f172a;">${d.country}</div>
+        <div style="font-size:11px; color:#475569; margin-bottom: 3px;">Region: <span style="color:${getRegionColor(d.region)}; font-weight:600;">${d.region}</span></div>
+        <div style="font-size:11px; margin-bottom: 3px;">Continent: <span style="color:${getContinentColor(d.metrics.continent)}; font-weight:600;">${d.metrics.continent}</span></div>
+        <div style="font-size:11px; margin-top:2px;">Q1 Journals (Elite): <span style="color:${chartColors.q1}; font-weight:700;">${d.q1.toLocaleString()}</span></div>
+        <div style="font-size:11px;">Q4 Journals (Low-tier): <span style="color:${chartColors.q4}; font-weight:700;">${d.q4.toLocaleString()}</span></div>
+        <div style="font-size:11px; margin-bottom: 2px;">Q1/Q4 Ratio (uncapped): <span style="color:${OKABE.orange}; font-weight:bold;">${d.ratio.toFixed(3)}</span></div>
+        <div style="font-size:10px; color:#475569; margin-bottom:4px;">Publisher country · not author affiliation</div>
+        <div style="font-size:11px; margin-top:4px; border-top:1px dashed rgba(15,23,42,0.12); padding-top:4px; color: #334155;">
+          <div>Publisher journal docs: <b>${d.metrics.publications.toLocaleString()}</b></div>
+          <div>OpenAlex cohort H (pubs in year Y): <b>${d.metrics.h != null ? Math.round(d.metrics.h).toLocaleString() : "—"}</b></div>
+          <div title="G1 hierarchical GERD with LOCF ffill when later years missing.">R&D (GERD): <b>${d.metrics.rd != null ? d.metrics.rd.toFixed(2) + "%" : "—"}</b></div>
+          <div>GDP PPP (WB): <b>${d.metrics.gdp != null ? "$" + Math.round(d.metrics.gdp).toLocaleString() : "—"}</b></div>
         </div>
       `);
     })

@@ -1,30 +1,34 @@
-/* style.css — SHARED only: landing, chrome, page-wide colors */
+﻿/* style.css â€” SHARED only: landing, chrome, page-wide colors */
 /* ============================================================
-   CS661 Group 10 — The Global Knowledge & Wealth Paradox
+   CS661 Group 10 â€” The Global Knowledge & Wealth Paradox
    Full CSS Design System
    ============================================================ */
 
 :root {
-  --bg: #0b0f19;
-  --bg2: #0e1420;
-  --surface: rgba(255,255,255,0.045);
-  --surface-hover: rgba(255,255,255,0.08);
-  --border: rgba(255,255,255,0.08);
-  /* Landing chrome follows screenshot (teal/cyan); chart binary contrast stays Okabe–Ito. */
-  --border-accent: rgba(34,211,238,0.4);
-  --accent: #22d3ee;
-  --accent2: #0072B2;
-  --accent3: #56B4E9;
-  --pair-a: #0072B2;   /* cool pole — never pair alone with green for compare/contrast */
-  --pair-b: #E69F00;   /* warm pole — opposite end of confusion line from blue */
-  --success: #009E73;  /* bluish green: OK alone; do not place next to orange/vermillion in legends */
+  /* fig1 academic cream paper â€” sampled from fig1.jpeg (#f4f3ee) */
+  --bg: #f4f3ee;
+  --bg2: #efeee9;
+  --surface: #ffffff;
+  --surface-hover: #fafaf7;
+  --border: rgba(26, 29, 36, 0.10);
+  --border-accent: rgba(95, 153, 155, 0.45);
+  --accent: #5f999b;
+  --accent-bright: #4a888b;
+  --accent2: #456672;
+  --accent3: #cf9740;
+  --pair-a: #0072B2;
+  --pair-b: #E69F00;
+  --success: #009E73;
   --warning: #E69F00;
   --danger: #D55E00;
   --purple: #CC79A7;
-  --landing-magenta: #c084fc;
-  --text: #f0ebe3;
-  --text-muted: #94a3b8;
-  --text-dim: #475569;
+  --landing-magenta: #b07a7a;
+  --text: #1a1d24;
+  --text-muted: #5a6570;
+  --text-dim: #8b939c;
+  --shadow-sm: 0 1px 2px rgba(26, 29, 36, 0.05);
+  --shadow-md: 0 10px 28px rgba(26, 29, 36, 0.08);
+  --shadow-lg: 0 18px 44px rgba(26, 29, 36, 0.12);
   --font-h: 'Outfit', sans-serif;
   --font-b: 'Plus Jakarta Sans', sans-serif;
   --radius: 14px;
@@ -56,12 +60,12 @@ body {
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: rgba(15,23,42,0.18); border-radius: 3px; }
 
-/* ──────────────────────────────────────────────
-   LANDING SHELL — two-column (hero | gallery)
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   LANDING SHELL â€” two-column (hero | gallery)
    Matches screenshot: left brand intro, right card list
-   ────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .landing-shell {
   display: grid;
   grid-template-columns: minmax(280px, 0.9fr) minmax(400px, 1.4fr);
@@ -77,18 +81,15 @@ body {
   min-height: 0;
   margin: 0;
   overflow: hidden;
-  /* Inner content inset only — shell itself is full-bleed (no max-width / auto margin gutter) */
+  /* Inner content inset only â€” shell itself is full-bleed (no max-width / auto margin gutter) */
   padding: clamp(0.65rem, 1.6vh, 1.15rem) clamp(1rem, 2.5vw, 2.25rem)
            clamp(0.65rem, 1.6vh, 1.15rem);
-  background:
-    radial-gradient(ellipse 55% 45% at 12% 18%, rgba(34,211,238,0.08) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 35% at 88% 70%, rgba(192,132,252,0.06) 0%, transparent 60%),
-    var(--bg);
+  background: var(--bg);
 }
 
-/* ──────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    HERO HEADER (left column)
-   ────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero-header {
   position: relative;
   top: auto;
@@ -105,16 +106,19 @@ body {
 
 .hero-bg-particles {
   position: absolute;
-  inset: 0;
+  inset: -8% -12% -8% -18%;
   pointer-events: none;
   overflow: hidden;
+  /* fig1 dotted world-map watermark (friend map inverted for cream paper) */
+  background-image: url("assets/hero-world-dots.png?v=20260713-fig1-zip3");
+  background-repeat: no-repeat;
+  background-position: left 8% center;
+  background-size: min(980px, 135%) auto;
+  opacity: 0.55;
 }
 
 .particle {
-  position: absolute;
-  border-radius: 50%;
-  animation: float linear infinite;
-  opacity: 0;
+  display: none; /* fig1 uses static map watermark only */
 }
 
 @keyframes float {
@@ -127,67 +131,42 @@ body {
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 900px;
+  max-width: 34rem;
   padding: 0.1rem 0.35rem 0.1rem 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.5rem;
+  gap: 1.15rem;
 }
 
-.hero-top { display: flex; justify-content: flex-start; }
-
-.project-badge {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(15, 23, 42, 0.85);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 9999px;
-  padding: 0.4rem 1.1rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 6px var(--accent); }
-  50% { box-shadow: 0 0 14px var(--accent), 0 0 22px rgba(34,211,238,0.45); }
-}
+.hero-top { display: none; }
 
 .hero-title {
   font-family: var(--font-h);
-  font-size: clamp(2.4rem, 6vw, 4.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: #fff;
+  /* fig1: large but not oversized; dark slate (#1c1d22) */
+  font-size: clamp(2.15rem, 4.6vw, 3.35rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.028em;
+  color: #1c1d22;
+  max-width: 18ch;
 }
 
+/* fig1: second line is muted slate-teal — not a gradient */
 .gradient-text {
-  background: linear-gradient(105deg, #22d3ee 0%, #67e8f9 28%, #a78bfa 68%, #e879f9 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+  color: #456672;
 }
 
 .hero-subtitle {
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-  color: var(--text-muted);
-  line-height: 1.7;
+  font-size: clamp(0.92rem, 1.35vw, 1.05rem);
+  color: #5a6e7e; /* sampled from fig1 subtitle ~rgb(90,110,127) */
+  line-height: 1.65;
   font-weight: 400;
-  max-width: 640px;
+  max-width: 34rem;
 }
 
 .data-source-badges {
@@ -207,7 +186,7 @@ body {
 .team-pipeline-link a {
   color: var(--text-dim);
   text-decoration: none;
-  border-bottom: 1px dotted rgba(148, 163, 184, 0.45);
+  border-bottom: 1px dotted rgba(71, 85, 105, 0.45);
   transition: color 0.15s var(--ease);
 }
 
@@ -216,15 +195,16 @@ body {
   border-bottom-color: var(--accent);
 }
 
+/* fig1 + teammate zip source tags (keep — these are the landing pills) */
 .ds-badge {
-  background: rgba(30, 58, 95, 0.55);
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  color: #e2e8f0;
+  background: #d5d9d4;
+  border: 1px solid #c0c8c3;
+  color: #344245;
   border-radius: 9999px;
-  padding: 0.3rem 0.85rem;
-  font-size: 0.72rem;
+  padding: 0.22rem 0.65rem;
+  font-size: 0.62rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 
 .scroll-hint {
@@ -240,9 +220,9 @@ body {
   50% { transform: translateY(6px); }
 }
 
-/* ──────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    GALLERY SECTION (right column)
-   ────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .gallery-section {
   padding: 0;
   max-width: none;
@@ -267,7 +247,7 @@ body {
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 0.2rem;
-  color: #fff;
+  color: var(--text);
 }
 
 .gallery-header p {
@@ -288,16 +268,17 @@ body {
   grid-column: auto;
 }
 
-/* ──────────────────────────────────────────────
-   VIZ CARDS — horizontal row (preview | info)
-   ────────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   VIZ CARDS â€” horizontal row (preview | info)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .viz-card {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  background: rgba(17, 24, 39, 0.72);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid rgba(26, 29, 36, 0.08);
+  box-shadow: 0 2px 10px rgba(26, 29, 36, 0.05);
+  border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.25s var(--ease), border-color 0.25s var(--ease),
@@ -309,20 +290,19 @@ body {
 
 .viz-card:hover {
   transform: translateY(-2px);
-  border-color: var(--border-accent);
-  background: rgba(22, 32, 48, 0.92);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.35), 0 0 0 1px rgba(34,211,238,0.12);
+  border-color: rgba(95, 153, 155, 0.35);
+  background: var(--surface-hover);
+  box-shadow: var(--shadow-md);
 }
 
 .card-preview {
   position: relative;
-  width: 180px;
-  flex: 0 0 180px;
+  width: 150px; flex: 0 0 150px;
   align-self: stretch;
   min-height: 0;
   overflow: hidden;
-  background: rgba(0,0,0,0.35);
-  border-right: 1px solid rgba(255,255,255,0.05);
+  background: rgba(0,0,0,0.02);
+  border-right: 1px solid rgba(0,0,0,0.05);
 }
 
 .viz-card.featured .card-preview {
@@ -340,12 +320,12 @@ body {
 .card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(34,211,238,0.45), rgba(168,85,247,0.4));
+  background: linear-gradient(135deg, rgba(21,48,78,0.7), rgba(68,136,140,0.6));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
   opacity: 0;
   transition: opacity 0.3s var(--ease);
   backdrop-filter: blur(2px);
@@ -356,20 +336,20 @@ body {
 }
 
 .overlay-icon {
-  width: 48px;
-  height: 48px;
+  width: 28px;
+  height: 28px;
   background: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 0.85rem;
   color: #0e7490;
   font-weight: 700;
 }
 
 .card-overlay span {
-  font-size: 0.85rem;
+  font-size: 0.58rem;
   font-weight: 600;
   color: white;
   letter-spacing: 0.05em;
@@ -377,7 +357,7 @@ body {
 }
 
 .card-info {
-  padding: 0.5rem 1.25rem;
+  padding: 1.25rem 1.75rem;
   flex: 1;
   min-width: 0;
   display: flex;
@@ -387,63 +367,35 @@ body {
 
 .viz-number {
   font-family: var(--font-h);
-  font-size: 0.65rem;
-  font-weight: 800;
-  color: var(--accent);
+  font-size: 0.9rem; font-weight: 900;
+  color: #15304E; /* friend zip --accent (exact color; do not use local teal --accent) */
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.12rem;
 }
 
 .card-info h3 {
   font-family: var(--font-h);
-  font-size: 0.95rem;
-  font-weight: 700;
-  margin-bottom: 0.15rem;
+  font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: #1A1D24;
   line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .card-info p {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  line-height: 1.3;
-  margin-bottom: 0.35rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size: 1rem; color: #1A1D24; line-height: 1.5; margin-bottom: 1.25rem;
 }
 
-.card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
+/* Per-card .card-tags not used on fig1 landing; source pills use .ds-badge above */
 
-.tag {
-  background: rgba(255,255,255,0.045);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: var(--text-muted);
-  border-radius: 9999px;
-  padding: 0.2rem 0.65rem;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-}
-
-/* ──────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    LOADING SCREEN
-   ────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .loading-screen {
   position: fixed;
   inset: 0;
   z-index: 900;
-  background: rgba(8,12,20,0.92);
+  background: rgba(244,243,238,0.92);
   backdrop-filter: blur(12px);
   display: none;
   align-items: center;
@@ -465,7 +417,7 @@ body {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  border: 3px solid rgba(34,211,238,0.2);
+  border: 3px solid rgba(95,153,155,0.25);
   border-top-color: var(--accent);
   animation: spin 0.8s linear infinite;
 }
@@ -478,9 +430,9 @@ body {
   font-weight: 500;
 }
 
-/* ──────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    FULLSCREEN VIZ PANEL
-   ────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .viz-panel {
   position: fixed;
   inset: 0;
@@ -510,7 +462,7 @@ body {
   gap: 1rem;
   padding: 1rem 2rem;
   border-bottom: 1px solid var(--border);
-  background: rgba(0,0,0,0.4);
+  background: rgba(255,255,255,0.82);
   backdrop-filter: blur(8px);
   flex-shrink: 0;
   flex-wrap: wrap;
@@ -573,7 +525,7 @@ body {
 .ctrl-label {
   font-size: 0.72rem;
   font-weight: 600;
-  color: var(--text-dim);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -594,7 +546,7 @@ body {
 .ctrl-select {
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%23cbd5e1' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23475569' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
   background-repeat: no-repeat;
   background-position: right 0.65rem center;
   background-size: 1.1rem;
@@ -611,10 +563,10 @@ body {
   box-shadow: 0 0 0 3px rgba(231, 159, 0, 0.25);
 }
 
-/* Ensure select options are readable in dark mode across all browsers */
+/* Ensure select options are readable in light mode across all browsers */
 select option {
-  background-color: #0e1420 !important;
-  color: #f0ebe3 !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
 }
 .ctrl-btn {
   background: var(--accent);
@@ -654,7 +606,7 @@ input[type="range"].ctrl-range {
   -webkit-appearance: none;
   width: 180px;
   height: 4px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(15,23,42,0.10);
   border-radius: 9999px;
   outline: none;
   cursor: pointer;
@@ -729,7 +681,7 @@ input[type="range"].ctrl-range::-webkit-slider-thumb:hover {
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  background: rgba(0,0,0,0.3);
+  background: rgba(255,255,255,0.72);
 }
 
 .data-credit {
@@ -757,12 +709,12 @@ input[type="range"].ctrl-range::-webkit-slider-thumb:hover {
   color: var(--text);
 }
 
-/* ──────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    D3 TOOLTIP
-   ────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .d3-tooltip {
   position: fixed;
-  background: rgba(10, 15, 28, 0.97);
+  background: rgba(255, 255, 255, 0.98);
   border: 1px solid var(--border-accent);
   border-radius: 8px;
   padding: 10px 14px;
@@ -770,7 +722,7 @@ input[type="range"].ctrl-range::-webkit-slider-thumb:hover {
   line-height: 1.55;
   color: var(--text);
   pointer-events: none;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  box-shadow: var(--shadow-lg);
   z-index: 9999;
   opacity: 0;
   max-width: 260px;
@@ -778,13 +730,13 @@ input[type="range"].ctrl-range::-webkit-slider-thumb:hover {
 }
 
 .d3-tooltip.visible { opacity: 1; }
-.d3-tooltip strong { display: block; font-size: 13px; margin-bottom: 4px; color: #e8d4b8; }
+.d3-tooltip strong { display: block; font-size: 13px; margin-bottom: 4px; color: #456672; }
 
-/* ──────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    AXIS / CHART ELEMENT STYLES
-   ────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .tick text { fill: var(--text-muted); font-family: var(--font-b); font-size: 10px; }
-.tick line, .domain { stroke: rgba(255,255,255,0.08); }
+.tick line, .domain { stroke: rgba(15,23,42,0.10); }
 
 /* Legend pill */
 .legend-pill {
@@ -802,18 +754,19 @@ input[type="range"].ctrl-range::-webkit-slider-thumb:hover {
   flex-shrink: 0;
 }
 
-/* ──────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    PREVIEW CANVAS FILLS
-   ────────────────────────────────────────────── */
-#preview-1 { background: linear-gradient(135deg, #0e1420 0%, rgba(34,211,238,0.12) 100%); }
-#preview-2 { background: linear-gradient(135deg, #0e1420 0%, rgba(232,121,249,0.10) 100%); }
-#preview-3 { background: linear-gradient(135deg, #0e1420 0%, rgba(86,180,233,0.10) 100%); }
-#preview-4 { background: linear-gradient(135deg, #0e1420 0%, rgba(0,158,115,0.10) 100%); }
-#preview-5 { background: linear-gradient(135deg, #0e1420 0%, rgba(167,139,250,0.12) 100%); }
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* fig1 card thumbs â€” warm cream washes (no purple) */
+#preview-1 { background: linear-gradient(135deg, #f4f3ee 0%, #eceae4 55%, rgba(95,153,155,0.14) 100%); }
+#preview-2 { background: linear-gradient(135deg, #f4f3ee 0%, #eceae4 55%, rgba(207,151,64,0.12) 100%); }
+#preview-3 { background: linear-gradient(135deg, #f4f3ee 0%, #eceae4 55%, rgba(176,116,113,0.12) 100%); }
+#preview-4 { background: linear-gradient(135deg, #f4f3ee 0%, #eceae4 55%, rgba(69,102,114,0.12) 100%); }
+#preview-5 { background: linear-gradient(135deg, #f4f3ee 0%, #eceae4 55%, rgba(95,153,155,0.14) 100%); }
 
-/* ──────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    RESPONSIVE
-   ────────────────────────────────────────────── */
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 980px) {
   .landing-shell {
     grid-template-columns: 1fr;
@@ -871,7 +824,7 @@ input[type="range"].ctrl-range::-webkit-slider-thumb:hover {
     height: 140px;
     min-height: 140px;
     border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(15,23,42,0.08);
   }
 }
 

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>River → Pool → Tap · Pipeline Map (team)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260713-fig1-cream">
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <div>
+          <h1>River → Pool → Tap</h1>
+          <p class="howto">From <code>dashboard/</code> run <code>python -m http.server 8080</code>, then open <code>http://127.0.0.1:8080/tools/river-pipeline/</code> (hard-refresh if styles look stale).</p>
+        </div>
+      </div>
+      <a class="back-link" href="../../index.html">← Dashboard landing</a>
+    </header>
+
+    <section class="controls" aria-label="Metric and graph selectors">
+      <div class="control-block">
+        <span class="control-label">Metric path</span>
+        <div class="chip-row" id="metric-chips"></div>
+      </div>
+      <div class="control-block">
+        <span class="control-label">Graph feed</span>
+        <div class="chip-row" id="graph-chips"></div>
+      </div>
+      <div class="control-block legend-block">
+        <span class="control-label">Legend</span>
+        <div class="legend-row">
+          <span class="lg live"><i></i> Live channel</span>
+          <span class="lg blocked"><i></i> Blocked / quarantine</span>
+          <span class="lg dashed"><i></i> Optional / gap path</span>
+          <span class="lg process"><i></i> Gate / rebuild</span>
+        </div>
+      </div>
+      <button type="button" class="reset-btn" id="reset-btn" title="Clear highlight">Reset</button>
+    </section>
+
+    <div class="workspace">
+      <main class="diagram-wrap">
+        <div class="lane-labels" aria-hidden="true">
+          <span>Rivers</span>
+          <span>Flows</span>
+          <span>Pools</span>
+          <span>Taps</span>
+        </div>
+        <svg id="pipeline-svg" role="img" aria-label="Interactive river pool tap pipeline diagram"></svg>
+        <div class="flow-hint" id="flow-hint">Click a metric or graph chip — or a node on the diagram — to light its path.</div>
+      </main>
+
+      <aside class="notes-panel" id="notes-panel">
+        <div class="notes-head">
+          <h2 id="notes-title">Pipeline overview</h2>
+          <p class="notes-sub" id="notes-sub">One owner per metric. Fix the river, then rebuild the pool, then trust the tap.</p>
+        </div>
+        <ul class="notes-list" id="notes-list"></ul>
+        <div class="india-callout" id="india-callout" hidden>
+          <h3>India GERD after 2020</h3>
+          <p id="india-callout-body"></p>
+          <ul id="india-options"></ul>
+        </div>
+        <footer class="notes-foot">
+          Facts from <code>RIVER_OWNERS.md</code>, pipeline report, GERD hierarchy, river→pool fix, explainer.
+        </footer>
+      </aside>
+    </div>
+  </div>
+
+  <script src="../../d3.v7.min.js"></script>
+  <script src="app.js?v=20260713-fig1-cream"></script>
+</body>
+</html>

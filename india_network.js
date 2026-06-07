@@ -320,9 +320,10 @@ const INDIA = (() => {
 
   function focusEdgeStyle(kind) {
     if (kind === "triad") {
-      return { color: "#E69F00", weight: 2, opacity: 0.9, dashArray: "6 4" };
+      return { color: "#D55E00", weight: 2.25, opacity: 0.88, dashArray: "6 4" };
     }
-    return { color: "#94a3b8", weight: 2.5, opacity: 0.92, dashArray: null };
+    // Partner star links — slate-blue readable on light basemap
+    return { color: "#0072B2", weight: 2.5, opacity: 0.85, dashArray: null };
   }
 
   function collabStats(node, net) {
@@ -528,7 +529,12 @@ const INDIA = (() => {
         canvas.height = canvas.offsetHeight || 220;
         const w = canvas.width;
         const h = canvas.height;
-        ctx.fillStyle = "#0f172a";
+        // Light wash — matches landing cards 01–04 (no dark navy thumb)
+        const bg = ctx.createLinearGradient(0, 0, w, h);
+        bg.addColorStop(0, "#e8eef5");
+        bg.addColorStop(0.55, "#e2e8f0");
+        bg.addColorStop(1, "rgba(14,116,144,0.16)");
+        ctx.fillStyle = bg;
         ctx.fillRect(0, 0, w, h);
         const hubs = cache.overview.nodes.filter((n) => n.is_hub && isValidCoord(n));
         const hubIds = new Set(hubs.map((n) => n.id));
@@ -548,8 +554,9 @@ const INDIA = (() => {
           ctx.beginPath();
           ctx.moveTo(s._px, s._py);
           ctx.lineTo(t._px, t._py);
-          ctx.strokeStyle = "rgba(204,121,167,0.45)";
-          ctx.lineWidth = edgeStrokeWeight(e.weight);
+          // Darker edges on light bg so the network still reads
+          ctx.strokeStyle = "rgba(15,23,42,0.28)";
+          ctx.lineWidth = Math.max(1, edgeStrokeWeight(e.weight));
           ctx.stroke();
         });
         hubs.forEach((n) => {
@@ -557,6 +564,9 @@ const INDIA = (() => {
           ctx.arc(n._px, n._py, 5, 0, Math.PI * 2);
           ctx.fillStyle = TIER_COLORS[n.tier] || "#0072B2";
           ctx.fill();
+          ctx.strokeStyle = "rgba(15,23,42,0.35)";
+          ctx.lineWidth = 1;
+          ctx.stroke();
         });
       })
       .catch(() => {});
@@ -638,7 +648,7 @@ const INDIA = (() => {
       maxBoundsViscosity: 0.85,
     });
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO',
       subdomains: "abcd",
       maxZoom: 19,
@@ -650,10 +660,10 @@ const INDIA = (() => {
       L.geoJSON(cache.outline, {
         interactive: false,
         style: {
-          color: "#64748b",
-          weight: 1.2,
-          fillColor: "#334155",
-          fillOpacity: 0.08,
+          color: "#94a3b8",
+          weight: 1.15,
+          fillColor: "#cbd5e1",
+          fillOpacity: 0.12,
         },
       }).addTo(map);
     }
@@ -1054,9 +1064,9 @@ const INDIA = (() => {
               [b.lat, b.lon],
             ],
             {
-              color: "#64748b",
+              color: "#475569",
               weight: overviewEdgeWeight(e.weight),
-              opacity: 0.55,
+              opacity: 0.72,
             }
           );
           line.addTo(edgeLayer);
@@ -1114,7 +1124,7 @@ const INDIA = (() => {
             fillColor: clusterStyle.fillColor,
             color: clusterStyle.color,
             weight: strokeW,
-            fillOpacity: VIZ5_REGION_BLEND ? 0.82 : 0.55,
+            fillOpacity: VIZ5_REGION_BLEND ? 0.72 : 0.5,
             interactive: true,
           });
           const mixNote =
@@ -1158,9 +1168,9 @@ const INDIA = (() => {
           const vis = L.circleMarker([node.lat, node.lon], {
             radius: r,
             fillColor: col,
-            color: isSelected ? "#ffffff" : "rgba(255,255,255,0.65)",
+            color: isSelected ? "#0f172a" : "rgba(15,23,42,0.45)",
             weight: isSelected ? 3 : 1.5,
-            fillOpacity: 0.9,
+            fillOpacity: 0.92,
             opacity: 1,
             interactive: false,
           }).addTo(markerLayer);
@@ -1227,9 +1237,9 @@ const INDIA = (() => {
         const isHover = nodeId === hoverId && !locked;
         layer.setRadius(isSelected ? r + 2 : r);
         layer.setStyle({
-          color: isSelected || isHover ? "#ffffff" : "rgba(255,255,255,0.65)",
+          color: isSelected || isHover ? "#0f172a" : "rgba(15,23,42,0.45)",
           weight: isSelected ? 3 : isHover ? 2 : 1.5,
-          fillOpacity: 0.9,
+          fillOpacity: 0.92,
           opacity: 1,
         });
       });

@@ -1,153 +1,222 @@
-/* graphs/g2/g2.css — Graph 2 only */
+/* graphs/g2/g2.css — Graph 2 only (light-mode surfaces) */
+/* Tokens: bg #f1f5f9 · surface #fff · text #0f172a · accent #0e7490 */
+
 #panel-body:has(.viz2-dashboard-container) {
-      overflow-y: auto !important;
-    }
-    
-    .viz2-dashboard-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      width: 100%;
-      height: 800px;
-      box-sizing: border-box;
-      padding: 0.5rem 2rem 1.5rem 1.5rem;
-    }
+  overflow-y: auto !important;
+  background: #f1f5f9;
+}
 
-    .viz2-top-row {
-      display: grid;
-      grid-template-columns: 1fr 290px;
-      gap: 1.5rem;
-      height: 580px;
-      flex-shrink: 0;
-    }
-    
-    .viz2-sidebar-card {
-      background: rgba(15, 23, 42, 0.4);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      box-sizing: border-box;
-      height: 100%;
-      overflow-y: auto;
-    }
-    
-    .viz2-sidebar-card::-webkit-scrollbar {
-      width: 4px;
-    }
-    .viz2-sidebar-card::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .viz2-sidebar-card::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.1);
-      border-radius: 2px;
-    }
-    
-    .viz2-graph-card {
-      background: rgba(15, 23, 42, 0.3);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
-      padding: 1rem;
-      box-sizing: border-box;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    
-    .viz2-bottom-card {
-      background: rgba(15, 23, 42, 0.4);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-      box-sizing: border-box;
-      width: 100%;
-      min-height: 120px;
-      flex-shrink: 0;
-    }
+.viz2-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  height: 800px;
+  box-sizing: border-box;
+  padding: 0.5rem 2rem 1.5rem 1.5rem;
+  background: #f1f5f9;
+  color: #0f172a;
+}
 
-    .viz2-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.25rem;
-    }
+.viz2-top-row {
+  display: grid;
+  grid-template-columns: 1fr 290px;
+  gap: 1.5rem;
+  height: 580px;
+  flex-shrink: 0;
+}
 
-    .viz2-metric-box {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      border-right: 1px solid rgba(255, 255, 255, 0.08);
-      padding-right: 1rem;
-      box-sizing: border-box;
-    }
+/* Right filters / sidebar — elevated white card */
+.viz2-sidebar-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: auto;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+  color: #0f172a;
+}
 
-    .viz2-metric-box:last-child {
-      border-right: none;
-    }
+.viz2-sidebar-card::-webkit-scrollbar {
+  width: 4px;
+}
+.viz2-sidebar-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+.viz2-sidebar-card::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.14);
+  border-radius: 2px;
+}
 
-    .viz2-metric-title {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-    }
+/* Chart paper — clean white surface (not muddy slate) */
+.viz2-graph-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  border-radius: 12px;
+  padding: 1rem;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
 
-    .viz2-metric-value {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--text);
-      line-height: 1.15;
-    }
+.viz2-graph-card > svg {
+  background: #ffffff;
+}
 
-    .viz2-metric-desc {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-    
-    .viz2-section-title {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--text-muted);
-      margin-bottom: 0.35rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 0.25rem;
-    }
+/* Bottom stats strip */
+.viz2-bottom-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 120px;
+  flex-shrink: 0;
+  color: #0f172a;
+}
 
-    .viz2-select-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
+.viz2-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+}
 
-    .viz2-select-wrapper label {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
+.viz2-metric-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border-right: 1px solid rgba(15, 23, 42, 0.10);
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
 
-    .viz2-reset-btn {
-      background: transparent;
-      border: none;
-      color: var(--accent3);
-      font-size: 0.68rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: underline;
-      padding: 0;
-      float: right;
-    }
-    .viz2-reset-btn:hover {
-      color: #fff;
-    }
+.viz2-metric-box:last-child {
+  border-right: none;
+}
+
+.viz2-metric-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #64748b;
+}
+
+.viz2-metric-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.15;
+}
+
+.viz2-metric-desc {
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.viz2-section-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #64748b;
+  margin-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.10);
+  padding-bottom: 0.25rem;
+}
+
+.viz2-select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.viz2-select-wrapper label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.viz2-reset-btn {
+  background: transparent;
+  border: none;
+  color: #0e7490;
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  float: right;
+}
+.viz2-reset-btn:hover {
+  color: #0f172a;
+}
+
+/* Quality Guide — white elevated card */
+.viz2-quality-guide {
+  position: absolute;
+  top: 1.5rem;
+  right: 2.5rem;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 10px;
+  padding: 0.55rem 0.8rem;
+  max-width: 300px;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.65rem;
+  line-height: 1.3;
+  color: #334155;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.10);
+}
+
+.viz2-quality-guide__title {
+  font-weight: 800;
+  color: #0f172a;
+  font-size: 0.72rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.10);
+  padding-bottom: 3px;
+}
+
+.viz2-country-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.2rem;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+
+/* Axis / grid chrome inside G2 SVG */
+.viz2-graph-card .y-axis .tick line {
+  stroke: #cbd5e1 !important;
+  stroke-dasharray: 3, 3;
+}
+.viz2-graph-card .y-axis .tick text,
+.viz2-graph-card .x-axis .tick text {
+  fill: #334155;
+}
+.viz2-graph-card .x-axis .domain,
+.viz2-graph-card .x-axis .tick line {
+  stroke: #cbd5e1 !important;
+}

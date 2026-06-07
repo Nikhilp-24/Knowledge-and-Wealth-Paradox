@@ -22,8 +22,8 @@
   display: flex;
   width: 100%;
   height: 100%;
-  background: #0f172a; /* Fallback for dark theme */
-  color: #f8fafc;
+  background: #f4f3ee; /* fig1 / fig2 cream paper */
+  color: #1a1d24;
   font-family: 'Plus Jakarta Sans', sans-serif;
   overflow: hidden;
 }
@@ -32,8 +32,8 @@
   width: 300px;
   min-width: 300px;
   height: 100%;
-  background: #0b1121;
-  border-right: 1px solid rgba(255,255,255,0.1);
+  background: #fafaf7;
+  border-right: 1px solid rgba(26, 29, 36, 0.10);
   padding: 12px 14px;
   display: flex;
   flex-direction: column;
@@ -54,16 +54,14 @@
 .viz1-title {
   margin: 0;
   font-size: 18px;
-  background: linear-gradient(90deg, #56B4E9, #0072B2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #456672;
   font-weight: 700;
 }
 
 .viz1-desc {
   margin: 4px 0 0 0;
   font-size: 12px;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1.35;
 }
 
@@ -84,7 +82,7 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #cbd5e1;
+  color: #334155;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -93,21 +91,44 @@
 
 .viz1-search-container {
   position: relative;
-  background: rgba(0,0,0,0.2);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.14);
   border-radius: 6px;
   padding: 6px 10px;
   display: flex;
   align-items: center;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 
 .viz1-search-input {
   background: transparent;
   border: none;
-  color: white;
+  color: #0f172a;
   width: 100%;
   outline: none;
   font-size: 12px;
+}
+
+.viz1-search-input::placeholder {
+  color: #64748b;
+}
+
+.viz1-search-btn {
+  background: rgba(14, 116, 144, 0.10);
+  border: 1px solid rgba(14, 116, 144, 0.32);
+  color: #456672;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.viz1-search-btn:hover {
+  background: rgba(14, 116, 144, 0.18);
 }
 
 .viz1-search-large-icon {
@@ -115,9 +136,9 @@
 }
 
 .viz1-play-btn {
-  background: rgba(86,180,233,0.1);
-  color: #56B4E9;
-  border: 1px solid rgba(86,180,233,0.2);
+  background: rgba(14,116,144,0.10);
+  color: #456672;
+  border: 1px solid rgba(14,116,144,0.28);
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
@@ -129,7 +150,7 @@
 }
 
 .viz1-play-btn:hover {
-  background: rgba(86,180,233,0.2);
+  background: rgba(14,116,144,0.18);
 }
 
 .viz1-stats-card {
@@ -139,12 +160,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.10);
   border-radius: 10px;
   padding: clamp(10px, 1.6vh, 20px) 14px;
   margin-top: 0;
   box-sizing: border-box;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
 }
 
 .viz1-stats-card--compact {
@@ -171,7 +193,7 @@
 }
 
 .viz1-stat b {
-  color: #f8fafc;
+  color: #0f172a;
   font-weight: 700;
   font-size: clamp(1.15rem, 2.8vh, 1.75rem);
   line-height: 1.15;
@@ -180,7 +202,7 @@
 }
 
 .viz1-stat span {
-  color: #94a3b8;
+  color: #475569;
   font-size: clamp(10px, 1.35vh, 12px);
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -193,19 +215,19 @@
   align-items: baseline;
   gap: clamp(6px, 1vh, 12px) 16px;
   font-size: clamp(12px, 1.55vh, 14px);
-  color: #94a3b8;
+  color: #475569;
   line-height: 1.45;
 }
 
 .viz1-stats-inline b {
-  color: #f8fafc;
+  color: #0f172a;
   font-weight: 700;
   font-size: clamp(1.15em, 2.1vh, 1.45em);
 }
 
 .viz1-stats-header {
   font-size: 12px;
-  color: #94a3b8;
+  color: #475569;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -218,12 +240,12 @@
   justify-content: space-between;
   font-size: 13px;
   margin-bottom: 6px;
-  color: #e2e8f0;
+  color: #475569;
 }
 
 .viz1-stats-row span:last-child {
   font-weight: bold;
-  color: #fff;
+  color: #0f172a;
 }
 
 .viz1-plot {
@@ -247,9 +269,9 @@
   overflow: hidden;
   transform: translate(-50%, -50%);
   box-sizing: border-box;
-  border: 1.5px solid rgba(255, 255, 255, 0.55);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-  background: #1e293b;
+  border: 1.5px solid rgba(15, 23, 42, 0.25);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
+  background: #ffffff;
   will-change: left, top, width, height;
 }
 
@@ -271,14 +293,14 @@
   z-index: 5;
   max-width: min(280px, 42%);
   padding: 0.75rem 0.9rem;
-  background: rgba(15, 23, 42, 0.92);
-  border: 1px solid rgba(86, 180, 233, 0.45);
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(14, 116, 144, 0.35);
   border-radius: 8px;
-  color: #f8fafc;
+  color: #0f172a;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 13px;
   line-height: 1.45;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
   pointer-events: none;
   backdrop-filter: blur(8px);
 }
@@ -288,12 +310,12 @@
 }
 
 .viz1-pinned-detail i {
-  color: #94a3b8;
+  color: #475569;
   font-style: italic;
 }
 
 .viz1-pinned-detail b {
-  color: #f8fafc;
+  color: #0f172a;
   font-weight: 700;
 }
 
@@ -328,9 +350,9 @@
 .viz1-specific-btn {
   position: static;
   z-index: auto;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(14,116,144,0.12);
+  color: #0f172a;
+  border: 1px solid rgba(14,116,144,0.25);
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
@@ -357,16 +379,17 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: clamp(4px, 1.2vh, 12px);
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.10);
   border-radius: 10px;
   padding: clamp(10px, 1.6vh, 20px) 14px;
-  color: #94a3b8;
+  color: #475569;
   font-size: clamp(12px, 1.65vh, 15px);
   width: 100%;
   line-height: 1.4;
   margin-top: 0;
   box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
 }
 
 .viz1-visual-guide--sidebar {
@@ -429,13 +452,13 @@
 }
 
 .viz1-encode-row strong {
-  color: #56B4E9;
+  color: #456672;
   margin-right: 6px;
   font-size: 1.08em;
 }
 
 .viz1-visual-guide h4 {
-  color: #f8fafc;
+  color: #456672;
   margin: 0;
   font-size: clamp(12px, 1.55vh, 14px);
   flex: 0 0 auto;

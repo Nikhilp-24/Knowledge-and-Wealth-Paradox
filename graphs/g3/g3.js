@@ -26,15 +26,15 @@ function renderViz3(body) {
                     <select id="countrySelect" class="styled-select" style="flex: 1;">
                         <option value="GLOBAL">Global (All Countries)</option>
                     </select>
-                    <button type="button" id="btnClearFilter" class="btn-control" title="Clear filter (Esc)" style="flex-shrink: 0; padding: 0.45rem 0.75rem; font-size: 0.8rem; font-family: Outfit, sans-serif; color: #cbd5e1;">
+                    <button type="button" id="btnClearFilter" class="btn-control" title="Clear filter (Esc)" style="flex-shrink: 0; width: auto; height: auto; padding: 0.45rem 0.75rem; font-size: 0.8rem; font-family: Outfit, sans-serif; color: #0f172a; border-radius: 8px;">
                         Clear
                     </button>
                 </div>
             </div>
-            <p id="viz3HonestyNote" class="viz3-honesty-note" style="margin: 0; font-size: 0.78rem; line-height: 1.45; color: #94a3b8; max-width: 72rem;">
-                Counts are <strong style="color:#cbd5e1;font-weight:600;">OpenAlex concept-tagged works</strong> (retrospective taxonomy from titles/abstracts) — not the year a field was “born.” Race = seven <strong style="color:#cbd5e1;font-weight:600;">level-3</strong> peers (same college abstraction; cross-domain by design — e.g. infectious disease vs robotics). Shared scrubber from 1974; no fake milestone floors.
+            <p id="viz3HonestyNote" class="viz3-honesty-note" style="margin: 0; font-size: 0.78rem; line-height: 1.45; color: #475569; max-width: 72rem;">
+                Counts are <strong style="color:#0f172a;font-weight:600;">OpenAlex concept-tagged works</strong> (retrospective taxonomy from titles/abstracts) — not the year a field was “born.” Race = seven <strong style="color:#0f172a;font-weight:600;">level-3</strong> peers (same college abstraction; cross-domain by design — e.g. infectious disease vs robotics). Shared scrubber from 1974; no fake milestone floors.
             </p>
-            <p id="viz3LevelNote" class="viz3-honesty-note" style="margin: 0; font-size: 0.72rem; line-height: 1.4; color: #64748b; max-width: 72rem;">
+            <p id="viz3LevelNote" class="viz3-honesty-note" style="margin: 0; font-size: 0.72rem; line-height: 1.4; color: #475569; max-width: 72rem;">
                 Metaphor: school = broader OpenAlex levels (e.g. L1); college = finer levels (L2/L3). This race stays college-level only — same field is not required.
             </p>
 
@@ -95,7 +95,7 @@ function renderViz3(body) {
                 <div class="race-header">
                     <div>
                         <h3 id="raceTitle">Top Research topics</h3>
-                        <p id="raceSubtitle" style="margin: 0.2rem 0 0; font-size: 0.72rem; color: #94a3b8; font-weight: 400;">OpenAlex L3 concepts · retrospective tags · same-level race from 1974</p>
+                        <p id="raceSubtitle" style="margin: 0.2rem 0 0; font-size: 0.72rem; color: #475569; font-weight: 400;">OpenAlex L3 concepts · retrospective tags · same-level race from 1974</p>
                     </div>
                     <div id="yearIndicator" class="year-display">1974</div>
                 </div>
@@ -193,11 +193,12 @@ function renderViz3(body) {
             "Supervised learning": 'var(--g-sl)'
         };
 
+        /* Okabe–Ito poles; yellow/sky slightly deepened so they don't vibrate on white */
         const topicColors = {
             "Infectious disease": '#CC79A7',
             "Robotics": '#E69F00',
-            "Quantum computer": '#F0E442',
-            "CRISPR": '#56B4E9',
+            "Quantum computer": '#C4A000',
+            "CRISPR": '#3D9BC7',
             "Energy storage": '#009E73',
             "Photovoltaics": '#D55E00',
             "Supervised learning": '#0072B2'
@@ -500,7 +501,7 @@ function renderViz3(body) {
                     }),
                     borderColor: topicColors[topic],
                     backgroundColor: topicColors[topic] + '1A', // transparent fill
-                    borderWidth: 2,
+                    borderWidth: 2.5,
                     pointRadius: 0,
                     pointHoverRadius: 6,
                     tension: 0.1,
@@ -518,6 +519,7 @@ function renderViz3(body) {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    color: '#0f172a',
                     interaction: {
                         mode: 'index',
                         intersect: false,
@@ -526,27 +528,29 @@ function renderViz3(body) {
                         legend: {
                             position: 'bottom',
                             labels: {
-                                color: '#94a3b8',
+                                color: '#0f172a',
                                 font: {
                                     family: 'Outfit',
-                                    size: 11
+                                    size: 12,
+                                    weight: '500'
                                 },
-                                boxWidth: 10,
-                                padding: 15
+                                boxWidth: 12,
+                                padding: 16,
+                                usePointStyle: false
                             }
                         },
                         tooltip: {
-                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            titleColor: '#f8fafc',
+                            backgroundColor: '#ffffff',
+                            titleColor: '#0f172a',
                             titleFont: {
                                 family: 'Outfit',
                                 weight: 600
                             },
-                            bodyColor: '#f8fafc',
+                            bodyColor: '#334155',
                             bodyFont: {
                                 family: 'Outfit'
                             },
-                            borderColor: 'rgba(255, 255, 255, 0.1)',
+                            borderColor: '#e2e8f0',
                             borderWidth: 1,
                             padding: 10,
                             callbacks: {
@@ -566,11 +570,11 @@ function renderViz3(body) {
                     scales: {
                         x: {
                             grid: {
-                                color: 'rgba(255, 255, 255, 0.05)',
+                                color: 'rgba(15, 23, 42, 0.08)',
                                 drawTicks: false
                             },
                             ticks: {
-                                color: '#94a3b8',
+                                color: '#334155',
                                 font: {
                                     family: 'Outfit'
                                 }
@@ -579,11 +583,11 @@ function renderViz3(body) {
                         y: {
                             grace: '30%',
                             grid: {
-                                color: 'rgba(255, 255, 255, 0.05)',
+                                color: 'rgba(15, 23, 42, 0.08)',
                                 drawTicks: false
                             },
                             ticks: {
-                                color: '#94a3b8',
+                                color: '#334155',
                                 font: {
                                     family: 'Outfit'
                                 },
@@ -804,8 +808,8 @@ function renderViz3(body) {
 
                     footerValue = top5.length > 0 
                         ? `<details style="cursor: pointer; max-width: 180px; position: relative;">
-                               <summary style="font-size: 0.9em; outline: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 2px 5px; user-select: none; display: flex; align-items: center; justify-content: space-between;"><span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${summaryText}</span><span style="font-size: 0.7em; margin-left: 6px;">▼</span></summary>
-                               <div style="position: absolute; bottom: 100%; right: 0; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 6px; font-size: 0.85em; color: #cbd5e1; margin-bottom: 4px; width: max-content; z-index: 10; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">${optionsHtml}</div>
+                               <summary style="font-size: 0.9em; outline: none; border: 1px solid #e2e8f0; border-radius: 4px; padding: 2px 5px; user-select: none; display: flex; align-items: center; justify-content: space-between; background: #f8fafc; color: #0f172a;"><span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${summaryText}</span><span style="font-size: 0.7em; margin-left: 6px;">▼</span></summary>
+                               <div style="position: absolute; bottom: 100%; right: 0; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 6px; font-size: 0.85em; color: #0f172a; margin-bottom: 4px; width: max-content; z-index: 10; box-shadow: 0 4px 12px rgba(15,23,42,0.12);">${optionsHtml}</div>
                            </details>` 
                         : 'None';
                 } else if (filter.type === 'region') {
@@ -819,8 +823,8 @@ function renderViz3(body) {
                     const summaryText = top5.length > 0 ? `1. ${top5[0].name}` : 'Top 5';
                     footerValue = top5.length > 0
                         ? `<details style="cursor: pointer; max-width: 180px; position: relative;">
-                               <summary style="font-size: 0.9em; outline: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 2px 5px; user-select: none; display: flex; align-items: center; justify-content: space-between;"><span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${summaryText}</span><span style="font-size: 0.7em; margin-left: 6px;">▼</span></summary>
-                               <div style="position: absolute; bottom: 100%; right: 0; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 6px; font-size: 0.85em; color: #cbd5e1; margin-bottom: 4px; width: max-content; z-index: 10; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">${optionsHtml}</div>
+                               <summary style="font-size: 0.9em; outline: none; border: 1px solid #e2e8f0; border-radius: 4px; padding: 2px 5px; user-select: none; display: flex; align-items: center; justify-content: space-between; background: #f8fafc; color: #0f172a;"><span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${summaryText}</span><span style="font-size: 0.7em; margin-left: 6px;">▼</span></summary>
+                               <div style="position: absolute; bottom: 100%; right: 0; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 6px; font-size: 0.85em; color: #0f172a; margin-bottom: 4px; width: max-content; z-index: 10; box-shadow: 0 4px 12px rgba(15,23,42,0.12);">${optionsHtml}</div>
                            </details>`
                         : 'None';
                 } else {

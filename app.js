@@ -56,7 +56,7 @@ function hideTip() { tip.classList.remove("visible"); }
 
 // ─── VIZ META ──────────────────────────────────────────────
 const VIZ_META = {
-  1: { title: "High-Dimensional Peer Clustering",             num: "01", credit: "World Bank (GDP, GERD, journal articles) · SCImago Country Rank (H-index; Documents fallback) · UMAP" },
+  1: { title: "High-Dimensional Peer Clustering",             num: "01", credit: "World Bank (GDP, GERD, journal articles) · OpenAlex cohort H (pubs in year Y) · SCImago Documents fallback · UMAP — not SCImago stock H" },
   2: { title: "Global Quality Shift (Q1 vs Q4)",              num: "02", credit: "SCImago Journal Rank · Q1/Q4 by journal publisher country (uncapped ratio)" },
   3: { title: "Top Research topics",                          num: "03", credit: "OpenAlex concept-tagged works (retrospective taxonomy) · shared 1974 window · AI = Machine learning C119857082 · Quantum = C58053490 — see docs/G3_HISTORICAL_HONESTY.md" },
   4: { title: "The Collaboration Premium",                    num: "04", credit: "OpenAlex · domestic vs international cites · dumbbell · 73 countries × 2010–2024" },
@@ -64,151 +64,25 @@ const VIZ_META = {
 };
 
 // ─── Preview Canvas Drawings ───────────────────────────────
+// Landing card-previews are inline SVG from friend zip (verbatim).
 window.addEventListener("load", () => {
   // Keep landing G4 country count in sync with live pool meta
   const g4CountEl = document.getElementById("g4-country-count");
   if (g4CountEl && typeof VIZ4_META !== "undefined" && VIZ4_META.n_countries) {
     g4CountEl.textContent = String(VIZ4_META.n_countries);
   }
-  drawPreview1(); drawPreview2(); drawPreview3(); drawPreview4();
-  INDIA.ensureLoaded().then(() => INDIA.drawCardPreview("preview-5")).catch(() => drawPreview5());
-  spawnParticles();
+  // No canvas thumb drawing — friend zip uses inline SVG + card-overlay.
 });
 
-function drawPreview1() {
-  const c = document.getElementById("preview-1");
-  const ctx = c.getContext("2d");
-  c.width = c.offsetWidth; c.height = c.offsetHeight;
-  const w = c.width, h = c.height;
-  const bubbles = [
-    {x:0.3,y:0.3,r:15,col:"rgba(0,158,115,0.7)"},{x:0.4,y:0.25,r:25,col:"rgba(0,158,115,0.7)"},
-    {x:0.7,y:0.6,r:20,col:"rgba(226,168,85,0.6)"},{x:0.6,y:0.7,r:18,col:"rgba(226,168,85,0.6)"},
-    {x:0.8,y:0.3,r:12,col:"rgba(251,113,133,0.6)"},{x:0.2,y:0.8,r:30,col:"rgba(251,191,36,0.6)"}
-  ];
-  bubbles.forEach(b => {
-    ctx.beginPath(); ctx.arc(b.x*w, b.y*h, b.r, 0, Math.PI*2);
-    ctx.fillStyle = b.col; ctx.fill();
-    ctx.strokeStyle = "rgba(255,255,255,0.15)"; ctx.lineWidth = 1; ctx.stroke();
-  });
-}
-
-function drawPreview2() {
-  const c = document.getElementById("preview-2");
-  const ctx = c.getContext("2d");
-  c.width = c.offsetWidth; c.height = c.offsetHeight;
-  const w = c.width, h = c.height;
-
-  // Draw light gridlines
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
-  ctx.lineWidth = 1;
-  for (let y = h * 0.2; y <= h * 0.8; y += h * 0.2) {
-    ctx.beginPath();
-    ctx.moveTo(w * 0.1, y);
-    ctx.lineTo(w * 0.9, y);
-    ctx.stroke();
-  }
-
-  // Draw ground line
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
-  ctx.beginPath();
-  ctx.moveTo(w * 0.1, h * 0.8);
-  ctx.lineTo(w * 0.9, h * 0.8);
-  ctx.stroke();
-
-  // Draw 5 pairs of bars (Grouped preview)
-  const numGroups = 5;
-  const groupW = (w * 0.8) / numGroups;
-  const barW = groupW * 0.35;
-  const gap = groupW * 0.1;
-
-  for (let i = 0; i < numGroups; i++) {
-    const x0 = w * 0.1 + i * groupW + gap;
-    
-    // Alt heights
-    const hQ1 = h * (0.2 + Math.random() * 0.4);
-    const hQ4 = h * (0.1 + Math.random() * 0.3);
-
-    // Q1 bar (cyan) vs Q4 bar (magenta) — landing thumbnail matches screenshot chrome
-    ctx.fillStyle = "#22d3ee";
-    ctx.fillRect(x0, h * 0.8 - hQ1, barW, hQ1);
-
-    ctx.fillStyle = "#e879f9";
-    ctx.fillRect(x0 + barW, h * 0.8 - hQ4, barW, hQ4);
-  }
-}
-
-function drawPreview3() {
-  const c = document.getElementById("preview-3");
-  const ctx = c.getContext("2d");
-  c.width = c.offsetWidth; c.height = c.offsetHeight;
-  const w = c.width, h = c.height;
-  const bars = [0.8,0.6,0.5,0.4];
-  const colors = ["#f59e0b","#22d3ee","#a78bfa","#e879f9"];
-  bars.forEach((bw, i) => {
-    const bh = 15, by = 20 + i * 25;
-    ctx.fillStyle = colors[i];
-    ctx.fillRect(20, by, bw*(w-40), bh);
-  });
-}
-
-function drawPreview4() {
-  const c = document.getElementById("preview-4");
-  const ctx = c.getContext("2d");
-  c.width = c.offsetWidth; c.height = c.offsetHeight;
-  const w = c.width, h = c.height;
-  // Dumbbell preview (domestic orange / intl blue — Okabe-Ito poles)
-  for (let i = 0; i < 4; i++) {
-    const y = Math.round(h * (0.18 + i * 0.2));
-    const x1 = w * (0.18 + Math.random() * 0.15);
-    const x2 = w * (0.45 + Math.random() * 0.35);
-    ctx.strokeStyle = "rgba(148,163,184,0.55)";
-    ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke();
-    ctx.fillStyle = "#D55E00";
-    ctx.beginPath(); ctx.arc(x1, y, 5, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = "#009E73";
-    ctx.beginPath(); ctx.arc(x2, y, 5, 0, Math.PI * 2); ctx.fill();
-  }
-}
-
-function drawPreview5() {
-  const c = document.getElementById("preview-5");
-  const ctx = c.getContext("2d");
-  c.width = c.offsetWidth; c.height = c.offsetHeight;
-  const w = c.width, h = c.height;
-  const outline = [
-    [0.38,0.05],[0.55,0.03],[0.72,0.15],[0.78,0.28],[0.65,0.55],
-    [0.55,0.75],[0.48,0.92],[0.42,0.75],[0.30,0.55],[0.22,0.35],[0.28,0.15],[0.38,0.05]
-  ];
-  ctx.beginPath();
-  outline.forEach(([px,py], i) => i===0 ? ctx.moveTo(px*w, py*h) : ctx.lineTo(px*w, py*h));
-  ctx.closePath();
-  ctx.fillStyle = "rgba(245,158,11,0.08)";
-  ctx.fill();
-  ctx.strokeStyle = "rgba(245,158,11,0.3)";
-  ctx.lineWidth = 1.5;
-  ctx.setLineDash([3,3]);
-  ctx.stroke();
-  ctx.setLineDash([]);
-}
+function drawPreview1() {}
+function drawPreview2() {}
+function drawPreview3() {}
+function drawPreview4() {}
+function drawPreview5() {}
 
 // ─── Particle Background ───────────────────────────────────
 function spawnParticles() {
-  const container = document.getElementById("hero-particles");
-  for (let i = 0; i < 30; i++) {
-    const p = document.createElement("div");
-    p.className = "particle";
-    const size = 2 + Math.random() * 4;
-    const col = ["#22d3ee","#56B4E9","#a78bfa","#e879f9"][Math.floor(Math.random()*4)];
-    Object.assign(p.style, {
-      width: size + "px", height: size + "px",
-      left: (Math.random() * 100) + "%",
-      background: col,
-      animationDuration: (8 + Math.random() * 14) + "s",
-      animationDelay: (Math.random() * 12) + "s"
-    });
-    container.appendChild(p);
-  }
+  // fig1: static dotted world-map watermark only (CSS on #hero-particles)
 }
 
 // ─── Open / Close Viz Panel ────────────────────────────────
@@ -232,6 +106,7 @@ window.openViz = async function(id) {
   body.innerHTML = "";
 
   panel.classList.add("active");
+  panel.dataset.viz = String(id);
 
   await sleep(250);
   if (id === 5) {
@@ -259,6 +134,7 @@ window.closeViz = function() {
 
   const panel = document.getElementById("viz-panel");
   panel.classList.remove("active");
+  delete panel.dataset.viz;
 };
 
 window.navigateViz = function(dir) {

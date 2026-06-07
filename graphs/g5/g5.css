@@ -16,7 +16,7 @@
   flex-direction: column;
   gap: 1.25rem;
   overflow-y: auto;
-  background: rgba(0,0,0,0.15);
+  background: rgba(241,245,249,0.95);
 }
 
 .india-sidebar h4 {
@@ -36,7 +36,7 @@
 .inst-details { display: none; flex-direction: column; gap: 1rem; }
 .inst-details.shown { display: flex; }
 
-.inst-name { font-family: var(--font-h); font-size: 1.05rem; font-weight: 700; }
+.inst-name { font-family: var(--font-h); font-size: 1.05rem; font-weight: 700; color: var(--text); }
 .inst-tier {
   display: inline-block;
   padding: 0.2rem 0.65rem;
@@ -49,7 +49,7 @@
 }
 
 .tier-premier { background: rgba(0,114,178,0.15); color: #0072B2; border: 1px solid rgba(0,114,178,0.3); }
-.tier-central { background: rgba(86,180,233,0.15); color: #56B4E9; border: 1px solid rgba(86,180,233,0.3); }
+.tier-central { background: rgba(86,180,233,0.15); color: #0284c7; border: 1px solid rgba(86,180,233,0.3); }
 .tier-private { background: rgba(230,159,0,0.15); color: #E69F00; border: 1px solid rgba(230,159,0,0.3); }
 
 .inst-stats {
@@ -143,24 +143,26 @@
   width: 100%;
   height: 100%;
   min-height: calc(100vh - 140px);
-  background: #0f172a;
+  background: #ffffff;
   z-index: 1;
 }
 
 .leaflet-container {
   font-family: var(--font-b);
-  background: #0f172a;
+  background: #ffffff;
 }
 
 .india-detail-panel {
   position: relative;
   border-left: 1px solid var(--border);
-  background: rgba(0, 0, 0, 0.25);
+  background: #ffffff;
+  color: var(--text);
   padding: 1.25rem 1.1rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  box-shadow: -6px 0 18px rgba(15, 23, 42, 0.04);
 }
 
 .india-detail-panel h4 {
@@ -168,6 +170,7 @@
   font-size: 1.05rem;
   font-weight: 700;
   margin: 0;
+  color: var(--text);
 }
 
 .india-panel-intro {
@@ -179,14 +182,22 @@
 
 .india-lecture-callouts {
   font-size: 0.78rem;
-  color: #94a3b8;
-  line-height: 1.5;
-  border-left: 3px solid rgba(231, 159, 0, 0.45);
-  padding-left: 0.65rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  border-left: 3px solid rgba(230, 159, 0, 0.65);
+  padding: 0.55rem 0.7rem;
+  background: #f8fafc;
+  border-radius: 0 8px 8px 0;
 }
 
 .india-lecture-callouts p {
   margin: 0 0 0.45rem;
+  color: var(--text-muted);
+}
+
+.india-lecture-callouts strong {
+  color: var(--text);
+  font-weight: 700;
 }
 
 .india-tier-strip-panel {
@@ -202,11 +213,12 @@
   padding: 0;
   border: none;
   font-size: 10px;
+  color: var(--text-muted);
 }
 
 .india-preview-badge {
   font-size: 0.72rem;
-  color: #56B4E9;
+  color: #0369a1;
   margin: 0 0 0.5rem;
 }
 
@@ -218,28 +230,32 @@
   height: 28px;
   border: none;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #cbd5e1;
+  background: rgba(15, 23, 42, 0.08);
+  color: #334155;
   font-size: 1.2rem;
   cursor: pointer;
 }
 
+.india-panel-close:hover {
+  background: rgba(15, 23, 42, 0.14);
+  color: #0f172a;
+}
 
 .india-data-note {
   font-size: 0.75rem;
-  color: #E69F00;
+  color: #b45309;
   line-height: 1.45;
   margin: 0.25rem 0 0.5rem;
 }
 
 .india-focus-note {
   font-size: 0.78rem;
-  color: #cbd5e1;
+  color: var(--text);
   line-height: 1.45;
   margin: 0.5rem 0 0.75rem;
   padding: 0.5rem 0.6rem;
-  background: rgba(15, 23, 42, 0.65);
-  border-left: 3px solid #56B4E9;
+  background: #f1f5f9;
+  border-left: 3px solid #0072B2;
   border-radius: 4px;
 }
 
@@ -249,10 +265,12 @@
 }
 
 .india-hub-label span {
-  color: #cbd5e1;
+  color: #0f172a;
   font-size: 10px;
   font-weight: 600;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.95),
+    0 1px 2px rgba(255, 255, 255, 0.9);
   white-space: nowrap;
 }
 
@@ -268,28 +286,33 @@
   width: 100%;
   padding: 0.65rem 1rem;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(10px);
-  color: #f0ebe3;
+  color: var(--text);
   font-family: var(--font-b);
   font-size: 0.9rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-md);
   outline: none;
 }
 
+.india-search-input::placeholder {
+  color: #64748b;
+}
+
 .india-search-input:focus {
-  border-color: rgba(231, 159, 0, 0.6);
+  border-color: rgba(14, 116, 144, 0.55);
+  box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.15);
 }
 
 .india-search-results {
   margin-top: 6px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: rgba(15, 23, 42, 0.96);
+  background: #ffffff;
   backdrop-filter: blur(12px);
   overflow: hidden;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-lg);
 }
 
 .india-search-hit {
@@ -299,9 +322,9 @@
   width: 100%;
   padding: 0.55rem 0.85rem;
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
   background: transparent;
-  color: #e2e8f0;
+  color: var(--text);
   font-family: var(--font-b);
   font-size: 0.82rem;
   text-align: left;
@@ -310,19 +333,18 @@
 
 .india-search-hit span {
   font-size: 0.72rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin-top: 2px;
 }
 
 .india-search-hit:hover {
-  background: rgba(231, 159, 0, 0.15);
+  background: rgba(14, 116, 144, 0.08);
 }
-
 
 .india-search-empty {
   padding: 0.65rem 0.85rem;
   font-size: 0.82rem;
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 .india-map-toolbar {
@@ -338,19 +360,25 @@
 .india-tool-btn {
   padding: 0.45rem 0.7rem;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(15, 23, 42, 0.9);
-  color: #e2e8f0;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--text);
   font-family: var(--font-b);
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.india-tool-btn:hover {
+  border-color: rgba(14, 116, 144, 0.35);
+  background: #f8fafc;
 }
 
 .india-tool-btn.is-on {
-  border-color: rgba(245, 158, 11, 0.65);
-  background: rgba(245, 158, 11, 0.18);
-  color: #fde68a;
+  border-color: rgba(213, 94, 0, 0.55);
+  background: rgba(230, 159, 0, 0.14);
+  color: #9a3412;
 }
 
 .india-map-legend {
@@ -361,26 +389,28 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 0.5rem 0.65rem;
+  padding: 0.55rem 0.7rem;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.96);
   font-family: var(--font-b);
   font-size: 0.72rem;
-  color: #cbd5e1;
+  color: var(--text);
+  box-shadow: var(--shadow-md);
 }
 
 .india-map-legend span {
   display: flex;
   align-items: center;
   gap: 6px;
+  color: var(--text);
 }
 
 .india-map-legend i {
   display: inline-block;
   width: 22px;
   height: 0;
-  border-top: 2.5px solid #94a3b8;
+  border-top: 2.5px solid #475569;
 }
 
 .india-map-legend i.india-leg-dot {
@@ -408,9 +438,9 @@
   height: 14px;
   border-radius: 999px;
   border-top: none;
-  background: rgba(15, 23, 42, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  color: #f8fafc;
+  background: #f1f5f9;
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  color: #0f172a;
   font-style: normal;
   font-size: 0.58rem;
   font-weight: 700;
@@ -418,13 +448,17 @@
   flex-shrink: 0;
 }
 
+.india-leg-star i {
+  border-top-color: #0072B2;
+}
+
 .india-leg-triad i {
   border-top-style: dashed;
-  border-top-color: #E69F00;
+  border-top-color: #D55E00;
 }
 
 .india-cluster-mix {
-  color: #cbd5e1;
+  color: var(--text-muted);
   font-size: 0.9em;
 }
 
@@ -441,16 +475,16 @@
   height: 1.4rem;
   padding: 0 5px;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(15, 23, 42, 0.22);
+  color: #0f172a;
   font-size: 0.7rem;
   font-weight: 700;
   font-family: var(--font-b);
   line-height: 1;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
   white-space: nowrap;
 }
 
@@ -459,12 +493,12 @@
   margin: 0.85rem 0 0.35rem;
   font-size: 0.82rem;
   font-weight: 700;
-  color: #e2e8f0;
+  color: var(--text);
 }
 
 .india-triad-sub {
   font-weight: 500;
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.72rem;
 }
 
@@ -480,7 +514,7 @@
 .india-triad-list li {
   margin: 0;
   padding: 0;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+  border-bottom: 1px dashed rgba(15, 23, 42, 0.08);
 }
 
 .india-partner-hit,
@@ -492,7 +526,7 @@
   padding: 0.4rem 0.35rem;
   border: none;
   background: transparent;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-family: var(--font-b);
   font-size: 0.82rem;
   text-align: left;
@@ -502,26 +536,26 @@
 
 .india-partner-hit:hover,
 .india-triad-hit:hover {
-  background: rgba(231, 159, 0, 0.12);
-  color: #e2e8f0;
+  background: rgba(14, 116, 144, 0.08);
+  color: var(--text);
 }
 
 .india-partner-row.is-active .india-partner-hit,
 .india-triad-row.is-active .india-triad-hit {
-  background: rgba(86, 180, 233, 0.12);
-  color: #f0ebe3;
+  background: rgba(0, 114, 178, 0.10);
+  color: var(--text);
 }
 
 .india-partner-hit strong,
 .india-triad-hit strong {
-  color: #56B4E9;
+  color: #0369a1;
   font-weight: 700;
 }
 
 .india-triad-block {
   margin-top: 0.5rem;
   padding-top: 0.35rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(15, 23, 42, 0.10);
 }
 
 .india-node-hover-tip {
@@ -545,9 +579,9 @@
   max-width: min(280px, calc(100% - 16px));
   width: 260px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(15, 23, 42, 0.97);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
   /* Placement is collision-aware via JS (no fixed translate that clips at top) */
 }
@@ -559,8 +593,8 @@
 .india-cluster-picker-head {
   flex-shrink: 0;
   padding: 0.55rem 0.7rem 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(15, 23, 42, 0.98);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  background: #f8fafc;
 }
 
 .india-cluster-picker-title {
@@ -568,7 +602,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin-bottom: 0.4rem;
 }
 
@@ -577,20 +611,20 @@
   box-sizing: border-box;
   padding: 0.4rem 0.55rem;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(2, 6, 23, 0.75);
-  color: #e2e8f0;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  color: var(--text);
   font-family: var(--font-b);
   font-size: 0.8rem;
   outline: none;
 }
 
 .india-cluster-picker-search:focus {
-  border-color: rgba(86, 180, 233, 0.55);
+  border-color: rgba(0, 114, 178, 0.55);
 }
 
 .india-cluster-picker-search::placeholder {
-  color: #64748b;
+  color: #94a3b8;
 }
 
 .india-cluster-picker-list {
@@ -605,7 +639,7 @@
 
 .india-cluster-picker-empty {
   padding: 0.65rem 0.75rem;
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.78rem;
 }
 
@@ -617,7 +651,7 @@
   padding: 0.45rem 0.75rem;
   border: none;
   background: transparent;
-  color: #e2e8f0;
+  color: var(--text);
   font-family: var(--font-b);
   font-size: 0.8rem;
   text-align: left;
@@ -626,27 +660,26 @@
 
 .india-cluster-picker button span {
   font-size: 0.68rem;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .india-cluster-picker button:hover {
-  background: rgba(231, 159, 0, 0.15);
+  background: rgba(14, 116, 144, 0.08);
 }
 
 .india-leaflet-tip {
-  background: rgba(15, 23, 42, 0.95) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #e2e8f0 !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  border: 1px solid rgba(15, 23, 42, 0.14) !important;
+  color: var(--text) !important;
   font-family: var(--font-b) !important;
   font-size: 12px !important;
   border-radius: 8px !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: var(--shadow-md) !important;
 }
 
 .india-leaflet-tip::before {
-  border-top-color: rgba(15, 23, 42, 0.95) !important;
+  border-top-color: rgba(255, 255, 255, 0.98) !important;
 }
-
 
 .india-tier-strip {
   display: flex;
@@ -656,19 +689,20 @@
   border-top: 1px solid var(--border);
   font-size: 11px;
   color: var(--text-muted);
-  background: rgba(0,0,0,0.12);
+  background: #f8fafc;
 }
 
-.india-tier-chip { display: flex; align-items: center; gap: 0.4rem; }
+.india-tier-chip { display: flex; align-items: center; gap: 0.4rem; color: var(--text-muted); }
+.india-tier-chip strong { color: var(--text); }
 .india-tier-chip .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
 .india-footnote {
   margin: 0;
   padding: 0.45rem 1rem 0.75rem;
   font-size: 10px;
-  color: var(--text-dim);
+  color: var(--text-muted);
   line-height: 1.45;
-  border-top: 1px dashed rgba(255,255,255,0.06);
+  border-top: 1px dashed rgba(15,23,42,0.10);
 }
 
 .india-sidebar-tabs {
@@ -681,7 +715,7 @@
   padding: 0.45rem 0.65rem;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: transparent;
+  background: #f8fafc;
   color: var(--text-muted);
   font-size: 0.75rem;
   font-weight: 600;
@@ -689,21 +723,21 @@
 }
 
 .india-tab.active {
-  background: rgba(231,159,0,0.2);
-  border-color: rgba(231,159,0,0.5);
-  color: #e2e8f0;
+  background: rgba(14, 116, 144, 0.12);
+  border-color: rgba(14, 116, 144, 0.45);
+  color: #0e7490;
 }
 
 .inst-stat-row {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(15,23,42,0.08);
   font-size: 0.85rem;
   color: var(--text-muted);
 }
 
-.inst-stat-row strong { color: #f0ebe3; }
+.inst-stat-row strong { color: var(--text); }
 
 .india-partner-list {
   list-style: none;
@@ -716,18 +750,78 @@
   display: block;
   padding: 0;
   border-bottom: none;
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
-.india-partner-list strong { color: #56B4E9; }
+.india-partner-list strong { color: #0369a1; }
 
 .india-funding-note {
   font-size: 0.82rem;
-  color: var(--text-dim);
+  color: var(--text-muted);
   line-height: 1.55;
   margin: 0.75rem 0;
 }
 
+.india-funding-note strong {
+  color: var(--text);
+}
+
 .india-map-inner { flex: 1; min-height: 280px; width: 100%; position: relative; }
 
+/* Leaflet zoom control — light chrome on light basemap */
+.india-leaflet-map .leaflet-control-zoom a {
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.14) !important;
+}
 
+.india-leaflet-map .leaflet-control-zoom a:hover {
+  background: #f8fafc !important;
+}
+
+.india-leaflet-map .leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: #64748b !important;
+}
+
+/* G5 panel header / footer — coherent with light map + sidebar */
+#viz-panel[data-viz="5"] .panel-header {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.10);
+}
+
+#viz-panel[data-viz="5"] .panel-title {
+  color: var(--text);
+}
+
+#viz-panel[data-viz="5"] .ctrl-label {
+  color: var(--text-muted);
+}
+
+#viz-panel[data-viz="5"] .year-val {
+  color: #0e7490;
+}
+
+#viz-panel[data-viz="5"] .panel-footer {
+  background: #ffffff;
+  border-top: 1px solid rgba(15, 23, 42, 0.10);
+}
+
+#viz-panel[data-viz="5"] .data-credit {
+  color: var(--text-muted);
+}
+
+#viz-panel[data-viz="5"] .nav-btn {
+  background: #ffffff;
+  color: var(--text-muted);
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+#viz-panel[data-viz="5"] .nav-btn:hover:not(:disabled) {
+  color: var(--text);
+  border-color: rgba(14, 116, 144, 0.4);
+}
+
+#viz-panel[data-viz="5"] .back-btn {
+  background: #ffffff;
+}

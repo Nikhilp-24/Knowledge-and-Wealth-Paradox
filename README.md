@@ -1,39 +1,27 @@
-# Global Knowledge & Wealth Paradox
-### CS661 Final Project - Group 10
+﻿# The Global Knowledge & Wealth Paradox
 
-An interactive visual analytics dashboard exploring the structural mechanics of global knowledge creation, funding, and scientific prestige.
+**CS661 Group 10 · IIT Kanpur** — interactive visual analytics on how national wealth converts into scientific excellence.
 
-## Overview
-This project investigates the question: *does money buy scientific excellence?* 
-Through five interactive visualization modules, this dashboard transforms massive macroeconomic and bibliometric datasets into a tangible narrative, revealing how the global science system is stratifying along multiple axes.
+**Live site:** https://nikhilp-24.github.io/Knowledge-and-Wealth-Paradox/
 
-### Modules Included:
-1. **The Global Baseline (UMAP Scatter Plot)**: Explores the clustering of global research quality and economic wealth.
-2. **The Quality Shift (Ridgeline & Stacked Bars)**: Analyzes the divergence between raw publication volume and high-quality (Q1) output.
-3. **The Bar Chart Race (Trend Animation)**: Tracks the rapid momentum of research fields (e.g., AI, Infectious Diseases) over time.
-4. **The Collaboration Premium (Dumbbell Chart)**: Measures the citation impact gap between domestic and internationally co-authored papers.
-5. **India's Knowledge Economy (Geospatial Network)**: Visualizes the highly siloed and top-heavy nature of India's domestic research infrastructure.
+## Theme
 
-## Repository Structure
-- `index.html` & `style.css`: Main application shell and styling.
-- `app.js`: Global state management and visualization orchestration.
-- `graphs/`: Contains the specific D3, Plotly, and Leaflet logic (JS/CSS) for each of the 5 modules.
-- `scripts.zip`: The raw Python ETL pipelines used to scrape, clean, and join the OpenAlex, SCImago, and World Bank datasets.
-- `*_data.js`: Statically compiled JSON payloads for zero-latency dashboard rendering.
+Cream / fig1 academic paper (**light only** — no dark mode).
 
-## Setup & Running
+## Run locally
 
-**Live Demo**: The dashboard is hosted live via GitHub Pages and can be viewed here: [https://Nikhilp-24.github.io/Knowledge-and-Wealth-Paradox/](https://Nikhilp-24.github.io/Knowledge-and-Wealth-Paradox/)
+`ash
+python -m http.server 8080 --bind 127.0.0.1
+`
 
-### Running Locally
-If you prefer to run the project locally, it requires no build step. Simply serve the directory using any local web server:
-```bash
-python -m http.server 8000
-```
-Then navigate to `http://localhost:8000` in your browser.
+Open http://127.0.0.1:8080
 
-## Data Sources
-- **World Bank Open Data**: GDP, PPP, and R&D expenditure metrics.
-- **OpenAlex API**: Institutional bibliometrics, collaboration networks, and citation counts.
-- **SCImago Journal & Country Rank**: Q1–Q4 journal quality distributions.
-- **NIRF**: Indian institutional rankings, patents, and funding data.
+## Panels
+
+1. High-Dimensional Peer Clustering (UMAP)
+2. Global Quality Shift (Q1 vs Q4)
+3. Top Research Topics (OpenAlex concepts)
+4. Collaboration Premium (**73** countries · 2010–2024)
+5. India Domestic Higher Education Network
+
+GitHub Pages serves from the `main` branch root.
