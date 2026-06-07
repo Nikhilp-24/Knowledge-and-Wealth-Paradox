@@ -22,7 +22,11 @@ Through five interactive visualization modules, this dashboard transforms massiv
 - `*_data.js`: Statically compiled JSON payloads for zero-latency dashboard rendering.
 
 ## Setup & Running
-This dashboard requires no build step. Simply serve the directory using any local web server:
+
+**Live Demo**: The dashboard is hosted live via GitHub Pages and can be viewed here: [https://Nikhilp-24.github.io/Knowledge-and-Wealth-Paradox/](https://Nikhilp-24.github.io/Knowledge-and-Wealth-Paradox/)
+
+### Running Locally
+If you prefer to run the project locally, it requires no build step. Simply serve the directory using any local web server:
 ```bash
 python -m http.server 8000
 ```
