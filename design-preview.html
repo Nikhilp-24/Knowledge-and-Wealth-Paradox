@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design Preview — M2 & M5 Variants</title>
+  <link rel="stylesheet" href="design-preview.css" />
+</head>
+<body>
+  <header>
+    <h1>Design variant gallery — professor preview</h1>
+    <p>Minimal mockups with sample data only. Pick layouts before full implementation.</p>
+    <nav class="toc">
+      <a href="#m2">Module 2 (8 variants)</a>
+      <a href="#m5">Module 5 (8 variants)</a>
+      <a href="index.html">← Back to dashboard</a>
+    </nav>
+  </header>
+
+  <section id="m2">
+    <h2>Module 2 — Global Quality Shift</h2>
+    <p class="lead">Synthetic Q1/Q4 curves · same dark theme as dashboard · <strong style="color:#86efac">M2-02 recommended</strong></p>
+    <div class="grid">
+      <article class="card" data-m2="m2-01">
+        <div class="card-head">
+          <div><h3>M2-01 Classic Ridgeline <span class="sub">Stacked KDE rows by year</span></h3></div>
+          <span class="chip">Runner-up</span>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card rec" data-m2="m2-02">
+        <div class="card-head">
+          <div><h3>M2-02 Bimodal Split Annotations <span class="sub">Parity → Breakaway → Q4 Flood labels</span></h3></div>
+          <span class="chip chip-rec">Recommended</span>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m2="m2-03">
+        <div class="card-head">
+          <div><h3>M2-03 Streamgraph <span class="sub">Q1–Q4 share over time</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m2="m2-04">
+        <div class="card-head">
+          <div><h3>M2-04 Small Multiples <span class="sub">USA · CHN · IND mini ridgelines</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m2="m2-05">
+        <div class="card-head">
+          <div><h3>M2-05 Dumbbell Pairs <span class="sub">1996 vs 2024 Q1→Q4 shift</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m2="m2-06">
+        <div class="card-head">
+          <div><h3>M2-06 Heatmap <span class="sub">Tier × milestone years</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m2="m2-07">
+        <div class="card-head">
+          <div><h3>M2-07 Violin Multiples <span class="sub">Regional distribution shapes</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m2="m2-08">
+        <div class="card-head">
+          <div><h3>M2-08 Integrity Footnotes <span class="sub">Provenance callout + mini chart</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="m5">
+    <h2>Module 5 — India Domestic HE Network</h2>
+    <p class="lead">14 hubs from <code>2024_overview.json</code> · Premier blue · State purple · <strong style="color:#86efac">M5-03 recommended (click nodes)</strong></p>
+    <div class="grid">
+      <article class="card" data-m5="m5-01">
+        <div class="card-head">
+          <div><h3>M5-01 Map + Tier Strip <span class="sub">Single map, tier summary bar</span></h3></div>
+          <span class="chip">Runner-up</span>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card rec" data-m5="m5-03">
+        <div class="card-head">
+          <div><h3>M5-03 Focus Fisheye <span class="sub">Click hub → ego network highlight</span></h3></div>
+          <span class="chip chip-rec">Recommended</span>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m5="m5-02">
+        <div class="card-head">
+          <div><h3>M5-02 Dual Tier Maps <span class="sub">Premier | State side-by-side</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m5="m5-04">
+        <div class="card-head">
+          <div><h3>M5-04 Corridor Bands <span class="sub">Regional overlay (NCR demo)</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m5="m5-05">
+        <div class="card-head">
+          <div><h3>M5-05 Map + Dumbbell <span class="sub">Geo + tier avg comparison strip</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m5="m5-06">
+        <div class="card-head">
+          <div><h3>M5-06 Search-First <span class="sub">University lookup prominent</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m5="m5-07">
+        <div class="card-head">
+          <div><h3>M5-07 Year Hero <span class="sub">Temporal slider emphasis</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+      <article class="card" data-m5="m5-08">
+        <div class="card-head">
+          <div><h3>M5-08 Integrity Footnotes <span class="sub">Data caveats + compact map</span></h3></div>
+        </div>
+        <div class="plot"></div>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    Open via <code>python -m http.server 8766</code> from <code>dashboard/</code> →
+    <a href="http://localhost:8766/design-preview.html">design-preview.html</a>
+  </footer>
+
+  <script src="d3.v7.min.js"></script>
+  <script src="design-preview.js"></script>
+</body>
+</html>

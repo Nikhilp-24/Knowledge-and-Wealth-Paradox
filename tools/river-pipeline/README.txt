@@ -30,12 +30,14 @@ use a local server. Do not use the dark dashboard on :8080 for this page.
 
 Files
 -----
-  index.html   — shell + chrome
+  index.html   — shell + chrome + Flows→Pools “What is this?” explainer
   style.css    — fig1 cream chrome (matches dashboard-light tokens; diagram semantics unchanged)
   app.js       — topology data + D3 diagram + interactions
   README.txt   — this file
 
 Does not touch live G1–G5 chart modules. Optional landing link only.
+Diagram node/edge meanings are unchanged; the explainer only describes the
+middle Flows→Pools gate/cleaning cluster for humans.
 
 Source of truth (docs)
 ----------------------

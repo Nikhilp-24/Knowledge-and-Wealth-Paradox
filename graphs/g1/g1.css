@@ -153,8 +153,79 @@
   background: rgba(14,116,144,0.18);
 }
 
+/* Timeline speed — segmented control with sliding frosted glass pill */
+.viz1-speed-selector {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
+  background: rgba(69, 102, 114, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  border-radius: 8px;
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+.viz1-speed-glass {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  height: calc(100% - 6px);
+  width: calc((100% - 6px) / 3);
+  border-radius: 6px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(255, 255, 255, 0.62) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.viz1-speed-selector[data-active="0"] .viz1-speed-glass {
+  transform: translateX(0);
+}
+.viz1-speed-selector[data-active="1"] .viz1-speed-glass {
+  transform: translateX(100%);
+}
+.viz1-speed-selector[data-active="2"] .viz1-speed-glass {
+  transform: translateX(200%);
+}
+
+.viz1-speed-btn {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  padding: 5px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  transition: color 0.18s ease;
+}
+
+.viz1-speed-btn:hover {
+  color: #334155;
+}
+
+.viz1-speed-btn.active {
+  color: #456672;
+}
+
 .viz1-stats-card {
-  flex: 1 1 0;
+  flex: 0 0 auto;
   min-height: 0;
   overflow: hidden;
   display: flex;
@@ -162,8 +233,8 @@
   justify-content: center;
   background: #ffffff;
   border: 1px solid rgba(15, 23, 42, 0.10);
-  border-radius: 10px;
-  padding: clamp(10px, 1.6vh, 20px) 14px;
+  border-radius: 8px;
+  padding: 8px 12px;
   margin-top: 0;
   box-sizing: border-box;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
@@ -171,14 +242,14 @@
 
 .viz1-stats-card--compact {
   /* legacy class — growth handled by .viz1-stats-card */
-  padding: clamp(10px, 1.6vh, 20px) 14px;
+  padding: 8px 12px;
 }
 
 .viz1-stats-metrics {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  gap: clamp(6px, 1vw, 12px);
+  gap: 8px;
   width: 100%;
 }
 
@@ -189,21 +260,21 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: clamp(2px, 0.5vh, 6px);
+  gap: 2px;
 }
 
 .viz1-stat b {
   color: #0f172a;
   font-weight: 700;
-  font-size: clamp(1.15rem, 2.8vh, 1.75rem);
-  line-height: 1.15;
+  font-size: 1.1rem;
+  line-height: 1.1;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .viz1-stat span {
   color: #475569;
-  font-size: clamp(10px, 1.35vh, 12px);
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-weight: 600;
@@ -426,8 +497,8 @@
 }
 
 .viz1-sidebar--zoomed .viz1-stats-card {
-  flex: 0.75 1 0;
-  padding: clamp(6px, 1vh, 12px) 12px;
+  flex: 0 0 auto;
+  padding: 6px 10px;
 }
 
 .viz1-sidebar--zoomed .viz1-visual-guide {

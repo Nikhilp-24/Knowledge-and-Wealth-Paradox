@@ -171,27 +171,34 @@ function buildControls(id) {
     playBtn.id = "play-btn";
     playBtn.onclick = () => toggleAnimation(slider, yearVal, playBtn, 1999, 2024);
 
-    // Speed toggle button next to play button
-    const speedBtn = el("button", "ctrl-btn", APP.speed === 600 ? "2x" : "1x");
-    speedBtn.style.minWidth = "38px";
-    speedBtn.style.fontWeight = "800";
-    speedBtn.onclick = () => {
-      if (APP.speed === 1200) {
-        APP.speed = 600;
-        speedBtn.textContent = "2x";
-        speedBtn.style.color = "#56B4E9";
-        speedBtn.style.borderColor = "rgba(86,180,233,0.4)";
-      } else {
-        APP.speed = 1200;
-        speedBtn.textContent = "1x";
-        speedBtn.style.color = "";
-        speedBtn.style.borderColor = "";
-      }
-    };
-    if (APP.speed === 600) {
-      speedBtn.style.color = "#56B4E9";
-      speedBtn.style.borderColor = "rgba(86,180,233,0.4)";
-    }
+    // Speed buttons: 0.5x / 1x / 2x (interval = base / multiplier)
+    // 1x base = 1200ms → 0.5x = 2400ms, 2x = 600ms
+    const SPEED_OPTIONS = [
+      { label: "0.5x", ms: 2400 },
+      { label: "1x", ms: 1200 },
+      { label: "2x", ms: 600 },
+    ];
+    if (![2400, 1200, 600].includes(APP.speed)) APP.speed = 1200;
+
+    const speedBtns = SPEED_OPTIONS.map(({ label, ms }) => {
+      const btn = el("button", "ctrl-btn" + (APP.speed === ms ? "" : " secondary"), label);
+      btn.style.minWidth = "38px";
+      btn.style.fontWeight = "800";
+      // Uniform number style for all speeds (no per-speed cyan tint)
+      btn.style.color = "";
+      btn.style.borderColor = "";
+      btn.dataset.speedMs = String(ms);
+      btn.onclick = () => {
+        APP.speed = ms;
+        speedBtns.forEach((b) => {
+          const active = +b.dataset.speedMs === APP.speed;
+          b.className = "ctrl-btn" + (active ? "" : " secondary");
+          b.style.color = "";
+          b.style.borderColor = "";
+        });
+      };
+      return btn;
+    });
 
     // Grouped / Stacked toggle switch matching system style
     const toggleWrap = el("div", "toggle-group");
@@ -212,7 +219,7 @@ function buildControls(id) {
 
     const divider2 = el("div", "ctrl-divider");
 
-    c.append(wrap, playBtn, speedBtn, divider1, toggleWrap, divider2, scaleWrap);
+    c.append(wrap, playBtn, ...speedBtns, divider1, toggleWrap, divider2, scaleWrap);
   }
 
   if (id === 4) {

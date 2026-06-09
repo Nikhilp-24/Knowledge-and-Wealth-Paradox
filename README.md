@@ -1,27 +1,11 @@
-﻿# The Global Knowledge & Wealth Paradox
+﻿# dashboard-light (pointer)
 
-**CS661 Group 10 · IIT Kanpur** — interactive visual analytics on how national wealth converts into scientific excellence.
+**Canonical light final site:** `../dashboard/`
 
-**Live site:** https://nikhilp-24.github.io/Knowledge-and-Wealth-Paradox/
+As of 2026-07-13, the cream/fig1 light dashboard was promoted to `dashboard/`.
+A full snapshot of this working tree is also at:
 
-## Theme
+`_archive_local/dashboard-light-source-20260713/` (local only — gitignored)
 
-Cream / fig1 academic paper (**light only** — no dark mode).
-
-## Run locally
-
-`ash
-python -m http.server 8080 --bind 127.0.0.1
-`
-
-Open http://127.0.0.1:8080
-
-## Panels
-
-1. High-Dimensional Peer Clustering (UMAP)
-2. Global Quality Shift (Q1 vs Q4)
-3. Top Research Topics (OpenAlex concepts)
-4. Collaboration Premium (**73** countries · 2010–2024)
-5. India Domestic Higher Education Network
-
-GitHub Pages serves from the `main` branch root.
+Edit `dashboard/` only. This folder may still hold an older working copy;
+prefer `dashboard/` for deploy, zip, and Nikhil Pages sync.

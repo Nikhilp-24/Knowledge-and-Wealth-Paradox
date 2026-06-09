@@ -3,7 +3,8 @@
 let viz1Year = 2022;
 let viz1YearsRange = [1996, 2024];
 let viz1IsPlaying = false;
-let viz1Speed = 600;
+let viz1Speed = 600; // base ms pacing at 1.0x (wait = viz1Speed / multiplier - elapsed)
+let viz1SpeedMultiplier = 1.0;
 let viz1SelectedRegion = null;
 let viz1SearchQuery = '';
 let viz1ComparedCountries = [];
@@ -181,6 +182,16 @@ function renderViz1(body) {
           </div>
 
           <div class="viz1-control-group">
+            <label>Speed</label>
+            <div class="viz1-speed-selector" id="viz1-speed-selector" data-active="1" role="group" aria-label="Timeline playback speed">
+              <div class="viz1-speed-glass" aria-hidden="true"></div>
+              <button type="button" class="viz1-speed-btn" data-speed="0.5" data-index="0">0.5x</button>
+              <button type="button" class="viz1-speed-btn active" data-speed="1.0" data-index="1">1.0x</button>
+              <button type="button" class="viz1-speed-btn" data-speed="2.0" data-index="2">2.0x</button>
+            </div>
+          </div>
+
+          <div class="viz1-control-group">
             <label>Display</label>
             <div class="viz1-sidebar-actions">
               <button id="viz1-specific-btn" class="viz1-specific-btn${viz1ShowSpecific ? ' active' : ''}" type="button">${viz1ShowSpecific ? 'Show All Countries' : 'Show Specific Countries'}</button>
@@ -289,9 +300,10 @@ function renderViz1(body) {
           const t0 = performance.now();
           await drawViz1Plotly({ animate: true });
           if (!viz1IsPlaying || token !== viz1PlayToken) break;
-          // Advance after lerp so motion is readable; leftover of viz1Speed paces the timeline
+          // Advance after lerp; pace = base / speedMultiplier (0.5x slower, 2.0x faster)
           const elapsed = performance.now() - t0;
-          const wait = Math.max(40, viz1Speed - elapsed);
+          const pace = viz1Speed / (viz1SpeedMultiplier || 1);
+          const wait = Math.max(40, pace - elapsed);
           await new Promise((r) => setTimeout(r, wait));
         }
         if (token === viz1PlayToken) {
@@ -305,6 +317,23 @@ function renderViz1(body) {
       drawViz1Plotly({ animate: false }); // snap to current year after aborting lerp
     }
   });
+
+  const speedSelector = document.getElementById('viz1-speed-selector');
+  if (speedSelector) {
+    const speedBtns = speedSelector.querySelectorAll('.viz1-speed-btn');
+    const syncSpeedUi = (btn) => {
+      speedBtns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      speedSelector.dataset.active = btn.dataset.index || '1';
+      viz1SpeedMultiplier = parseFloat(btn.dataset.speed) || 1.0;
+    };
+    const restore = [...speedBtns].find((b) => parseFloat(b.dataset.speed) === viz1SpeedMultiplier)
+      || [...speedBtns].find((b) => b.dataset.speed === '1.0');
+    if (restore) syncSpeedUi(restore);
+    speedBtns.forEach((btn) => {
+      btn.addEventListener('click', () => syncSpeedUi(btn));
+    });
+  }
   
   search.addEventListener('input', (e) => {
     viz1SearchQuery = e.target.value;
@@ -1442,7 +1471,7 @@ function drawViz1Plotly(opts = {}) {
   const fromPos = viz1LastPositions;
   const toPos = bundleTarget.positions;
   const gen = ++viz1MotionGen;
-  const lerpMs = Math.min(620, Math.max(280, Math.round(viz1Speed * 0.85)));
+  const lerpMs = Math.min(620, Math.max(180, Math.round((viz1Speed * 0.85) / (viz1SpeedMultiplier || 1))));
 
   return new Promise((resolve) => {
     const t0 = performance.now();
