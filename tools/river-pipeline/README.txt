@@ -12,17 +12,10 @@ original is under dashboard/tools/river-pipeline/ — do not mix ports or folder
 
 Open
 ----
-From the light dashboard folder, serve on port 8088, then visit:
+From the light dashboard folder,  visit:
 
-  http://127.0.0.1:8088/tools/river-pipeline/
+  /tools/river-pipeline/
 
-Example (PowerShell, from dashboard-light/):
-
-  python -m http.server 8088
-
-Or from repo root:
-
-  python -m http.server 8088 --directory dashboard-light
 
 Hard-refresh (Ctrl+Shift+R) after CSS/JS cache-bust changes.
 Do not open index.html as a file:// URL if D3 path resolution fails;
