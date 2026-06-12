@@ -314,13 +314,52 @@
   background: transparent;
 }
 
-/* Circular-cropped flag badges — Show Specific countries only (HTML overlay). */
+/* Circular-cropped flag badges — Show Specific countries only (HTML overlay).
+   Keep below hover tip + pinned detail (Plotly SVG hover cannot outrank this HTML layer). */
 .viz1-flag-layer {
   position: absolute;
   inset: 0;
   z-index: 3;
   pointer-events: none;
   overflow: hidden;
+}
+
+/* Hover country info — HTML so it paints above Show-Specific flags (z-index 3). */
+.viz1-hover-tip {
+  position: absolute;
+  z-index: 10;
+  max-width: min(280px, 48%);
+  padding: 0.65rem 0.85rem;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid #5f9192;
+  border-radius: 6px;
+  color: #1a1d24;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.14);
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+  transform: translate(12px, 12px);
+}
+
+.viz1-hover-tip[hidden] {
+  display: none !important;
+}
+
+.viz1-hover-tip i {
+  color: #475569;
+  font-style: italic;
+}
+
+.viz1-hover-tip b {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Native Plotly SVG hover sits under the flag HTML layer — hide it; we use .viz1-hover-tip. */
+.viz1-plot .hoverlayer {
+  display: none !important;
 }
 
 .viz1-flag-badge {
@@ -345,12 +384,12 @@
   user-select: none;
 }
 
-/* Pinned compare detail — top-right, below continent legend; pointer-events none so plot stays clickable */
+/* Pinned compare detail — top-right, below continent legend; above flags + hover tip */
 .viz1-pinned-detail {
   position: absolute;
   top: 3.25rem;
   right: 0.75rem;
-  z-index: 5;
+  z-index: 12;
   max-width: min(280px, 42%);
   padding: 0.75rem 1.85rem 0.75rem 0.9rem;
   background: rgba(255, 255, 255, 0.97);

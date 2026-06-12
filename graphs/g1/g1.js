@@ -230,9 +230,10 @@ function renderViz1(body) {
 
       <!-- MAIN PLOT AREA — no overlay toolbar (legend stays fully readable) -->
       <div class="viz1-plot">
-        <div id="viz1-pinned-detail" class="viz1-pinned-detail" hidden aria-live="polite"></div>
         <div id="viz1-plotly-container" style="width: 100%; height: 100%;"></div>
         <div id="viz1-flag-layer" class="viz1-flag-layer" aria-hidden="true"></div>
+        <div id="viz1-hover-tip" class="viz1-hover-tip" hidden role="tooltip"></div>
+        <div id="viz1-pinned-detail" class="viz1-pinned-detail" hidden aria-live="polite"></div>
       </div>
     </div>
   `;
@@ -1103,16 +1104,71 @@ function getViz1Layout() {
       fixedrange: false
     },
     hovermode: 'closest',
+    // Native SVG hoverlabel is hidden in CSS — HTML .viz1-hover-tip paints above flag badges.
     hoverlabel: { bgcolor: 'rgba(255, 255, 255, 0.98)', font: { family: 'Plus Jakarta Sans, sans-serif', size: 13, color: '#1a1d24' }, bordercolor: '#5f9192' },
     legend: { font: { color: '#3d4650', size: 12 }, orientation: 'h', yanchor: 'bottom', y: 1.05, xanchor: 'center', x: 0.5, bgcolor: 'rgba(0,0,0,0)', itemclick: false, itemdoubleclick: false },
     margin: { l: 20, r: 20, t: 48, b: 28 }
   };
 }
 
+function hideViz1HoverTip() {
+  const tip = document.getElementById('viz1-hover-tip');
+  if (!tip) return;
+  tip.hidden = true;
+  tip.innerHTML = '';
+}
+
+/**
+ * HTML hover card above Show-Specific flag badges (Plotly SVG hover cannot outrank that layer).
+ */
+function showViz1HoverTip(data) {
+  const tip = document.getElementById('viz1-hover-tip');
+  const plot = document.querySelector('.viz1-plot');
+  if (!tip || !plot || !data || !data.points || !data.points[0]) return;
+  const pt = data.points[0];
+  if (typeof pt.customdata !== 'string') {
+    hideViz1HoverTip();
+    return;
+  }
+  const html = pt.text;
+  if (!html) {
+    hideViz1HoverTip();
+    return;
+  }
+  tip.innerHTML = html;
+  tip.hidden = false;
+
+  const plotRect = plot.getBoundingClientRect();
+  let left = 12;
+  let top = 12;
+  const ev = data.event;
+  if (ev && ev.clientX != null && ev.clientY != null) {
+    left = ev.clientX - plotRect.left;
+    top = ev.clientY - plotRect.top;
+  } else if (pt.xaxis && pt.yaxis && pt.x != null && pt.y != null) {
+    left = pt.xaxis.l2p(pt.x) + (pt.xaxis._offset || 0);
+    top = pt.yaxis.l2p(pt.y) + (pt.yaxis._offset || 0);
+  }
+  // Keep tip inside plot bounds (after CSS translate 12,12).
+  const tipW = tip.offsetWidth || 200;
+  const tipH = tip.offsetHeight || 120;
+  const maxL = Math.max(4, plotRect.width - tipW - 28);
+  const maxT = Math.max(4, plotRect.height - tipH - 28);
+  tip.style.left = `${Math.max(4, Math.min(left, maxL))}px`;
+  tip.style.top = `${Math.max(4, Math.min(top, maxT))}px`;
+}
+
 function bindViz1PlotEvents(container) {
   if (viz1EventsBound) return;
   viz1EventsBound = true;
   let ignoreNextBgClick = false;
+
+  container.on('plotly_hover', function(data) {
+    showViz1HoverTip(data);
+  });
+  container.on('plotly_unhover', function() {
+    hideViz1HoverTip();
+  });
 
   container.on('plotly_click', function(data) {
     const point = data.points && data.points[0];
