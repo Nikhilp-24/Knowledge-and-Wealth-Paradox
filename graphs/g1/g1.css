@@ -26,6 +26,11 @@
   color: #1a1d24;
   font-family: 'Plus Jakarta Sans', sans-serif;
   overflow: hidden;
+  /* G3 speed-control tokens (same values as .viz3-container) */
+  --card-border: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --primary: #0e7490;
 }
 
 .viz1-sidebar {
@@ -153,75 +158,59 @@
   background: rgba(14,116,144,0.18);
 }
 
-/* Timeline speed — segmented control with sliding frosted glass pill */
-.viz1-speed-selector {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: stretch;
-  background: rgba(69, 102, 114, 0.08);
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  border-radius: 8px;
-  padding: 3px;
+/* Speed control — G1-scoped (shorter than G3 copy) to level with Play / Display */
+.viz1-sidebar .filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.viz1-sidebar .filter-group label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.viz1-sidebar .speed-selector,
+.viz1-sidebar #viz1-speed-selector {
+  display: flex;
+  width: 100%;
   box-sizing: border-box;
+  background: #f1f5f9;
+  padding: 2px; /* compact track — levels between Play (~28px) and Display (~33px) */
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  align-items: stretch;
 }
 
-.viz1-speed-glass {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  height: calc(100% - 6px);
-  width: calc((100% - 6px) / 3);
-  border-radius: 6px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.88) 0%,
-    rgba(255, 255, 255, 0.62) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.92);
-  box-shadow:
-    0 1px 3px rgba(15, 23, 42, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px) saturate(1.15);
-  -webkit-backdrop-filter: blur(10px) saturate(1.15);
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.viz1-speed-selector[data-active="0"] .viz1-speed-glass {
-  transform: translateX(0);
-}
-.viz1-speed-selector[data-active="1"] .viz1-speed-glass {
-  transform: translateX(100%);
-}
-.viz1-speed-selector[data-active="2"] .viz1-speed-glass {
-  transform: translateX(200%);
-}
-
-.viz1-speed-btn {
-  position: relative;
-  z-index: 1;
-  background: transparent;
-  border: none;
-  color: #64748b;
-  padding: 5px 4px;
+.viz1-sidebar .speed-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  background: none;
+  border: 1px solid transparent; /* match active border so glass pill doesn't shift width */
+  color: var(--text-muted);
+  padding: 0.2rem 0.5rem; /* even thirds via flex; shorter vertical pad */
   border-radius: 6px;
   cursor: pointer;
   font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  transition: color 0.18s ease;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.viz1-speed-btn:hover {
-  color: #334155;
+.viz1-sidebar .speed-btn:hover {
+  color: var(--text-main);
 }
 
-.viz1-speed-btn.active {
-  color: #456672;
+.viz1-sidebar .speed-btn.active {
+  background: #ffffff;
+  color: var(--primary);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
 }
 
 .viz1-stats-card {
@@ -363,7 +352,7 @@
   right: 0.75rem;
   z-index: 5;
   max-width: min(280px, 42%);
-  padding: 0.75rem 0.9rem;
+  padding: 0.75rem 1.85rem 0.75rem 0.9rem;
   background: rgba(255, 255, 255, 0.97);
   border: 1px solid rgba(14, 116, 144, 0.35);
   border-radius: 8px;
@@ -378,6 +367,41 @@
 
 .viz1-pinned-detail[hidden] {
   display: none !important;
+}
+
+.viz1-pinned-detail-close {
+  pointer-events: auto;
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #64748b;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.viz1-pinned-detail-close:hover,
+.viz1-pinned-detail-close:focus-visible {
+  background: rgba(69, 102, 114, 0.12);
+  color: #456672;
+  outline: none;
+}
+
+.viz1-pinned-detail-close:focus-visible {
+  box-shadow: 0 0 0 2px rgba(14, 116, 144, 0.35);
 }
 
 .viz1-pinned-detail i {

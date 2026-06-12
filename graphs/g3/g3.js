@@ -31,12 +31,6 @@ function renderViz3(body) {
                     </button>
                 </div>
             </div>
-            <p id="viz3HonestyNote" class="viz3-honesty-note" style="margin: 0; font-size: 0.78rem; line-height: 1.45; color: #475569; max-width: 72rem;">
-                Counts are <strong style="color:#0f172a;font-weight:600;">OpenAlex concept-tagged works</strong> (retrospective taxonomy from titles/abstracts) — not the year a field was “born.” Race = seven <strong style="color:#0f172a;font-weight:600;">level-3</strong> peers (same college abstraction; cross-domain by design — e.g. infectious disease vs robotics). Shared scrubber from 1974; no fake milestone floors.
-            </p>
-            <p id="viz3LevelNote" class="viz3-honesty-note" style="margin: 0; font-size: 0.72rem; line-height: 1.4; color: #475569; max-width: 72rem;">
-                Metaphor: school = broader OpenAlex levels (e.g. L1); college = finer levels (L2/L3). This race stays college-level only — same field is not required.
-            </p>
 
             <!-- Playback Controls & Slider Row -->
             <div style="display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap;">
@@ -781,11 +775,15 @@ function renderViz3(body) {
                 const valEnd = dataEndSrc[topic] || 0;
 
                 let growthStr = 'N/A';
+                let growthClass = 'growth-neutral';
                 if (firstActiveVal > 0) {
                     const growthPct = ((valEnd - firstActiveVal) / firstActiveVal) * 100;
                     growthStr = (growthPct >= 0 ? '+' : '') + growthPct.toLocaleString(undefined, {maximumFractionDigits: 0}) + '%';
+                    if (growthPct > 0) growthClass = 'growth-positive';
+                    else if (growthPct < 0) growthClass = 'growth-negative';
                 } else if (valEnd > 0) {
                     growthStr = 'New (+100%)';
+                    growthClass = 'growth-positive';
                 }
 
                 // 3. Peak publications count
@@ -854,7 +852,7 @@ function renderViz3(body) {
                     <div class="card-footer">
                         <div class="footer-item">
                             <span class="footer-label">Growth (vs ${firstActiveYear})</span>
-                            <span class="footer-value highlight-green">${growthStr}</span>
+                            <span class="footer-value ${growthClass}">${growthStr}</span>
                         </div>
                         <div class="footer-item">
                             <span class="footer-label">${footerLabel}</span>

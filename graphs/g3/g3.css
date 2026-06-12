@@ -523,8 +523,16 @@
   font-weight: 600;
 }
 
-.viz3-container .footer-value.highlight-green {
-  color: #009E73;
+.viz3-container .footer-value.growth-positive {
+  color: #15803d !important;
+}
+
+.viz3-container .footer-value.growth-negative {
+  color: #b91c1c !important;
+}
+
+.viz3-container .footer-value.growth-neutral {
+  color: #64748b !important;
 }
 
 .viz3-container .footer-value details summary {
@@ -537,12 +545,4 @@
   width: 20px;
   height: 20px;
   fill: currentColor;
-}
-
-.viz3-container .viz3-honesty-note {
-  color: var(--text-muted);
-}
-
-.viz3-container .viz3-honesty-note strong {
-  color: var(--text-main);
 }

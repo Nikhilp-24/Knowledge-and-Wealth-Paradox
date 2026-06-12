@@ -8,6 +8,8 @@ let viz1SpeedMultiplier = 1.0;
 let viz1SelectedRegion = null;
 let viz1SearchQuery = '';
 let viz1ComparedCountries = [];
+let viz1PinnedDetailDismissed = false;
+let viz1PinnedDetailCompareKey = '';
 let viz1ShowSpecific = false;
 let viz1PlayInterval = null; // legacy; play now uses async token loop
 let viz1PlayToken = 0;
@@ -181,13 +183,13 @@ function renderViz1(body) {
             </div>
           </div>
 
-          <div class="viz1-control-group">
+          <!-- Speed Controls — exact G3 filter-group / speed-selector pattern -->
+          <div class="filter-group">
             <label>Speed</label>
-            <div class="viz1-speed-selector" id="viz1-speed-selector" data-active="1" role="group" aria-label="Timeline playback speed">
-              <div class="viz1-speed-glass" aria-hidden="true"></div>
-              <button type="button" class="viz1-speed-btn" data-speed="0.5" data-index="0">0.5x</button>
-              <button type="button" class="viz1-speed-btn active" data-speed="1.0" data-index="1">1.0x</button>
-              <button type="button" class="viz1-speed-btn" data-speed="2.0" data-index="2">2.0x</button>
+            <div class="speed-selector" id="viz1-speed-selector" role="group" aria-label="Timeline playback speed">
+              <button type="button" class="speed-btn" data-speed="0.5">0.5x</button>
+              <button type="button" class="speed-btn active" data-speed="1.0">1.0x</button>
+              <button type="button" class="speed-btn" data-speed="2.0">2.0x</button>
             </div>
           </div>
 
@@ -318,13 +320,13 @@ function renderViz1(body) {
     }
   });
 
+  // Speed selector — same wiring pattern as G3 (.speed-btn + data-speed)
   const speedSelector = document.getElementById('viz1-speed-selector');
   if (speedSelector) {
-    const speedBtns = speedSelector.querySelectorAll('.viz1-speed-btn');
+    const speedBtns = speedSelector.querySelectorAll('.speed-btn');
     const syncSpeedUi = (btn) => {
       speedBtns.forEach((b) => b.classList.remove('active'));
       btn.classList.add('active');
-      speedSelector.dataset.active = btn.dataset.index || '1';
       viz1SpeedMultiplier = parseFloat(btn.dataset.speed) || 1.0;
     };
     const restore = [...speedBtns].find((b) => parseFloat(b.dataset.speed) === viz1SpeedMultiplier)
@@ -563,7 +565,15 @@ function formatViz1CountryDetailHtml(d) {
 function updateViz1PinnedDetail() {
   const el = document.getElementById('viz1-pinned-detail');
   if (!el) return;
-  if (!viz1ComparedCountries.length) {
+
+  // Selection set changed → allow the card again after a manual × dismiss
+  const compareKey = viz1ComparedCountries.join(',');
+  if (compareKey !== viz1PinnedDetailCompareKey) {
+    viz1PinnedDetailCompareKey = compareKey;
+    viz1PinnedDetailDismissed = false;
+  }
+
+  if (!viz1ComparedCountries.length || viz1PinnedDetailDismissed) {
     el.hidden = true;
     el.innerHTML = '';
     return;
@@ -575,8 +585,21 @@ function updateViz1PinnedDetail() {
     el.innerHTML = '';
     return;
   }
-  el.innerHTML = formatViz1CountryDetailHtml(d);
+  el.innerHTML =
+    `<button type="button" class="viz1-pinned-detail-close" aria-label="Dismiss country details" title="Dismiss">×</button>` +
+    `<div class="viz1-pinned-detail-body">${formatViz1CountryDetailHtml(d)}</div>`;
   el.hidden = false;
+  const closeBtn = el.querySelector('.viz1-pinned-detail-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      // Hide overlay only — keep compare selection / highlights intact
+      viz1PinnedDetailDismissed = true;
+      el.hidden = true;
+      el.innerHTML = '';
+    });
+  }
 }
 
 function updateViz1CompareUI() {

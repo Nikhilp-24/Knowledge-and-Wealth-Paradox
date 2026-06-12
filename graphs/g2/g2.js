@@ -559,13 +559,13 @@ function renderViz2(body) {
   graphCard.className = "viz2-graph-card";
   graphCard.style.position = "relative";
   graphCard.innerHTML = `
-    <!-- Quality Guide anchored in top margin void (margin.top=110) — must not overlap bars -->
+    <!-- Quality Guide anchored in top margin void (margin.top=124) — must not overlap bars -->
     <div id="viz2-quality-guide" class="viz2-quality-guide">
       <div class="viz2-quality-guide__title">
         Quality Guide · Publisher Country
       </div>
-      <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
-        <div style="display: flex; flex-direction: column; gap: 0.35rem; min-width: 130px;">
+      <div class="viz2-quality-guide__body">
+        <div class="viz2-quality-guide__keys">
           <div style="display: flex; gap: 5px; align-items: center;">
             <span style="display: inline-block; width: 8px; height: 8px; background: ${chartColors.q1}; border-radius: 1px; flex-shrink: 0;"></span>
             <div><b style="color: ${chartColors.q1};">Q1:</b> Top 25% SJR journals</div>
@@ -575,7 +575,7 @@ function renderViz2(body) {
             <div><b style="color: ${chartColors.q4};">Q4:</b> Bottom 25% SJR journals</div>
           </div>
         </div>
-        <div style="border-left: 1px dashed rgba(15,23,42,0.14); padding-left: 0.75rem; color: #475569; font-size: 0.62rem; flex: 1;">
+        <div class="viz2-quality-guide__desc">
           Docs in journals <b style="color:#0f172a;">published in</b> that country (not author affiliation). Ratio = Q1/Q4 (uncapped).
         </div>
       </div>
@@ -785,7 +785,8 @@ function renderViz2(body) {
     .attr("fill", "#ffffff")
     .attr("pointer-events", "none");
 
-  const margin = { top: 110, right: 30, bottom: 90, left: 65 };
+  // Reserved top void for Quality Guide (wider ~3-line desc) — bars never enter this band
+  const margin = { top: 124, right: 30, bottom: 90, left: 65 };
   const innerWidth = W - margin.left - margin.right;
   const innerHeight = H - margin.top - margin.bottom;
 

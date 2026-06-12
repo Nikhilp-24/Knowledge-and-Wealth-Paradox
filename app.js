@@ -171,34 +171,26 @@ function buildControls(id) {
     playBtn.id = "play-btn";
     playBtn.onclick = () => toggleAnimation(slider, yearVal, playBtn, 1999, 2024);
 
-    // Speed buttons: 0.5x / 1x / 2x (interval = base / multiplier)
+    // Speed cycle button next to Play: 0.5x → 1x → 2x → 0.5x
     // 1x base = 1200ms → 0.5x = 2400ms, 2x = 600ms
-    const SPEED_OPTIONS = [
+    const SPEED_CYCLE = [
       { label: "0.5x", ms: 2400 },
       { label: "1x", ms: 1200 },
       { label: "2x", ms: 600 },
     ];
     if (![2400, 1200, 600].includes(APP.speed)) APP.speed = 1200;
 
-    const speedBtns = SPEED_OPTIONS.map(({ label, ms }) => {
-      const btn = el("button", "ctrl-btn" + (APP.speed === ms ? "" : " secondary"), label);
-      btn.style.minWidth = "38px";
-      btn.style.fontWeight = "800";
-      // Uniform number style for all speeds (no per-speed cyan tint)
-      btn.style.color = "";
-      btn.style.borderColor = "";
-      btn.dataset.speedMs = String(ms);
-      btn.onclick = () => {
-        APP.speed = ms;
-        speedBtns.forEach((b) => {
-          const active = +b.dataset.speedMs === APP.speed;
-          b.className = "ctrl-btn" + (active ? "" : " secondary");
-          b.style.color = "";
-          b.style.borderColor = "";
-        });
-      };
-      return btn;
-    });
+    const speedLabel = () => (SPEED_CYCLE.find((s) => s.ms === APP.speed) || SPEED_CYCLE[1]).label;
+
+    const speedBtn = el("button", "ctrl-btn", speedLabel());
+    speedBtn.style.minWidth = "38px";
+    speedBtn.style.fontWeight = "800";
+    speedBtn.onclick = () => {
+      const idx = SPEED_CYCLE.findIndex((s) => s.ms === APP.speed);
+      const next = SPEED_CYCLE[(idx < 0 ? 1 : idx + 1) % SPEED_CYCLE.length];
+      APP.speed = next.ms;
+      speedBtn.textContent = next.label;
+    };
 
     // Grouped / Stacked toggle switch matching system style
     const toggleWrap = el("div", "toggle-group");
@@ -219,7 +211,7 @@ function buildControls(id) {
 
     const divider2 = el("div", "ctrl-divider");
 
-    c.append(wrap, playBtn, ...speedBtns, divider1, toggleWrap, divider2, scaleWrap);
+    c.append(wrap, playBtn, speedBtn, divider1, toggleWrap, divider2, scaleWrap);
   }
 
   if (id === 4) {
@@ -246,6 +238,28 @@ function buildControls(id) {
     const playBtn = el("button", "ctrl-btn", "▶ Play");
     playBtn.id = "play-btn";
     playBtn.onclick = () => toggleAnimation(slider, yearVal, playBtn, yMin, yMax);
+
+    // Speed cycle button next to Play (same as G2): 0.5x → 1x → 2x → 0.5x
+    // 1x base = 1200ms → 0.5x = 2400ms, 2x = 600ms
+    const SPEED_CYCLE = [
+      { label: "0.5x", ms: 2400 },
+      { label: "1x", ms: 1200 },
+      { label: "2x", ms: 600 },
+    ];
+    if (![2400, 1200, 600].includes(APP.speed)) APP.speed = 1200;
+
+    const speedLabel = () => (SPEED_CYCLE.find((s) => s.ms === APP.speed) || SPEED_CYCLE[1]).label;
+
+    const speedBtn = el("button", "ctrl-btn", speedLabel());
+    speedBtn.style.minWidth = "38px";
+    speedBtn.style.fontWeight = "800";
+    speedBtn.title = "Playback speed (click to cycle)";
+    speedBtn.onclick = () => {
+      const idx = SPEED_CYCLE.findIndex((s) => s.ms === APP.speed);
+      const next = SPEED_CYCLE[(idx < 0 ? 1 : idx + 1) % SPEED_CYCLE.length];
+      APP.speed = next.ms;
+      speedBtn.textContent = next.label;
+    };
 
     const sortSel = document.createElement("select");
     sortSel.className = "ctrl-select";
@@ -284,7 +298,7 @@ function buildControls(id) {
     };
 
     c.append(
-      wrap, playBtn,
+      wrap, playBtn, speedBtn,
       el("div", "ctrl-divider"),
       el("span","ctrl-label","Region:"), regionSel, backBtn,
       el("div", "ctrl-divider"),
@@ -319,6 +333,28 @@ function buildControls(id) {
     playBtn.id = "play-btn";
     playBtn.onclick = () => toggleAnimation(slider, yearVal, playBtn, yMin, yMax);
 
+    // Speed cycle button next to Play (same as G2/G4): 0.5x → 1x → 2x → 0.5x
+    // 1x base = 1200ms → 0.5x = 2400ms, 2x = 600ms
+    const SPEED_CYCLE = [
+      { label: "0.5x", ms: 2400 },
+      { label: "1x", ms: 1200 },
+      { label: "2x", ms: 600 },
+    ];
+    if (![2400, 1200, 600].includes(APP.speed)) APP.speed = 1200;
+
+    const speedLabel = () => (SPEED_CYCLE.find((s) => s.ms === APP.speed) || SPEED_CYCLE[1]).label;
+
+    const speedBtn = el("button", "ctrl-btn", speedLabel());
+    speedBtn.style.minWidth = "38px";
+    speedBtn.style.fontWeight = "800";
+    speedBtn.title = "Playback speed (click to cycle)";
+    speedBtn.onclick = () => {
+      const idx = SPEED_CYCLE.findIndex((s) => s.ms === APP.speed);
+      const next = SPEED_CYCLE[(idx < 0 ? 1 : idx + 1) % SPEED_CYCLE.length];
+      APP.speed = next.ms;
+      speedBtn.textContent = next.label;
+    };
+
     const divider = el("div", "ctrl-divider");
 
     const tierSel = document.createElement("select");
@@ -338,7 +374,7 @@ function buildControls(id) {
       }
     };
 
-    c.append(wrap, playBtn, divider, el("span", "ctrl-label", "Tier:"), tierSel);
+    c.append(wrap, playBtn, speedBtn, divider, el("span", "ctrl-label", "Tier:"), tierSel);
   }
 }
 
