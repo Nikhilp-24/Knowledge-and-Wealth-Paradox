@@ -68,7 +68,7 @@ function drawPreview1() {
     grd.addColorStop(0, `rgba(99,102,241,${r.alpha})`);
     grd.addColorStop(1, `rgba(168,85,247,${r.alpha*0.6})`);
     ctx.fillStyle = grd;
-    ctx.beginPath(); ctx.roundRect(r.x*w+2, r.y*h+2, r.w*w-4, r.h*h-4, 4); ctx.fill();
+    ctx.fillRect(r.x*w+2, r.y*h+2, r.w*w-4, r.h*h-4);
   });
 }
 
@@ -126,7 +126,7 @@ function drawPreview4() {
     const grd = ctx.createLinearGradient(0, 0, bw*w*0.85, 0);
     grd.addColorStop(0, colors[i]); grd.addColorStop(1, colors[i]+"55");
     ctx.fillStyle = grd;
-    ctx.beginPath(); ctx.roundRect(20, by, bw*(w-40), bh, 3); ctx.fill();
+    ctx.fillRect(20, by, bw*(w-40), bh);
   });
 }
 
@@ -215,12 +215,11 @@ window.openViz = async function(id) {
   const body = document.getElementById("panel-body");
   body.innerHTML = "";
 
-  // Show panel
-  panel.style.display = "flex";
-  requestAnimationFrame(() => { panel.classList.add("active"); });
+  // Show panel immediately
+  panel.classList.add("active");
 
-  // Slight delay so panel animation plays, then render
-  await sleep(150);
+  // Wait for panel to be visible and have dimensions, then render
+  await sleep(250);
   hideLoading();
   renderViz(id);
 
@@ -238,7 +237,6 @@ window.closeViz = function() {
 
   const panel = document.getElementById("viz-panel");
   panel.classList.remove("active");
-  setTimeout(() => { panel.style.display = "none"; }, 400);
 };
 
 window.navigateViz = function(dir) {
@@ -920,7 +918,7 @@ function stopAnimation() {
 function el(tag, cls, content) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
-  if (typeof content === "string") e.textContent = content;
+  if (typeof content === "string" || typeof content === "number") e.textContent = String(content);
   else if (Array.isArray(content)) content.forEach(c => e.appendChild(c));
   return e;
 }
