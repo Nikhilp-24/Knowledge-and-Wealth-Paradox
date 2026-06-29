@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Global Knowledge & Wealth Paradox | Visual Analytics Dashboard</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <!-- D3.js CDN -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Lucide Icons (CDN) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <div class="header-main">
+        <div class="logo-area">
+          <i data-lucide="line-chart" class="logo-icon"></i>
+          <div>
+            <h1>The Global Knowledge & Wealth Paradox</h1>
+            <p class="subtitle">Exploring Macroeconomics, Scientific Outputs & Institutional Disparities</p>
+          </div>
+        </div>
+        <div class="group-info">
+          <span class="badge">Group 10</span>
+          <span class="badge course-badge">CS661 Project</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Global Controls -->
+    <div class="controls-panel">
+      <div class="control-group year-control">
+        <div class="control-label">
+          <i data-lucide="calendar"></i>
+          <span>Timeline Selector</span>
+        </div>
+        <div class="slider-wrapper">
+          <button id="play-pause-btn" class="icon-btn btn-primary" title="Play/Pause Animation">
+            <i data-lucide="play" id="play-icon"></i>
+          </button>
+          <input type="range" id="year-slider" min="2010" max="2025" step="1" value="2010">
+          <span id="year-display" class="year-label">2010</span>
+        </div>
+      </div>
+
+      <div class="control-group speed-control">
+        <div class="control-label">
+          <i data-lucide="activity"></i>
+          <span>Speed</span>
+        </div>
+        <div class="button-toggle">
+          <button class="toggle-btn active" data-speed="1000">1x</button>
+          <button class="toggle-btn" data-speed="600">1.5x</button>
+          <button class="toggle-btn" data-speed="300">2x</button>
+        </div>
+      </div>
+
+      <div class="control-group region-control">
+        <div class="control-label">
+          <i data-lucide="globe"></i>
+          <span>Region Filter</span>
+        </div>
+        <select id="region-filter">
+          <option value="All">All Regions</option>
+          <option value="North America">North America</option>
+          <option value="Europe">Europe</option>
+          <option value="East Asia & Pacific">East Asia & Pacific</option>
+          <option value="South Asia">South Asia</option>
+          <option value="Latin America">Latin America</option>
+          <option value="Middle East & Africa">Middle East & Africa</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <main class="dashboard-grid">
+      <!-- Card 1: Peer Clustering -->
+      <section class="card" id="card-clustering">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="scatter-chart"></i>
+            <h2>High-Dimensional Peer Clustering (t-SNE / UMAP)</h2>
+          </div>
+          <button class="expand-btn" title="Expand View" onclick="expandCard('card-clustering')">
+            <i data-lucide="maximize-2"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="plot-container" id="tsne-plot"></div>
+        </div>
+        <div class="card-footer">
+          <span class="footnote">Bubble size encodes total publication volume. Color encodes region.</span>
+        </div>
+      </section>
+
+      <!-- Card 2: Ridgeline / Quality Shift -->
+      <section class="card" id="card-quality">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="area-chart"></i>
+            <h2>Global Quality Shift (Elite Q1 vs Low Q4 Tiers)</h2>
+          </div>
+          <button class="expand-btn" title="Expand View" onclick="expandCard('card-quality')">
+            <i data-lucide="maximize-2"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="plot-container" id="ridgeline-plot"></div>
+        </div>
+        <div class="card-footer">
+          <span class="footnote">Contrasts density of elite output (Q1) vs low-tier (Q4) publications.</span>
+        </div>
+      </section>
+
+      <!-- Card 3: Bar Chart Race -->
+      <section class="card" id="card-topics">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="bar-chart-3"></i>
+            <h2>Top 10 Research Topics (Bar Chart Race)</h2>
+          </div>
+          <button class="expand-btn" title="Expand View" onclick="expandCard('card-topics')">
+            <i data-lucide="maximize-2"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="plot-container" id="barchart-race"></div>
+        </div>
+        <div class="card-footer">
+          <span class="footnote">Dynamic publication volumes across core scientific categories.</span>
+        </div>
+      </section>
+
+      <!-- Card 4: Dumbbell Plot -->
+      <section class="card" id="card-collaboration">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="git-commit"></i>
+            <h2>The Collaboration Premium</h2>
+          </div>
+          <div class="header-actions">
+            <select id="dumbbell-sort" class="select-sm">
+              <option value="gain">Sort by Citation Gain</option>
+              <option value="domestic">Sort by Domestic Citation Rate</option>
+              <option value="international">Sort by International Citation Rate</option>
+              <option value="name">Sort by Country Name</option>
+            </select>
+            <button class="expand-btn" title="Expand View" onclick="expandCard('card-collaboration')">
+              <i data-lucide="maximize-2"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="plot-container" id="dumbbell-plot"></div>
+        </div>
+        <div class="card-footer">
+          <span class="footnote">Citation gain (international co-authored vs purely domestic papers).</span>
+        </div>
+      </section>
+
+      <!-- Card 5: India Map -->
+      <section class="card lg-span" id="card-india">
+        <div class="card-header">
+          <div class="card-title">
+            <i data-lucide="map-pin"></i>
+            <h2>India Domestic Higher Education Network</h2>
+          </div>
+          <div class="header-actions">
+            <select id="tier-filter" class="select-sm">
+              <option value="All">All Tiers</option>
+              <option value="Premier">Premier Tiers (IITs, IISc)</option>
+              <option value="Central / State">Central / State Universities</option>
+              <option value="Affiliated / Private">Affiliated / Private Colleges</option>
+            </select>
+            <button class="expand-btn" title="Expand View" onclick="expandCard('card-india')">
+              <i data-lucide="maximize-2"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body map-body">
+          <div class="map-layout">
+            <div class="plot-container" id="india-map"></div>
+            <div class="map-details" id="inst-details">
+              <h3 class="details-title">Select an Institution</h3>
+              <p class="details-placeholder">Click a node on the map to view institutional output, quality, and funding networks.</p>
+              <div class="details-content hidden">
+                <div class="detail-header-row">
+                  <h4 id="detail-name">Indian Institute of Science</h4>
+                  <span class="badge detail-tier" id="detail-tier">Premier</span>
+                </div>
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <span class="stat-label">Publications</span>
+                    <span class="stat-val" id="detail-pubs">4,200</span>
+                  </div>
+                  <div class="stat-card">
+                    <span class="stat-label">Annual Budget</span>
+                    <span class="stat-val" id="detail-funding">₹250 Cr</span>
+                  </div>
+                </div>
+                <div class="network-stats">
+                  <h5>Active Domestic Collaborations</h5>
+                  <div class="collaboration-list" id="detail-collabs">
+                    <!-- Loaded dynamically -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="footnote">Node position represents geographical coordinate. Node size encodes publication volume. Edge thickness represents domestic collaboration count.</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Fullscreen Modal Overlay -->
+  <div class="modal-overlay" id="fullscreen-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Visualization Title</h2>
+        <button class="close-btn" onclick="closeFullscreen()">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-plot-container"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
