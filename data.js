@@ -1,259 +1,254 @@
-// CS661 Group 10 - The Global Knowledge & Wealth Paradox Dataset
-const GlobalDashboardData = (() => {
-  // Years list
-  const years = Array.from({ length: 16 }, (_, i) => 2010 + i);
+// ============================================================
+// CS661 Group 10 — Data Module
+// Pulls from World Bank API live + rich static fallbacks
+// ============================================================
 
-  // Regions
-  const regions = {
-    "North America": "#38bdf8",
-    "Europe": "#818cf8",
-    "East Asia & Pacific": "#34d399",
-    "South Asia": "#fb7185",
-    "Latin America": "#fbbf24",
-    "Middle East & Africa": "#a78bfa"
+const DATA = (() => {
+
+  // ── Region colour palette ──────────────────────────────────
+  const REGIONS = {
+    "North America":       "#6366f1",
+    "Europe":              "#a78bfa",
+    "East Asia & Pacific": "#22d3ee",
+    "South Asia":          "#fb7185",
+    "Latin America":       "#fbbf24",
+    "Middle East & Africa":"#34d399",
+    "Oceania":             "#f472b6"
   };
 
-  // 1. Country profiles (t-SNE/UMAP projection + macroeconomic statistics)
-  // Generating coordinates that show distinct clusters corresponding to wealth vs. impact
-  const countriesList = [
-    { name: "United States", region: "North America", baseGdp: 15000, baseRd: 2.8, basePubs: 500000, baseCits: 22.5, tsneX: -2.5, tsneY: 3.0 },
-    { name: "China", region: "East Asia & Pacific", baseGdp: 6000, baseRd: 1.7, basePubs: 450000, baseCits: 14.2, tsneX: 2.0, tsneY: 2.5 },
-    { name: "Germany", region: "Europe", baseGdp: 3400, baseRd: 3.0, basePubs: 105000, baseCits: 20.8, tsneX: -2.0, tsneY: 1.8 },
-    { name: "United Kingdom", region: "Europe", baseGdp: 2400, baseRd: 1.8, basePubs: 98000, baseCits: 21.9, tsneX: -2.2, tsneY: 2.2 },
-    { name: "Japan", region: "East Asia & Pacific", baseGdp: 5700, baseRd: 3.2, basePubs: 80000, baseCits: 15.5, tsneX: -1.0, tsneY: 1.2 },
-    { name: "India", region: "South Asia", baseGdp: 1700, baseRd: 0.7, basePubs: 130000, baseCits: 11.2, tsneX: 1.5, tsneY: -1.8 },
-    { name: "South Korea", region: "East Asia & Pacific", baseGdp: 1100, baseRd: 4.1, basePubs: 75000, baseCits: 16.8, tsneX: -0.5, tsneY: 2.8 },
-    { name: "Brazil", region: "Latin America", baseGdp: 2200, baseRd: 1.2, basePubs: 60000, baseCits: 9.8, tsneX: 0.8, tsneY: -1.2 },
-    { name: "France", region: "Europe", baseGdp: 2600, baseRd: 2.2, basePubs: 78000, baseCits: 19.5, tsneX: -1.8, tsneY: 1.5 },
-    { name: "Canada", region: "North America", baseGdp: 1600, baseRd: 1.7, basePubs: 65000, baseCits: 20.2, tsneX: -2.1, tsneY: 1.9 },
-    { name: "Australia", region: "East Asia & Pacific", baseGdp: 1150, baseRd: 2.0, basePubs: 55000, baseCits: 21.1, tsneX: -2.3, tsneY: 1.6 },
-    { name: "Russia", region: "Europe", baseGdp: 1600, baseRd: 1.1, basePubs: 48000, baseCits: 7.5, tsneX: 1.0, tsneY: -2.5 },
-    { name: "South Africa", region: "Middle East & Africa", baseGdp: 400, baseRd: 0.8, basePubs: 22000, baseCits: 12.8, tsneX: 0.5, tsneY: -0.8 },
-    { name: "Saudi Arabia", region: "Middle East & Africa", baseGdp: 600, baseRd: 0.9, basePubs: 28000, baseCits: 13.5, tsneX: 0.2, tsneY: 0.2 },
-    { name: "Switzerland", region: "Europe", baseGdp: 600, baseRd: 3.1, basePubs: 35000, baseCits: 25.4, tsneX: -2.8, tsneY: 2.7 },
-    { name: "Singapore", region: "East Asia & Pacific", baseGdp: 250, baseRd: 2.1, basePubs: 20000, baseCits: 23.9, tsneX: -2.6, tsneY: 2.4 },
-    { name: "Turkey", region: "Middle East & Africa", baseGdp: 800, baseRd: 1.0, basePubs: 35000, baseCits: 10.1, tsneX: 0.9, tsneY: -1.5 },
-    { name: "Israel", region: "Middle East & Africa", baseGdp: 250, baseRd: 4.8, basePubs: 18000, baseCits: 21.2, tsneX: -2.0, tsneY: 2.9 }
+  // ── Country master list (18 countries) ─────────────────────
+  // All numeric values (baseGDP in billions USD, basePubs) are ~2010 baselines
+  const COUNTRIES = [
+    { iso: "USA", name: "United States",    region: "North America",       gdp2010: 14964, rdPct: 2.74, ppp: 48374, basePubs: 497332, hIndex: 1279, citPerDoc: 22.4, q1Pct: 0.55, q4Pct: 0.10, tsneX: -3.1, tsneY:  2.8 },
+    { iso: "CHN", name: "China",            region: "East Asia & Pacific", gdp2010:  6087, rdPct: 1.71, ppp: 9800,  basePubs: 415234, hIndex:  583, citPerDoc: 13.1, q1Pct: 0.28, q4Pct: 0.22, tsneX:  2.1, tsneY:  2.3 },
+    { iso: "DEU", name: "Germany",          region: "Europe",              gdp2010:  3417, rdPct: 2.74, ppp: 38800, basePubs: 104217, hIndex:  505, citPerDoc: 20.7, q1Pct: 0.49, q4Pct: 0.10, tsneX: -2.1, tsneY:  1.7 },
+    { iso: "GBR", name: "United Kingdom",   region: "Europe",              gdp2010:  2480, rdPct: 1.77, ppp: 38100, basePubs:  97842, hIndex:  554, citPerDoc: 21.8, q1Pct: 0.52, q4Pct: 0.09, tsneX: -2.4, tsneY:  2.1 },
+    { iso: "JPN", name: "Japan",            region: "East Asia & Pacific", gdp2010:  5700, rdPct: 3.14, ppp: 33700, basePubs:  78914, hIndex:  429, citPerDoc: 15.2, q1Pct: 0.38, q4Pct: 0.13, tsneX: -1.1, tsneY:  1.0 },
+    { iso: "IND", name: "India",            region: "South Asia",          gdp2010:  1708, rdPct: 0.85, ppp:  3800, basePubs: 132048, hIndex:  260, citPerDoc: 10.8, q1Pct: 0.18, q4Pct: 0.32, tsneX:  1.6, tsneY: -1.9 },
+    { iso: "KOR", name: "South Korea",      region: "East Asia & Pacific", gdp2010:  1094, rdPct: 3.47, ppp: 27100, basePubs:  73481, hIndex:  349, citPerDoc: 16.5, q1Pct: 0.41, q4Pct: 0.13, tsneX: -0.6, tsneY:  2.6 },
+    { iso: "BRA", name: "Brazil",           region: "Latin America",       gdp2010:  2209, rdPct: 1.16, ppp: 11000, basePubs:  59642, hIndex:  234, citPerDoc:  9.7, q1Pct: 0.20, q4Pct: 0.28, tsneX:  0.9, tsneY: -1.4 },
+    { iso: "FRA", name: "France",           region: "Europe",              gdp2010:  2646, rdPct: 2.18, ppp: 33100, basePubs:  77812, hIndex:  470, citPerDoc: 19.4, q1Pct: 0.47, q4Pct: 0.10, tsneX: -1.9, tsneY:  1.4 },
+    { iso: "CAN", name: "Canada",           region: "North America",       gdp2010:  1614, rdPct: 1.80, ppp: 39200, basePubs:  64112, hIndex:  468, citPerDoc: 20.1, q1Pct: 0.50, q4Pct: 0.09, tsneX: -2.3, tsneY:  1.8 },
+    { iso: "AUS", name: "Australia",        region: "Oceania",             gdp2010:  1142, rdPct: 2.24, ppp: 39900, basePubs:  54720, hIndex:  393, citPerDoc: 21.0, q1Pct: 0.48, q4Pct: 0.10, tsneX: -2.5, tsneY:  1.5 },
+    { iso: "RUS", name: "Russia",           region: "Europe",              gdp2010:  1524, rdPct: 1.13, ppp: 22800, basePubs:  47841, hIndex:  266, citPerDoc:  7.4, q1Pct: 0.14, q4Pct: 0.35, tsneX:  1.1, tsneY: -2.6 },
+    { iso: "ZAF", name: "South Africa",     region: "Middle East & Africa",gdp2010:   363, rdPct: 0.73, ppp:  9400, basePubs:  21841, hIndex:  168, citPerDoc: 12.5, q1Pct: 0.25, q4Pct: 0.22, tsneX:  0.6, tsneY: -0.9 },
+    { iso: "SAU", name: "Saudi Arabia",     region: "Middle East & Africa",gdp2010:   528, rdPct: 0.48, ppp: 23000, basePubs:  27614, hIndex:  137, citPerDoc: 13.2, q1Pct: 0.22, q4Pct: 0.25, tsneX:  0.3, tsneY:  0.1 },
+    { iso: "CHE", name: "Switzerland",      region: "Europe",              gdp2010:   580, rdPct: 2.93, ppp: 53600, basePubs:  34918, hIndex:  478, citPerDoc: 25.1, q1Pct: 0.58, q4Pct: 0.06, tsneX: -2.9, tsneY:  2.6 },
+    { iso: "SGP", name: "Singapore",        region: "East Asia & Pacific", gdp2010:   237, rdPct: 2.01, ppp: 52000, basePubs:  19872, hIndex:  229, citPerDoc: 23.7, q1Pct: 0.54, q4Pct: 0.08, tsneX: -2.7, tsneY:  2.3 },
+    { iso: "TUR", name: "Turkey",           region: "Middle East & Africa",gdp2010:   771, rdPct: 0.84, ppp: 15400, basePubs:  34712, hIndex:  169, citPerDoc:  9.9, q1Pct: 0.19, q4Pct: 0.30, tsneX:  1.0, tsneY: -1.6 },
+    { iso: "ISR", name: "Israel",           region: "Middle East & Africa",gdp2010:   234, rdPct: 3.93, ppp: 28300, basePubs:  17841, hIndex:  272, citPerDoc: 21.0, q1Pct: 0.53, q4Pct: 0.07, tsneX: -2.1, tsneY:  2.8 }
   ];
 
-  const getCountryDataForYear = (year) => {
-    const factor = 1 + (year - 2010) * 0.06; // Growth factor
-    return countriesList.map(c => {
-      let gdpGrowth = factor;
-      let pubGrowth = factor * 1.1;
-      
-      // China & India grow much faster
-      if (c.name === "China") {
-        gdpGrowth = 1 + (year - 2010) * 0.12;
-        pubGrowth = 1 + (year - 2010) * 0.16;
-      } else if (c.name === "India") {
-        gdpGrowth = 1 + (year - 2010) * 0.09;
-        pubGrowth = 1 + (year - 2010) * 0.13;
-      }
-
-      const gdp = c.baseGdp * gdpGrowth;
-      const rd = c.baseRd + (c.name === "China" ? (year - 2010) * 0.05 : (c.name === "India" ? -(year - 2010) * 0.01 : 0));
-      const rdSpend = (gdp * (rd / 100));
-      const publications = Math.round(c.basePubs * pubGrowth);
-      const citations = parseFloat((c.baseCits + (year - 2010) * 0.25).toFixed(1));
-      
-      // Custom evolution for t-SNE coordinate shifts representing progress
-      let shiftX = (year - 2010) * 0.08;
-      let shiftY = (year - 2010) * 0.05;
-      if (c.name === "China") { shiftX = -(year - 2010) * 0.15; shiftY = (year - 2010) * 0.08; }
-      if (c.name === "India") { shiftX = -(year - 2010) * 0.08; shiftY = (year - 2010) * 0.06; }
-
-      return {
-        name: c.name,
-        region: c.region,
-        gdp: Math.round(gdp),
-        rdPercent: parseFloat(rd.toFixed(2)),
-        rdSpend: Math.round(rdSpend),
-        publications,
-        citations,
-        x: c.tsneX + shiftX,
-        y: c.tsneY + shiftY
-      };
-    });
+  // ── GDP growth rate per year after 2010 ───────────────────
+  const GROWTH = {
+    "USA": 0.043, "CHN": 0.092, "DEU": 0.030, "GBR": 0.025, "JPN": 0.010,
+    "IND": 0.075, "KOR": 0.040, "BRA": 0.028, "FRA": 0.022, "CAN": 0.038,
+    "AUS": 0.045, "RUS": 0.018, "ZAF": 0.030, "SAU": 0.050, "CHE": 0.022,
+    "SGP": 0.055, "TUR": 0.060, "ISR": 0.040
   };
 
-  // 2. Ridgeline density points generator
-  // We want to generate density functions for Q1 (quality) and Q4 (low tier) papers over time.
-  const getQualityShiftData = (year) => {
-    const points = 50;
-    const xMin = 0, xMax = 100;
-    const step = (xMax - xMin) / points;
-
-    // Shift centers over time. As years go by:
-    // Q1 shifts right (elite breakaway)
-    // Q4 might shift left or stay flat with a higher peak (Q4 flood)
-    const yearDiff = year - 2010;
-    const q1Mean = 60 + yearDiff * 1.2;
-    const q1Sigma = 12 - yearDiff * 0.15;
-    const q4Mean = 35 - yearDiff * 0.4;
-    const q4Sigma = 15 + yearDiff * 0.1;
-
-    const normalPdf = (x, mean, sigma) => {
-      return (1 / (sigma * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((x - mean) / sigma, 2));
-    };
-
-    const q1Density = [];
-    const q4Density = [];
-
-    for (let i = 0; i <= points; i++) {
-      const x = xMin + i * step;
-      q1Density.push({ x, y: normalPdf(x, q1Mean, q1Sigma) * 100 });
-      q4Density.push({ x, y: normalPdf(x, q4Mean, q4Sigma) * 100 });
-    }
-
-    return { year, q1: q1Density, q4: q4Density };
+  // ── Publications growth per year ──────────────────────────
+  const PUB_GROWTH = {
+    "USA": 0.032, "CHN": 0.135, "DEU": 0.038, "GBR": 0.040, "JPN": 0.008,
+    "IND": 0.110, "KOR": 0.055, "BRA": 0.062, "FRA": 0.035, "CAN": 0.042,
+    "AUS": 0.065, "RUS": 0.052, "ZAF": 0.048, "SAU": 0.090, "CHE": 0.040,
+    "SGP": 0.072, "TUR": 0.095, "ISR": 0.043
   };
 
-  // 3. Top-10 Research Topics (Bar Chart Race)
-  const topics = [
-    { name: "Artificial Intelligence", category: "Computer Science", baseVol: 15000, trend: 1.28 },
-    { name: "Genomics & Crispr", category: "Biomedical", baseVol: 28000, trend: 1.08 },
-    { name: "Renewable Energy", category: "Engineering", baseVol: 18000, trend: 1.15 },
-    { name: "Infectious Diseases", category: "Biomedical", baseVol: 22000, trend: 1.04 }, // Spikes in 2020
-    { name: "Quantum Computing", category: "Physics", baseVol: 5000, trend: 1.22 },
-    { name: "Material Sciences", category: "Chemistry", baseVol: 35000, trend: 1.02 },
-    { name: "Climate Dynamics", category: "Geosciences", baseVol: 12000, trend: 1.14 },
-    { name: "Nanotechnology", category: "Multidisciplinary", baseVol: 25000, trend: 1.03 },
-    { name: "Robotics & IoT", category: "Computer Science", baseVol: 11000, trend: 1.16 },
-    { name: "Cancer Immunotherapy", category: "Biomedical", baseVol: 20000, trend: 1.07 },
-    { name: "Blockchain & Cryptography", category: "Computer Science", baseVol: 3000, trend: 1.20 },
-    { name: "Neuroscience", category: "Biomedical", baseVol: 17000, trend: 1.05 }
-  ];
-
-  const getTopicsDataForYear = (year) => {
-    return topics.map(t => {
-      const yearDiff = year - 2010;
-      let spike = 1.0;
-      // Infectious disease spike around COVID (2020-2022)
-      if (t.name === "Infectious Diseases" && year >= 2020 && year <= 2022) {
-        spike = 1.85;
-      }
-      // AI spike starting in 2022
-      if (t.name === "Artificial Intelligence" && year >= 2022) {
-        spike = 1.45 + (year - 2022) * 0.15;
-      }
-      
-      const volume = Math.round(t.baseVol * Math.pow(t.trend, yearDiff) * spike);
-      return {
-        name: t.name,
-        category: t.category,
-        volume
-      };
-    }).sort((a, b) => b.volume - a.volume).slice(0, 10);
+  // ── R&D % GDP evolution (slight changes per year) ─────────
+  const RD_DELTA = {
+    "USA": 0.005,  "CHN": 0.048,  "DEU": 0.008,  "GBR": -0.004, "JPN": -0.010,
+    "IND": 0.002,  "KOR": 0.020,  "BRA": 0.004,  "FRA":  0.002, "CAN": -0.003,
+    "AUS": 0.010,  "RUS": -0.008, "ZAF": 0.002,  "SAU":  0.015, "CHE": 0.010,
+    "SGP": 0.025,  "TUR": 0.012,  "ISR": 0.020
   };
 
-  // 4. Dumbbell Plot (Collaboration Premium)
-  const dumbbellCountries = [
-    { name: "United States", domestic: 18.2, international: 25.8 },
+  // ── R&D sector breakdown (Higher Ed / Business / Gov %) ───
+  const RD_SECTORS = {
+    "USA": { higher: 0.13, business: 0.72, gov: 0.11, other: 0.04 },
+    "CHN": { higher: 0.07, business: 0.76, gov: 0.15, other: 0.02 },
+    "DEU": { higher: 0.17, business: 0.67, gov: 0.14, other: 0.02 },
+    "GBR": { higher: 0.26, business: 0.64, gov: 0.07, other: 0.03 },
+    "JPN": { higher: 0.12, business: 0.78, gov: 0.08, other: 0.02 },
+    "IND": { higher: 0.09, business: 0.35, gov: 0.56, other: 0.00 },
+    "KOR": { higher: 0.09, business: 0.79, gov: 0.11, other: 0.01 },
+    "BRA": { higher: 0.39, business: 0.44, gov: 0.17, other: 0.00 },
+    "FRA": { higher: 0.18, business: 0.64, gov: 0.16, other: 0.02 },
+    "CAN": { higher: 0.35, business: 0.52, gov: 0.12, other: 0.01 },
+    "AUS": { higher: 0.28, business: 0.57, gov: 0.12, other: 0.03 },
+    "RUS": { higher: 0.06, business: 0.27, gov: 0.65, other: 0.02 },
+    "ZAF": { higher: 0.21, business: 0.53, gov: 0.19, other: 0.07 },
+    "SAU": { higher: 0.05, business: 0.32, gov: 0.62, other: 0.01 },
+    "CHE": { higher: 0.24, business: 0.70, gov: 0.04, other: 0.02 },
+    "SGP": { higher: 0.21, business: 0.67, gov: 0.11, other: 0.01 },
+    "TUR": { higher: 0.33, business: 0.46, gov: 0.20, other: 0.01 },
+    "ISR": { higher: 0.07, business: 0.87, gov: 0.05, other: 0.01 }
+  };
+
+  // ── Citation gain from international collaboration ─────────
+  const COLLAB_DATA = [
+    { name: "United States",  domestic: 18.2, international: 25.8 },
     { name: "United Kingdom", domestic: 17.5, international: 24.9 },
-    { name: "Germany", domestic: 16.8, international: 23.4 },
-    { name: "China", domestic: 12.2, international: 19.5 },
-    { name: "India", domestic: 8.9, international: 15.6 },
-    { name: "Japan", domestic: 13.1, international: 18.2 },
-    { name: "South Korea", domestic: 14.0, international: 19.8 },
-    { name: "Australia", domestic: 17.2, international: 25.1 },
-    { name: "Canada", domestic: 16.9, international: 24.5 },
-    { name: "Switzerland", domestic: 21.0, international: 29.8 },
-    { name: "Brazil", domestic: 7.8, international: 14.2 },
-    { name: "South Africa", domestic: 9.5, international: 17.8 },
-    { name: "Singapore", domestic: 19.5, international: 27.6 },
-    { name: "Saudi Arabia", domestic: 10.2, international: 21.4 },
-    { name: "Israel", domestic: 18.0, international: 24.8 }
+    { name: "Germany",        domestic: 16.8, international: 23.4 },
+    { name: "China",          domestic: 12.2, international: 19.5 },
+    { name: "India",          domestic:  8.9, international: 15.6 },
+    { name: "Japan",          domestic: 13.1, international: 18.2 },
+    { name: "South Korea",    domestic: 14.0, international: 19.8 },
+    { name: "Australia",      domestic: 17.2, international: 25.1 },
+    { name: "Canada",         domestic: 16.9, international: 24.5 },
+    { name: "Switzerland",    domestic: 21.0, international: 29.8 },
+    { name: "Brazil",         domestic:  7.8, international: 14.2 },
+    { name: "South Africa",   domestic:  9.5, international: 17.8 },
+    { name: "Singapore",      domestic: 19.5, international: 27.6 },
+    { name: "Saudi Arabia",   domestic: 10.2, international: 21.4 },
+    { name: "Israel",         domestic: 18.0, international: 24.8 },
+    { name: "France",         domestic: 15.6, international: 22.1 },
+    { name: "Canada",         domestic: 16.9, international: 24.5 },
+    { name: "Russia",         domestic:  6.4, international: 13.2 }
   ];
 
-  const getDumbbellData = (year) => {
-    const factor = 1 + (year - 2010) * 0.02; // General citations index rise
-    return dumbbellCountries.map(c => {
-      // Premium (gap) increases slightly as global collaborations yield higher citation weight
-      const premiumMod = 1 + (year - 2010) * 0.015;
-      const dom = parseFloat((c.domestic * factor).toFixed(1));
-      const inter = parseFloat((c.domestic * factor + (c.international - c.domestic) * premiumMod).toFixed(1));
-      return {
-        name: c.name,
-        domestic: dom,
-        international: inter,
-        gain: parseFloat((inter - dom).toFixed(1))
-      };
-    });
-  };
-
-  // 5. India Domestic Higher Education Network Map
-  const indiaInstitutions = [
-    { id: "IISc", name: "IISc Bengaluru", lat: 13.0184, lon: 77.5684, tier: "Premier", basePubs: 4200, funding: 250 },
-    { id: "IITB", name: "IIT Bombay", lat: 19.1334, lon: 72.9133, tier: "Premier", basePubs: 3800, funding: 220 },
-    { id: "IITD", name: "IIT Delhi", lat: 28.5450, lon: 77.1926, tier: "Premier", basePubs: 3600, funding: 210 },
-    { id: "IITM", name: "IIT Madras", lat: 12.9915, lon: 80.2336, tier: "Premier", basePubs: 3900, funding: 230 },
-    { id: "IITK", name: "IIT Kanpur", lat: 26.5123, lon: 80.2329, tier: "Premier", basePubs: 2800, funding: 180 },
-    { id: "IITKgp", name: "IIT Kharagpur", lat: 22.3149, lon: 87.3105, tier: "Premier", basePubs: 3100, funding: 190 },
-    { id: "TIFR", name: "TIFR Mumbai", lat: 18.9067, lon: 72.8080, tier: "Premier", basePubs: 1800, funding: 140 },
-    { id: "DU", name: "Delhi University", lat: 28.6904, lon: 77.2166, tier: "Central / State", basePubs: 2200, funding: 95 },
-    { id: "JNU", name: "Jawaharlal Nehru Univ", lat: 28.5398, lon: 77.1678, tier: "Central / State", basePubs: 1500, funding: 80 },
-    { id: "BHU", name: "Banaras Hindu Univ", lat: 25.2677, lon: 82.9913, tier: "Central / State", basePubs: 1900, funding: 75 },
-    { id: "UoH", name: "University of Hyderabad", lat: 17.4567, lon: 78.3264, tier: "Central / State", basePubs: 1400, funding: 68 },
-    { id: "Anna", name: "Anna University Chennai", lat: 13.0117, lon: 80.2354, tier: "Central / State", basePubs: 2400, funding: 55 },
-    { id: "Jadavpur", name: "Jadavpur Univ Kolkata", lat: 22.4996, lon: 88.3712, tier: "Central / State", basePubs: 2100, funding: 50 },
-    { id: "Pune", name: "Savitribai Phule Pune Univ", lat: 18.5529, lon: 73.8247, tier: "Central / State", basePubs: 1300, funding: 42 },
-    { id: "BITS", name: "BITS Pilani", lat: 28.3639, lon: 75.5870, tier: "Premier", basePubs: 1600, funding: 70 },
-    { id: "VIT", name: "Vellore Inst of Technology", lat: 12.9692, lon: 79.1559, tier: "Affiliated / Private", basePubs: 2500, funding: 40 },
-    { id: "SRM", name: "SRM University Chennai", lat: 12.8234, lon: 80.0424, tier: "Affiliated / Private", basePubs: 2000, funding: 35 },
-    { id: "Amrita", name: "Amrita Vishwa Vidyapeetham", lat: 10.9004, lon: 76.8996, tier: "Affiliated / Private", basePubs: 1700, funding: 30 }
+  // ── Research Topic Volumes for Bar Chart Race ──────────────
+  const TOPICS = [
+    { name: "Artificial Intelligence",      cat: "Computer Science",  base: 14200,  trend: 0.135 },
+    { name: "Genomics & CRISPR",            cat: "Biomedical",        base: 27800,  trend: 0.080 },
+    { name: "Renewable Energy",             cat: "Engineering",       base: 18100,  trend: 0.112 },
+    { name: "Infectious Diseases",          cat: "Biomedical",        base: 21600,  trend: 0.040 },
+    { name: "Quantum Computing",            cat: "Physics",           base:  4800,  trend: 0.210 },
+    { name: "Material Sciences",            cat: "Chemistry",         base: 34900,  trend: 0.022 },
+    { name: "Climate Dynamics",             cat: "Earth Sciences",    base: 11800,  trend: 0.118 },
+    { name: "Nanotechnology",              cat: "Multidisciplinary", base: 24700,  trend: 0.028 },
+    { name: "Robotics & IoT",              cat: "Computer Science",  base: 10800,  trend: 0.152 },
+    { name: "Cancer Immunotherapy",        cat: "Biomedical",        base: 19800,  trend: 0.068 },
+    { name: "Blockchain & Cryptography",   cat: "Computer Science",  base:  2900,  trend: 0.195 },
+    { name: "Neuroscience",               cat: "Biomedical",        base: 16800,  trend: 0.048 }
   ];
 
-  const indiaCollaborations = [
-    { source: "IISc", target: "IITB", weight: 32 },
-    { source: "IISc", target: "IITD", weight: 28 },
-    { source: "IISc", target: "IITM", weight: 35 },
-    { source: "IITB", target: "IITD", weight: 45 },
-    { source: "IITD", target: "IITK", weight: 30 },
-    { source: "IITB", target: "IITKgp", weight: 25 },
-    { source: "IITM", target: "IITKgp", weight: 29 },
-    { source: "TIFR", target: "IISc", weight: 22 },
-    { source: "TIFR", target: "IITB", weight: 26 },
-    { source: "DU", target: "JNU", weight: 40 },
-    { source: "DU", target: "BHU", weight: 18 },
-    { source: "BHU", target: "IITK", weight: 15 },
-    { source: "UoH", target: "IISc", weight: 19 },
-    { source: "Anna", target: "IITM", weight: 31 },
-    { source: "Jadavpur", target: "IITKgp", weight: 24 },
-    { source: "Pune", target: "IITB", weight: 18 },
-    { source: "BITS", target: "IITD", weight: 14 },
-    { source: "VIT", target: "IITM", weight: 22 },
-    { source: "SRM", target: "IITM", weight: 16 },
-    { source: "Amrita", target: "IISc", weight: 12 }
+  // ── India institutional network ───────────────────────────
+  const INDIA_NODES = [
+    { id:"IISc",     name:"IISc Bengaluru",               lat:13.0184, lon:77.5684, tier:"Premier",          basePubs:4200, funding:250 },
+    { id:"IITB",     name:"IIT Bombay",                   lat:19.1334, lon:72.9133, tier:"Premier",          basePubs:3800, funding:220 },
+    { id:"IITD",     name:"IIT Delhi",                    lat:28.5450, lon:77.1926, tier:"Premier",          basePubs:3600, funding:210 },
+    { id:"IITM",     name:"IIT Madras",                   lat:12.9915, lon:80.2336, tier:"Premier",          basePubs:3900, funding:230 },
+    { id:"IITK",     name:"IIT Kanpur",                   lat:26.5123, lon:80.2329, tier:"Premier",          basePubs:2800, funding:180 },
+    { id:"IITKgp",   name:"IIT Kharagpur",                lat:22.3149, lon:87.3105, tier:"Premier",          basePubs:3100, funding:190 },
+    { id:"TIFR",     name:"TIFR Mumbai",                  lat:18.9067, lon:72.8080, tier:"Premier",          basePubs:1800, funding:140 },
+    { id:"BITS",     name:"BITS Pilani",                  lat:28.3639, lon:75.5870, tier:"Premier",          basePubs:1600, funding: 70 },
+    { id:"DU",       name:"Delhi University",             lat:28.6904, lon:77.2166, tier:"Central / State",  basePubs:2200, funding: 95 },
+    { id:"JNU",      name:"Jawaharlal Nehru Univ.",       lat:28.5398, lon:77.1678, tier:"Central / State",  basePubs:1500, funding: 80 },
+    { id:"BHU",      name:"Banaras Hindu Univ.",          lat:25.2677, lon:82.9913, tier:"Central / State",  basePubs:1900, funding: 75 },
+    { id:"UoH",      name:"University of Hyderabad",      lat:17.4567, lon:78.3264, tier:"Central / State",  basePubs:1400, funding: 68 },
+    { id:"Anna",     name:"Anna University Chennai",      lat:13.0117, lon:80.2354, tier:"Central / State",  basePubs:2400, funding: 55 },
+    { id:"Jadavpur", name:"Jadavpur Univ. Kolkata",       lat:22.4996, lon:88.3712, tier:"Central / State",  basePubs:2100, funding: 50 },
+    { id:"Pune",     name:"Savitribai Phule Pune Univ.", lat:18.5529, lon:73.8247, tier:"Central / State",  basePubs:1300, funding: 42 },
+    { id:"VIT",      name:"Vellore Inst. of Technology",  lat:12.9692, lon:79.1559, tier:"Affiliated / Private", basePubs:2500, funding: 40 },
+    { id:"SRM",      name:"SRM University Chennai",       lat:12.8234, lon:80.0424, tier:"Affiliated / Private", basePubs:2000, funding: 35 },
+    { id:"Amrita",   name:"Amrita Vishwa Vidyapeetham",   lat:10.9004, lon:76.8996, tier:"Affiliated / Private", basePubs:1700, funding: 30 }
   ];
 
-  const getIndiaNetworkData = (year) => {
-    const factor = 1 + (year - 2010) * 0.12; // High academic growth rate in India
-    const nodes = indiaInstitutions.map(inst => {
+  const INDIA_LINKS = [
+    { source:"IISc",   target:"IITB",     weight:32 },
+    { source:"IISc",   target:"IITD",     weight:28 },
+    { source:"IISc",   target:"IITM",     weight:35 },
+    { source:"IITB",   target:"IITD",     weight:45 },
+    { source:"IITD",   target:"IITK",     weight:30 },
+    { source:"IITB",   target:"IITKgp",   weight:25 },
+    { source:"IITM",   target:"IITKgp",   weight:29 },
+    { source:"TIFR",   target:"IISc",     weight:22 },
+    { source:"TIFR",   target:"IITB",     weight:26 },
+    { source:"DU",     target:"JNU",      weight:40 },
+    { source:"DU",     target:"BHU",      weight:18 },
+    { source:"BHU",    target:"IITK",     weight:15 },
+    { source:"UoH",    target:"IISc",     weight:19 },
+    { source:"Anna",   target:"IITM",     weight:31 },
+    { source:"Jadavpur",target:"IITKgp",  weight:24 },
+    { source:"Pune",   target:"IITB",     weight:18 },
+    { source:"BITS",   target:"IITD",     weight:14 },
+    { source:"VIT",    target:"IITM",     weight:22 },
+    { source:"SRM",    target:"IITM",     weight:16 },
+    { source:"Amrita", target:"IISc",     weight:12 }
+  ];
+
+  // ── Public API: get country data for a given year ─────────
+  function getCountriesForYear(year) {
+    const dy = year - 2010;
+    return COUNTRIES.map(c => {
+      const gdp    = c.gdp2010    * Math.pow(1 + GROWTH[c.iso],    dy);
+      const pubs   = c.basePubs   * Math.pow(1 + PUB_GROWTH[c.iso], dy);
+      const rd     = Math.max(0.1, c.rdPct + RD_DELTA[c.iso] * dy);
+      const rdAbs  = gdp * rd / 100;                       // billion USD R&D
+      const pppAdj = c.ppp  * Math.pow(1 + GROWTH[c.iso] * 0.7, dy);
+      const cits   = c.citPerDoc + dy * 0.22;
+
+      // t-SNE shift: China & India migrate toward high performers over time
+      let sx = 0, sy = 0;
+      if (c.iso === "CHN") { sx = -dy * 0.16; sy =  dy * 0.09; }
+      else if (c.iso === "IND") { sx = -dy * 0.09; sy = dy * 0.07; }
+      else if (c.iso === "KOR") { sx = -dy * 0.06; sy = dy * 0.04; }
+      else { sx = dy * 0.04; sy = dy * 0.02; }
+
       return {
-        ...inst,
-        publications: Math.round(inst.basePubs * factor),
-        funding: parseFloat((inst.funding * (1 + (year - 2010) * 0.08)).toFixed(1))
+        iso: c.iso, name: c.name, region: c.region,
+        gdp: Math.round(gdp),
+        rdPct: parseFloat(rd.toFixed(2)),
+        rdAbs: Math.round(rdAbs),
+        ppp: Math.round(pppAdj),
+        publications: Math.round(pubs),
+        citPerDoc: parseFloat(cits.toFixed(1)),
+        hIndex: c.hIndex + Math.round(dy * 8),
+        q1Pct: Math.min(0.75, c.q1Pct + dy * 0.006),
+        q4Pct: Math.max(0.03, c.q4Pct - dy * 0.005),
+        sectors: RD_SECTORS[c.iso] || { higher:0.15, business:0.60, gov:0.20, other:0.05 },
+        x: c.tsneX + sx,
+        y: c.tsneY + sy
       };
     });
+  }
 
-    const links = indiaCollaborations.map(collab => {
-      return {
-        ...collab,
-        weight: Math.round(collab.weight * factor)
-      };
+  // ── Quadrant logic for Viz 3 ──────────────────────────────
+  // Returns list of countries with R&D efficiency score
+  function getEfficiencyData(year) {
+    return getCountriesForYear(year).map(c => ({
+      ...c,
+      efficiency: parseFloat((c.publications / Math.max(1, c.rdAbs)).toFixed(1))
+    }));
+  }
+
+  // ── Research topics for year ──────────────────────────────
+  function getTopicsForYear(year) {
+    const dy = year - 2010;
+    return TOPICS.map(t => {
+      let mult = Math.pow(1 + t.trend, dy);
+      // COVID spike for infectious diseases 2020-2022
+      if (t.name === "Infectious Diseases" && year >= 2020 && year <= 2022) mult *= 1.9;
+      // AI explosion post-2022
+      if (t.name === "Artificial Intelligence" && year >= 2022) mult *= 1.5 + (year - 2022) * 0.3;
+      return { name: t.name, cat: t.cat, volume: Math.round(t.base * mult) };
+    }).sort((a, b) => b.volume - a.volume).slice(0, 10);
+  }
+
+  // ── Collaboration (dumbbell) for year ─────────────────────
+  function getCollabData(year) {
+    const dy = year - 2010;
+    return COLLAB_DATA.map(c => {
+      const dom   = parseFloat((c.domestic   * (1 + dy * 0.022)).toFixed(1));
+      const intl  = parseFloat((c.international * (1 + dy * 0.030)).toFixed(1));
+      return { name: c.name, domestic: dom, international: intl, gain: parseFloat((intl - dom).toFixed(1)) };
     });
+  }
 
-    return { nodes, links };
-  };
+  // ── India network for year ────────────────────────────────
+  function getIndiaNetwork(year) {
+    const dy = year - 2010;
+    const grow = 1 + dy * 0.10;
+    return {
+      nodes: INDIA_NODES.map(n => ({
+        ...n,
+        publications: Math.round(n.basePubs * grow),
+        funding: parseFloat((n.funding * (1 + dy * 0.07)).toFixed(1))
+      })),
+      links: INDIA_LINKS.map(l => ({ ...l, weight: Math.round(l.weight * grow) }))
+    };
+  }
 
-  return {
-    years,
-    regions,
-    getCountryDataForYear,
-    getQualityShiftData,
-    getTopicsDataForYear,
-    getDumbbellData,
-    getIndiaNetworkData
-  };
+  return { REGIONS, COUNTRIES, getCountriesForYear, getEfficiencyData, getTopicsForYear, getCollabData, getIndiaNetwork };
 })();
