@@ -805,10 +805,20 @@ function renderViz2(body) {
   const yVal = (v) => useLog ? Math.max(1, v || 0) : (v || 0);
 
   // Y Axis & Grid lines
+  // Log: keep all decade tick grid lines; blank labels only for leading digit 7 or 9.
+  const formatYTick = (d) => {
+    const abs = Math.abs(+d);
+    if (!(abs > 0) || !isFinite(abs)) return "";
+    if (useLog) {
+      const leading = Math.round(abs / Math.pow(10, Math.floor(Math.log10(abs))));
+      if (leading === 7 || leading === 9) return "";
+    }
+    return abs >= 1000 ? `${(abs / 1000).toFixed(0)}k` : abs;
+  };
   const yAxis = d3.axisLeft(yScale)
-    .ticks(5)
+    .ticks(useLog ? 10 : 5)
     .tickSize(-innerWidth)
-    .tickFormat(d => d >= 1000 ? `${(d / 1000).toFixed(0)}k` : d);
+    .tickFormat(formatYTick);
 
   const yAxisG = chartG.append("g")
     .attr("class", "y-axis")
