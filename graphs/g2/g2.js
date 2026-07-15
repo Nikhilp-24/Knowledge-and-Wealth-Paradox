@@ -459,8 +459,8 @@ function renderViz2(body) {
               <span style="font-weight:700;"><span style="color:#0072B2;">Q1: ${q1Pct.toFixed(0)}%</span> | <span style="color:#E69F00;">Q4: ${q4Pct.toFixed(0)}%</span></span>
             </div>
             <div style="width: 100%; height: 12px; background: rgba(15,23,42,0.08); border-radius: 4px; display: flex; overflow: hidden; border: 1px solid rgba(15,23,42,0.06);">
-              <div style="width: ${q1Pct}%; background: #0072B2; height: 100%; box-shadow: inset 0 0 4px rgba(0,0,0,0.3);" title="Q1 Journals: ${q1.toLocaleString()}"></div>
-              <div style="width: ${q4Pct}%; background: #E69F00; height: 100%; box-shadow: inset 0 0 4px rgba(0,0,0,0.3);" title="Q4 Journals: ${q4.toLocaleString()}"></div>
+              <div style="width: ${q1Pct}%; background: #0072B2; height: 100%; box-shadow: inset 0 0 4px rgba(0,0,0,0.3);" title="Q1 journal docs: ${q1.toLocaleString()}"></div>
+              <div style="width: ${q4Pct}%; background: #E69F00; height: 100%; box-shadow: inset 0 0 4px rgba(0,0,0,0.3);" title="Q4 journal docs: ${q4.toLocaleString()}"></div>
             </div>
           </div>
         </div>
@@ -568,11 +568,11 @@ function renderViz2(body) {
         <div class="viz2-quality-guide__keys">
           <div style="display: flex; gap: 5px; align-items: center;">
             <span style="display: inline-block; width: 8px; height: 8px; background: ${chartColors.q1}; border-radius: 1px; flex-shrink: 0;"></span>
-            <div><b style="color: ${chartColors.q1};">Q1:</b> Top 25% SJR journals</div>
+            <div><b style="color: ${chartColors.q1};">Q1:</b> Docs in top 25% SJR journals</div>
           </div>
           <div style="display: flex; gap: 5px; align-items: center;">
             <span style="display: inline-block; width: 8px; height: 8px; background: ${chartColors.q4}; border-radius: 1px; flex-shrink: 0;"></span>
-            <div><b style="color: ${chartColors.q4};">Q4:</b> Bottom 25% SJR journals</div>
+            <div><b style="color: ${chartColors.q4};">Q4:</b> Docs in bottom 25% SJR journals</div>
           </div>
         </div>
         <div class="viz2-quality-guide__desc">
@@ -974,8 +974,8 @@ function renderViz2(body) {
         <div style="font-weight:700; font-size:13px; border-bottom:1px solid rgba(15,23,42,0.12); padding-bottom:4px; margin-bottom:4px; color:#0f172a;">${d.country}</div>
         <div style="font-size:11px; color:#475569; margin-bottom: 3px;">Region: <span style="color:${getRegionColor(d.region)}; font-weight:600;">${d.region}</span></div>
         <div style="font-size:11px; margin-bottom: 3px;">Continent: <span style="color:${getContinentColor(d.metrics.continent)}; font-weight:600;">${d.metrics.continent}</span></div>
-        <div style="font-size:11px; margin-top:2px;">Q1 Journals (Elite): <span style="color:${chartColors.q1}; font-weight:700;">${d.q1.toLocaleString()}</span></div>
-        <div style="font-size:11px;">Q4 Journals (Low-tier): <span style="color:${chartColors.q4}; font-weight:700;">${d.q4.toLocaleString()}</span></div>
+        <div style="font-size:11px; margin-top:2px;">Q1 journal docs (Elite): <span style="color:${chartColors.q1}; font-weight:700;">${d.q1.toLocaleString()}</span></div>
+        <div style="font-size:11px;">Q4 journal docs (Low-tier): <span style="color:${chartColors.q4}; font-weight:700;">${d.q4.toLocaleString()}</span></div>
         <div style="font-size:11px; margin-bottom: 2px;">Q1/Q4 Ratio (uncapped): <span style="color:${OKABE.orange}; font-weight:bold;">${d.ratio.toFixed(3)}</span></div>
         <div style="font-size:10px; color:#475569; margin-bottom:4px;">Publisher country · not author affiliation</div>
         <div style="font-size:11px; margin-top:4px; border-top:1px dashed rgba(15,23,42,0.12); padding-top:4px; color: #334155;">
